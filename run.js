@@ -99,23 +99,6 @@ var refreshLists = function() {
 			});
 }
 
-var friends = {queue:[], current_uid: 0, so_far:[], cursor: -1};
-var followers = {queue:[], current_uid: 0, so_far:[], cursor: -1};
-
-
-var reCurrent = function(foo) {
-	if (foo.current_uid===0) {
-		if (foo.queue.length == 0) {
-			//redis call goes here but this whole thing needs to be callbackified because fuck me, right?
-		}
-		foo.current_uid = foo.queue.shift();
-		foo.cursor = -1;
-	}
-}
-
-var fetchRelations = function() {
-
-}
 
 var refreshBostonTrigger = setInterval(refreshBoston,(15*60*1000)/170);
 var refreshListsTrigger = setInterval(refreshLists,(15*60*1000)/171);
