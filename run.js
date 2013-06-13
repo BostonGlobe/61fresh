@@ -1,7 +1,5 @@
 var Twit = require('twit')
 
-var mysql      = require('mysql');
-
 var T = new Twit({
     consumer_key:         '***REMOVED***'
   , consumer_secret:      '***REMOVED***'
@@ -12,7 +10,6 @@ var T = new Twit({
 var my_screen_name = "***REMOVED***";
 
 var redis = require("redis");
-var zlib = require('zlib');
 
 var rc = redis.createClient();
 
@@ -21,30 +18,10 @@ rc.on("error", function (err) {
 });
 
 
-// var i = 0;
-
-// var makeLists = function() {
-// 	i++;
-// 	if (i <= 1000) {
-// 		console.log(i);
-// 		T.post('lists/create', {name:'a'+i%1000, mode: 'private'}, function(err, reply) { return; });
-// 	} else {
-// 		clearInterval(listsTrigger);
-// 	}
-// }
-
-// var total_bytes = 0;
-// var zipped_tweets = 0;
-
 var addTweets = function(tweets,memo) {
 	rc.sadd(['seen_tweets'].concat(tweets.map(function(d) {return d.id_str;})),
 		function(err, reply) {console.log(memo+": " + reply + " of " +tweets.length + " were new.");});
-	// tweets.forEach(function (d) {
-	// 	zlib.gzip(JSON.stringify(d),function(e,r) {total_bytes += r.length; zipped_tweets++;});
-	// });
 	rc.scard('seen_tweets',function(err, reply) {console.log("Tweets: "+reply);});
-	// if (zipped_tweets > 0)
-	// 	console.log("Bytes per tweet: "+(total_bytes/zipped_tweets));
 }
 
 var refreshBoston = function() {
@@ -103,4 +80,3 @@ var refreshLists = function() {
 var refreshBostonTrigger = setInterval(refreshBoston,(15*60*1000)/170);
 var refreshListsTrigger = setInterval(refreshLists,(15*60*1000)/171);
 var listsTrigger = setInterval(fillLists,(15*60*1000)/175);
-// setInterval(calcBuckets,10*1000);
