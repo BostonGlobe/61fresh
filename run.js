@@ -32,8 +32,8 @@ var snowflakeToMinutesAgo = function(sf) {
 var addTweets = function(tweets,memo) {
 	rc.sadd(['seen_tweets'].concat(tweets.map(function(d) {return d.id_str;})),
 		function(err, reply) {
-			if (memo === "search")
-				console.log(memo+": " + reply + " of " +tweets.length + " were new.");
+			// if (memo === "search")
+			// 	console.log(memo+": " + reply + " of " +tweets.length + " were new.");
 		});
 	rc.scard('seen_tweets',function(err, reply) {console.log("Tweets: "+reply);});
 }
@@ -46,13 +46,16 @@ for (var i=0;i < 1000;i++) {
 
 var seen_users = 0;
 
+var search_since_id = '0';
+
 var refreshBoston = function() {
-	T.get('search/tweets', {geocode:'42.3583,-71.0603,10mi', result_type: 'recent', count:100},
+	T.get('search/tweets', {geocode:'42.3583,-71.0603,10mi', result_type: 'recent', count:100, since_id:search_since_id},
 		function(err, reply) {
 			if (err) {
 				console.log("search/tweets");
 				console.log(err);
 			} else {
+				search_since_id = reply.search_metadata.max_id_str;
 				rc.sadd(['seen_uids'].concat(reply.statuses.map(function(d) {return d.user.id_str;})));
 				rc.scard('seen_uids',function(err, reply) {seen_users = reply;});
 				addTweets(reply.statuses,"search");
@@ -61,6 +64,7 @@ var refreshBoston = function() {
 }
 
 var list_fill_pointer = Math.floor((Math.random()*1000));
+// var list_fill_pointer = 605;
 
 var fillLists = function() {
 	list_fill_pointer = (list_fill_pointer + 1) % 1000;
@@ -84,18 +88,19 @@ var fillLists = function() {
 }
 
 var refreshLists = function() {
-	var l = _.min(_.shuffle(lists_info),function(d) {return d.since_id});  // Shuffling helps balance things when the script is being stopped and started
+	var l = _.min(lists_info,function(d) {return d.since_id});
 	var params = {owner_screen_name: my_screen_name, slug: 'a'+l.index, count:200};
 	if (l.since_id > 0) {
-		params.since_id = l.since_id.to_string();
+		params.since_id = l.since_id.toString();
 	}
 	T.get('lists/statuses', params,
 			function(err, reply) {
 				if (err) {
 					console.log('lists/statuses');
+					console.log(params);
 					console.log(err);
 				} else if (reply.length > 0) {
-					var new_since_id = reply[0].id_str;
+					var new_since_id = bignum(reply[0].id_str);
 					console.log("List a" + l.index + " was " + snowflakeToMinutesAgo(l.since_id) + " minutes behind, now " + snowflakeToMinutesAgo(new_since_id) + ".")
 					lists_info[l.index].since_id=new_since_id;
 					addTweets(reply,'list');
