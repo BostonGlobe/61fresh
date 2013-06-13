@@ -1,3 +1,6 @@
+var bignum = require('bignum');
+var _ = require("underscore");
+
 var Twit = require('twit')
 
 var T = new Twit({
@@ -17,12 +20,31 @@ rc.on("error", function (err) {
         console.log("Error " + err);
 });
 
+// Algo ripped from https://github.com/client9/snowflake2time/blob/master/python/snowflake.py
+var snowflakeToUTC = function(sf) {
+	return bignum(sf).shiftRight(22).add('1288834974657'); //  Returned value is in ms
+}
+
+var snowflakeToMinutesAgo = function(sf) {
+	return Math.floor(((new Date).getTime()-snowflakeToUTC(sf))/(1000*60));
+}
 
 var addTweets = function(tweets,memo) {
 	rc.sadd(['seen_tweets'].concat(tweets.map(function(d) {return d.id_str;})),
-		function(err, reply) {console.log(memo+": " + reply + " of " +tweets.length + " were new.");});
+		function(err, reply) {
+			if (memo === "search")
+				console.log(memo+": " + reply + " of " +tweets.length + " were new.");
+		});
 	rc.scard('seen_tweets',function(err, reply) {console.log("Tweets: "+reply);});
 }
+	
+var lists_info = []
+
+for (var i=0;i < 1000;i++) {
+	lists_info.push({index:i,since_id:0});
+}
+
+var seen_users = 0;
 
 var refreshBoston = function() {
 	T.get('search/tweets', {geocode:'42.3583,-71.0603,10mi', result_type: 'recent', count:100},
@@ -32,7 +54,7 @@ var refreshBoston = function() {
 				console.log(err);
 			} else {
 				rc.sadd(['seen_uids'].concat(reply.statuses.map(function(d) {return d.user.id_str;})));
-				rc.scard('seen_uids',function(err, reply) {console.log("Seen: "+reply);});
+				rc.scard('seen_uids',function(err, reply) {seen_users = reply;});
 				addTweets(reply.statuses,"search");
 			}
 		})
@@ -42,7 +64,7 @@ var list_fill_pointer = Math.floor((Math.random()*1000));
 
 var fillLists = function() {
 	list_fill_pointer = (list_fill_pointer + 1) % 1000;
-	console.log("Fill Pointer: "+list_fill_pointer)
+	// console.log("Fill Pointer: "+list_fill_pointer)
 	rc.sdiff(['seen_uids','listed_uids'],
 		function(err, reply) {
 			var this_bucket = reply.filter(function(d) {return parseInt(d.slice(-3))==list_fill_pointer;}).slice(0,100);
@@ -54,23 +76,28 @@ var fillLists = function() {
 							console.log(err);
 						} else {
 							rc.sadd(['listed_uids'].concat(this_bucket));
-							rc.scard('listed_uids',function(err, reply) {console.log("Listed: "+reply);});
+							rc.scard('listed_uids',function(err, reply) {console.log("Users Seen: " + seen_users + "  Listed: "+reply);});
 						}
 					});
 			}
 		});
 }
 
-var list_refresh_pointer = Math.floor((Math.random()*1000));
-
 var refreshLists = function() {
-	list_refresh_pointer = (list_refresh_pointer + 1) % 1000;
-	T.get('lists/statuses', {owner_screen_name: my_screen_name, slug: 'a'+list_refresh_pointer, count:200},
+	var l = _.min(_.shuffle(lists_info),function(d) {return d.since_id});  // Shuffling helps balance things when the script is being stopped and started
+	var params = {owner_screen_name: my_screen_name, slug: 'a'+l.index, count:200};
+	if (l.since_id > 0) {
+		params.since_id = l.since_id.to_string();
+	}
+	T.get('lists/statuses', params,
 			function(err, reply) {
 				if (err) {
 					console.log('lists/statuses');
 					console.log(err);
-				} else {
+				} else if (reply.length > 0) {
+					var new_since_id = reply[0].id_str;
+					console.log("List a" + l.index + " was " + snowflakeToMinutesAgo(l.since_id) + " minutes behind, now " + snowflakeToMinutesAgo(new_since_id) + ".")
+					lists_info[l.index].since_id=new_since_id;
 					addTweets(reply,'list');
 				}
 			});
