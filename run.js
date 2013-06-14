@@ -30,6 +30,10 @@ var sql_conn = mysql.createConnection({
   timezone : 'UTC'
 });
 
+sql_conn.on('error', function(err) {
+  console.log(err.code);
+});
+
 // Algo ripped from https://github.com/client9/snowflake2time/blob/master/python/snowflake.py
 var snowflakeToUTC = function(sf) {
 	return bignum(sf).shiftRight(22).add('1288834974657'); //  Returned value is in ms
@@ -47,12 +51,6 @@ var addTweets = function(tweets,memo) {
 	sql_conn.query("REPLACE INTO tweets (tweet_id, text, created_at, user_id) VALUES ?", [values], function(err) {
 	    if (err) console.log(err);
 	});
-	rc.sadd(['seen_tweets'].concat(tweets.map(function(d) {return d.id_str;})),
-		function(err, reply) {
-			// if (memo === "search")
-			// 	console.log(memo+": " + reply + " of " +tweets.length + " were new.");
-		});
-	rc.scard('seen_tweets',function(err, reply) {console.log("Tweets: "+reply);});
 }
 	
 var lists_info = []
@@ -60,8 +58,6 @@ var lists_info = []
 for (var i=0;i < 1000;i++) {
 	lists_info.push({index:i,since_id:0,timestamp:0});
 }
-
-var seen_users = 0;
 
 var search_since_id = '0';
 
@@ -73,8 +69,7 @@ var refreshBoston = function() {
 				console.log(err);
 			} else if (reply.statuses.length > 0) {
 				search_since_id = reply.search_metadata.max_id_str;
-				rc.sadd(['seen_uids'].concat(reply.statuses.map(function(d) {return d.user.id_str;})));
-				rc.scard('seen_uids',function(err, reply) {seen_users = reply;});
+				sql_conn.query("INSERT IGNORE INTO users (user_id) VALUES ?", [reply.statuses.map(function(d) {return [d.user.id_str];})], function(err) { if (err) console.log(err); });
 				addTweets(reply.statuses,"search");
 			}
 		})
@@ -132,9 +127,19 @@ var refreshLists = function() {
 var friends_state = {};
 var followers_state = {};
 
+var getRandomUser = function(callback) {
+	sql_conn.query("SELECT COUNT(*) as num FROM users",
+		function(err, rows) {
+			sql_conn.query("SELECT user_id FROM users limit ?,1",Math.floor(Math.random()*rows[0].num),
+				function(err, rows) {
+					callback(rows[0].user_id);
+				});
+		});
+}
+
 var startRelationships = function() {
 	if (friends_state.user_id === undefined) {
-		rc.srandmember('seen_uids',function(e,r) {
+		getRandomUser(function(r) {
 			friends_state = {user_id:r, cursor: -1, so_far:[], created_at: new Date};
 			finishRelationships('friends',friends_state);
 		});
@@ -143,7 +148,7 @@ var startRelationships = function() {
 	}
 
 	if (followers_state.user_id === undefined) {
-		rc.srandmember('seen_uids',function(e,r) {
+		getRandomUser(function(r) {
 			followers_state = {user_id:r, cursor: -1, so_far:[], created_at: new Date};
 			finishRelationships('followers',followers_state);
 		});
@@ -182,4 +187,3 @@ var refreshBostonTrigger = setInterval(refreshBoston,(15*60*1000)/170);
 var refreshListsTrigger = setInterval(refreshLists,(15*60*1000)/171);
 var listsTrigger = setInterval(fillLists,(15*60*1000)/175);
 var relationsTrigger = setInterval(startRelationships,61*1000);
-
