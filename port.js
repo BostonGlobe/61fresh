@@ -80,5 +80,5 @@ var createLists = function() {
 		});
 };
 
-var destroyTrigger = setInterval(destroyLists,(15*60*1000)/175);
-var createTrigger = setInterval(createLists,(15*60*1000)/175);
+// var destroyTrigger = setInterval(destroyLists,(15*60*1000)/175);
+// var createTrigger = setInterval(createLists,(15*60*1000)/175);
