@@ -20,6 +20,15 @@ rc.on("error", function (err) {
         console.log("Error " + err);
 });
 
+var mysql      = require('mysql');
+var sql_conn = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : '',
+  database : 'condor',
+  supportBigNumbers : 'true'
+});
+
 // Algo ripped from https://github.com/client9/snowflake2time/blob/master/python/snowflake.py
 var snowflakeToUTC = function(sf) {
 	return bignum(sf).shiftRight(22).add('1288834974657'); //  Returned value is in ms
@@ -30,6 +39,13 @@ var snowflakeToMinutesAgo = function(sf) {
 }
 
 var addTweets = function(tweets,memo) {
+	var values = tweets.map(
+		function(d) {
+			return [d.id_str, d.text, new Date(d.created_at), d.user.id_str];
+		});
+	sql_conn.query("REPLACE INTO tweets (tweet_id, text, created_at, user_id) VALUES ?", [values], function(err) {
+	    if (err) console.log(err);
+	});
 	rc.sadd(['seen_tweets'].concat(tweets.map(function(d) {return d.id_str;})),
 		function(err, reply) {
 			// if (memo === "search")
