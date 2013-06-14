@@ -39,8 +39,8 @@ var snowflakeToUTC = function(sf) {
 	return bignum(sf).shiftRight(22).add('1288834974657'); //  Returned value is in ms
 }
 
-var snowflakeToMinutesAgo = function(sf) {
-	return Math.floor(((new Date).getTime()-snowflakeToUTC(sf))/(1000*60));
+var snowflakeToSecondsAgo = function(sf) {
+	return Math.floor(((new Date).getTime()-snowflakeToUTC(sf))/(1000));
 }
 
 var addTweets = function(tweets,memo) {
@@ -76,7 +76,7 @@ for (var i=0;i < 1000;i++) {
 }
 
 var fillLists = function() {
-	sql_conn.query("SELECT list_id, COUNT(*) as num FROM users WHERE list_id IS NOT NULL GROUP BY list_id ORDER BY list_id", function(e,r) {
+	sql_conn.query("SELECT list_id, COUNT(*) as num FROM users WHERE list_id IS NOT NULL GROUP BY list_id", function(e,r) {
 		r.forEach(function(d) {lists_info[d.list_id].members=d.num});
 		var target = _.find(lists_info, function(d) {return d.members < 5000;});
 		var list_fill_pointer = target.index;
@@ -115,7 +115,7 @@ var refreshLists = function() {
 					console.log(err);
 				} else if (reply.length > 0) {
 					var new_since_id = bignum(reply[0].id_str);
-					console.log("List a" + l.index + " was " + snowflakeToMinutesAgo(l.since_id) + " minutes behind, now " + snowflakeToMinutesAgo(new_since_id) + ".")
+					console.log("List a" + l.index + " was " + snowflakeToSecondsAgo(l.since_id) + " seconds behind, now " + snowflakeToSecondsAgo(new_since_id) + ".")
 					lists_info[l.index].timestamp = snowflakeToUTC(new_since_id);
 					lists_info[l.index].since_id = new_since_id;
 					addTweets(reply,'list');
