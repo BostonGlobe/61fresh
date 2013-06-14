@@ -26,7 +26,8 @@ var sql_conn = mysql.createConnection({
   user     : 'root',
   password : '',
   database : 'condor',
-  supportBigNumbers : 'true'
+  supportBigNumbers : 'true',
+  timezone : 'UTC'
 });
 
 // Algo ripped from https://github.com/client9/snowflake2time/blob/master/python/snowflake.py
@@ -128,7 +129,57 @@ var refreshLists = function() {
 			});
 }
 
+var friends_state = {};
+var followers_state = {};
+
+var startRelationships = function() {
+	if (friends_state.user_id === undefined) {
+		rc.srandmember('seen_uids',function(e,r) {
+			friends_state = {user_id:r, cursor: -1, so_far:[], created_at: new Date};
+			finishRelationships('friends',friends_state);
+		});
+	} else {
+		finishRelationships('friends',friends_state);
+	}
+
+	if (followers_state.user_id === undefined) {
+		rc.srandmember('seen_uids',function(e,r) {
+			followers_state = {user_id:r, cursor: -1, so_far:[], created_at: new Date};
+			finishRelationships('followers',followers_state);
+		});
+	} else {
+		finishRelationships('followers',followers_state);
+	}
+}
+
+var finishRelationships = function(direction,state) {
+	// console.log(state);
+	T.get(direction+'/ids', {user_id:state.user_id, cursor:state.cursor},
+		function (err,reply) {
+			if (err) {
+				console.log(direction+'/ids');
+				console.log(err);
+			} else {
+				state.so_far = state.so_far.concat(reply.ids);
+				if (reply.next_cursor_str === "0") {
+					sql_conn.query("INSERT INTO relation_responses SET ?",
+						{user_id: state.user_id,
+						 direction: direction,
+						 response: JSON.stringify(state.so_far),
+						 created_at: state.created_at},
+						function(err) {
+	    					if (err) console.log(err);
+						});
+					delete state.user_id;
+				} else {
+					state.cursor = reply.next_cursor_str;
+				}
+			}
+		});
+};
 
 var refreshBostonTrigger = setInterval(refreshBoston,(15*60*1000)/170);
 var refreshListsTrigger = setInterval(refreshLists,(15*60*1000)/171);
 var listsTrigger = setInterval(fillLists,(15*60*1000)/175);
+var relationsTrigger = setInterval(startRelationships,61*1000);
+
