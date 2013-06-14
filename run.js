@@ -12,13 +12,13 @@ var T = new Twit({
 
 var my_screen_name = "***REMOVED***";
 
-var redis = require("redis");
+// var redis = require("redis");
 
-var rc = redis.createClient();
+// var rc = redis.createClient();
 
-rc.on("error", function (err) {
-        console.log("Error " + err);
-});
+// rc.on("error", function (err) {
+//         console.log("Error " + err);
+// });
 
 var mysql      = require('mysql');
 var sql_conn = mysql.createConnection({
@@ -31,7 +31,7 @@ var sql_conn = mysql.createConnection({
 });
 
 sql_conn.on('error', function(err) {
-  console.log(err.code);
+  console.log(err);
 });
 
 // Algo ripped from https://github.com/client9/snowflake2time/blob/master/python/snowflake.py
@@ -52,12 +52,6 @@ var addTweets = function(tweets,memo) {
 	    if (err) console.log(err);
 	});
 }
-	
-var lists_info = []
-
-for (var i=0;i < 1000;i++) {
-	lists_info.push({index:i,since_id:0,timestamp:0});
-}
 
 var search_since_id = '0';
 
@@ -75,32 +69,40 @@ var refreshBoston = function() {
 		})
 };
 
-var list_fill_pointer = Math.floor((Math.random()*1000));
-// var list_fill_pointer = 605;
+var lists_info = []
 
-var fillLists = function() {
-	list_fill_pointer = (list_fill_pointer + 1) % 1000;
-	// console.log("Fill Pointer: "+list_fill_pointer)
-	rc.sdiff(['seen_uids','listed_uids'],
-		function(err, reply) {
-			var this_bucket = reply.filter(function(d) {return parseInt(d.slice(-3))==list_fill_pointer;}).slice(0,100);
-			if (this_bucket.length > 0) {
-				T.post('lists/members/create_all', {owner_screen_name: my_screen_name, slug: 'a'+list_fill_pointer, user_id: this_bucket.join(',')},
-					function(err, reply) {
-						if (err) {
-							console.log('lists/members/create_all');
-							console.log(err);
-						} else {
-							rc.sadd(['listed_uids'].concat(this_bucket));
-							rc.scard('listed_uids',function(err, reply) {console.log("Users Seen: " + seen_users + "  Listed: "+reply);});
-						}
-					});
-			}
-		});
+for (var i=0;i < 1000;i++) {
+	lists_info.push({index:i,since_id:0,timestamp:0,members:0});
 }
 
+var fillLists = function() {
+	sql_conn.query("SELECT list_id, COUNT(*) as num FROM users WHERE list_id IS NOT NULL GROUP BY list_id ORDER BY list_id", function(e,r) {
+		r.forEach(function(d) {lists_info[d.list_id].members=d.num});
+		var target = _.find(lists_info, function(d) {return d.members < 5000;});
+		var list_fill_pointer = target.index;
+		var num_to_add = Math.min(5000-target.members,50);
+		console.log("Adding " + num_to_add + " members to list a" + list_fill_pointer + ".");
+		sql_conn.query("SELECT user_id FROM users WHERE list_id IS NULL LIMIT ?", num_to_add,
+			function (e,r) {
+				var uids = _.pluck(r, 'user_id');
+				var params = {owner_screen_name: my_screen_name, slug: 'a'+list_fill_pointer, user_id: uids};
+				T.post('lists/members/create_all', params,
+					function (err,reply) {
+						if (err) {
+							console.log('lists/members/create_all');
+							// console.log(params);
+							console.log(err);
+						} else {
+							sql_conn.query("UPDATE users SET ? WHERE user_id IN (?)",[{list_id:list_fill_pointer},uids]);
+						}
+					});
+			});
+	});
+}
+
+
 var refreshLists = function() {
-	var l = _.min(lists_info,function(d) {return d.timestamp});
+	var l = _.min(lists_info.filter(function(d) {return d.members>0}),function(d) {return d.timestamp});
 	var params = {owner_screen_name: my_screen_name, slug: 'a'+l.index, count:200};
 	if (l.since_id > 0) {
 		params.since_id = l.since_id.toString();
@@ -185,5 +187,5 @@ var finishRelationships = function(direction,state) {
 
 var refreshBostonTrigger = setInterval(refreshBoston,(15*60*1000)/170);
 var refreshListsTrigger = setInterval(refreshLists,(15*60*1000)/171);
-var listsTrigger = setInterval(fillLists,(15*60*1000)/175);
+var listsTrigger = setInterval(fillLists,1000);
 var relationsTrigger = setInterval(startRelationships,61*1000);
