@@ -41,7 +41,7 @@ var addTweets = function(tweets,memo) {
 var lists_info = []
 
 for (var i=0;i < 1000;i++) {
-	lists_info.push({index:i,since_id:0});
+	lists_info.push({index:i,since_id:0,timestamp:0});
 }
 
 var seen_users = 0;
@@ -88,7 +88,7 @@ var fillLists = function() {
 }
 
 var refreshLists = function() {
-	var l = _.min(lists_info,function(d) {return d.since_id});
+	var l = _.min(lists_info,function(d) {return d.timestamp});
 	var params = {owner_screen_name: my_screen_name, slug: 'a'+l.index, count:200};
 	if (l.since_id > 0) {
 		params.since_id = l.since_id.toString();
@@ -102,8 +102,12 @@ var refreshLists = function() {
 				} else if (reply.length > 0) {
 					var new_since_id = bignum(reply[0].id_str);
 					console.log("List a" + l.index + " was " + snowflakeToMinutesAgo(l.since_id) + " minutes behind, now " + snowflakeToMinutesAgo(new_since_id) + ".")
-					lists_info[l.index].since_id=new_since_id;
+					lists_info[l.index].timestamp = snowflakeToUTC(new_since_id);
+					lists_info[l.index].since_id = new_since_id;
 					addTweets(reply,'list');
+				} else {
+					console.log("List a" + l.index + " gave us nothing.");
+					lists_info[l.index].timestamp = (new Date).getTime();
 				}
 			});
 }
