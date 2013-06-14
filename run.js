@@ -71,14 +71,14 @@ var refreshBoston = function() {
 			if (err) {
 				console.log("search/tweets");
 				console.log(err);
-			} else {
+			} else if (reply.statuses.length > 0) {
 				search_since_id = reply.search_metadata.max_id_str;
 				rc.sadd(['seen_uids'].concat(reply.statuses.map(function(d) {return d.user.id_str;})));
 				rc.scard('seen_uids',function(err, reply) {seen_users = reply;});
 				addTweets(reply.statuses,"search");
 			}
 		})
-}
+};
 
 var list_fill_pointer = Math.floor((Math.random()*1000));
 // var list_fill_pointer = 605;
