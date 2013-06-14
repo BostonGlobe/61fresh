@@ -60,4 +60,25 @@ var destroyLists = function() {
 		});
 };
 
+var list_create_pointer = 0;
+
+var createLists = function() {
+	console.log(list_create_pointer);
+	var params = {name: 'a'+list_create_pointer, mode:'private'};
+	T.post('lists/create', params,
+		function(err, reply) {
+			if (err) {
+				console.log('lists/create');
+				console.log(params);
+				console.log(err);
+			} else {
+				list_create_pointer++;
+				if (list_create_pointer === 1000) {
+					clearInterval(createTrigger);
+				}
+			}
+		});
+};
+
 var destroyTrigger = setInterval(destroyLists,(15*60*1000)/175);
+var createTrigger = setInterval(createLists,(15*60*1000)/175);
