@@ -78,9 +78,9 @@ for (var i=0;i < 1000;i++) {
 var fillLists = function() {
 	sql_conn.query("SELECT list_id, COUNT(*) as num FROM users WHERE list_id IS NOT NULL GROUP BY list_id", function(e,r) {
 		r.forEach(function(d) {lists_info[d.list_id].members=d.num});
-		var target = _.find(lists_info, function(d) {return d.members < 5000;});
+		var target = _.find(lists_info, function(d) {return d.members < 4950;});
 		var list_fill_pointer = target.index;
-		var num_to_add = Math.min(5000-target.members,50);
+		var num_to_add = Math.min(4950-target.members,50);
 		console.log("Adding " + num_to_add + " members to list a" + list_fill_pointer + ".");
 		sql_conn.query("SELECT user_id FROM users WHERE list_id IS NULL LIMIT ?", num_to_add,
 			function (e,r) {
