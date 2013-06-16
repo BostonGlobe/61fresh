@@ -29,7 +29,7 @@ sql_conn.on('error', function(err) {
 
 // Algo ripped from https://github.com/client9/snowflake2time/blob/master/python/snowflake.py
 var snowflakeToUTC = function(sf) {
-	return bignum(sf).shiftRight(22).add('1288834974657'); //  Returned value is in ms
+	return bignum(sf).shiftRight(22).add('1288834974657').toNumber(); //  Returned value is in ms
 }
 
 var utcToSnowflake = function(utc) {
@@ -85,7 +85,7 @@ var fillLists = function() {
 		var num_to_add = Math.min(5000-target.members,users_per_fill);
 		sql_conn.query("SELECT user_id FROM users WHERE list_id IS NULL LIMIT ?", num_to_add,
 			function (e,r) {
-				console.log("Adding " + r.length + " members to list a" + list_fill_pointer + ".");
+				// console.log("Adding " + r.length + " members to list a" + list_fill_pointer + ".");
 				if (r.length > 0) {
 					var uids = _.pluck(r, 'user_id');
 					var params = {owner_screen_name: my_screen_name, slug: 'a'+list_fill_pointer, user_id: uids};
@@ -114,14 +114,40 @@ var fillLists = function() {
 	});
 }
 
+var sum = function(xs) {return _.reduce(xs, function(memo, num){ return memo + num; }, 0)};
 
+var filter_window = 40;
+var rmspt_times = [25];
+var rmspt_tweets = [1];
+
+var recent_ms_per_tweet = function() {
+	// return 500;
+	rmspt_times = _.first(rmspt_times,filter_window);
+	rmspt_tweets = _.first(rmspt_tweets,filter_window);
+	// console.log(rmspt_times);
+	// console.log(rmspt_tweets);
+	return sum(rmspt_times)/sum(rmspt_tweets);
+}
+
+var hits = 0;
+var at_bats = 0;
+var missed_list_seconds = 0;
+
+var occ = false;
 var refreshLists = function() {
+	if (occ) {
+		console.log("occ");
+		return;
+	}
+	occ=true;
 	var l = _.min(lists_info.filter(function(d) {return d.members===5000}),function(d) {return d.timestamp});
-	// var l = lists_info[0];
 	var params = {owner_screen_name: my_screen_name, slug: 'a'+l.index, count:200};
 	if (l.since_id > 0) {
-		params.since_id = l.since_id.toString();
+		var rmspt = recent_ms_per_tweet();
+		console.log("rmspt: " + rmspt);
+		params.max_id = utcToSnowflake(snowflakeToUTC(l.since_id)+rmspt*168.57765670053308).toString(); 
 	}
+	// console.log(params);
 	T.get('lists/statuses', params,
 			function(err, reply) {
 				if (err) {
@@ -129,7 +155,21 @@ var refreshLists = function() {
 					console.log(params);
 					console.log(err);
 				} else if (reply.length > 0) {
+					rmspt_times.unshift((snowflakeToUTC(reply[0].id_str) - snowflakeToUTC(reply[reply.length-1].id_str)));
+					rmspt_tweets.unshift(199);
 					var new_since_id = bignum(reply[0].id_str);
+					// console.log("Overlap: " + reply.filter(function(d){return bignum(d.id_str) <=l.since_id}).length);
+					if (l.since_id > 0) {
+						at_bats++;
+						if (bignum(_.last(reply).id_str) <=l.since_id)  {
+							hits++;
+							console.log("hit!");
+						} else {
+							missed_list_seconds += (snowflakeToUTC(_.last(reply).id_str) - snowflakeToUTC(l.since_id))/1000;
+						}
+						console.log("Hit percentage: " + hits/at_bats);
+						console.log("Total missed list-seconds: " + missed_list_seconds);
+					}
 					console.log("List a" + l.index + " was " + snowflakeToSecondsAgo(l.since_id) + " seconds behind, now " + snowflakeToSecondsAgo(new_since_id) + ". (" + reply.length + ")")
 					lists_info[l.index].timestamp = snowflakeToUTC(new_since_id);
 					lists_info[l.index].since_id = new_since_id;
@@ -138,6 +178,7 @@ var refreshLists = function() {
 					console.log("List a" + l.index + " gave us nothing.");
 					lists_info[l.index].timestamp = (new Date).getTime();
 				}
+				occ=false;
 			});
 }
 
