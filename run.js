@@ -59,9 +59,18 @@ var refreshBoston = function() {
 				console.log("search/tweets");
 				console.log(err);
 			} else if (reply.statuses.length > 0) {
+				// Turns out the Boston geosearch includes tweets from Boston RTed by users from anywhere. THANKS, OBAMA.
+				var real_statuses = reply.statuses.map(
+					function (d) {
+						if (d.retweeted_status !== undefined) {
+							return d.retweeted_status;
+						} else {
+							return d;
+						}
+					});
 				search_since_id = reply.search_metadata.max_id_str;
-				sql_conn.query("INSERT IGNORE INTO users (user_id) VALUES ?", [reply.statuses.map(function(d) {return [d.user.id_str];})]);
-				addTweets(reply.statuses,"search");
+				sql_conn.query("INSERT IGNORE INTO users (user_id) VALUES ?", [real_statuses.map(function(d) {return [d.user.id_str];})]);
+				addTweets(real_statuses,"search");
 			}
 		})
 };
