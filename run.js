@@ -41,13 +41,13 @@ var snowflakeToSecondsAgo = function(sf) {
 }
 
 var addTweets = function(tweets,memo) {
-	var values = tweets.map(
-		function(d) {
-			return [d.id_str, d.text, new Date(d.created_at), d.user.id_str];
-		});
-	sql_conn.query("REPLACE INTO tweets (tweet_id, text, created_at, user_id) VALUES ?", [values], function(err) {
-	    if (err) console.log(err);
-	});
+	if (tweets.length > 0) {
+		var values = tweets.map(
+			function(d) {
+				return [d.id_str, d.text, new Date(d.created_at), d.user.id_str];
+			});
+		sql_conn.query("REPLACE INTO tweets (tweet_id, text, created_at, user_id) VALUES ?", [values]);
+	}
 }
 
 var search_since_id = '0';
@@ -66,11 +66,6 @@ var refreshBoston = function() {
 		})
 };
 
-var lists_info = []
-
-for (var i=0;i < 1000;i++) {
-	lists_info.push({index:i,since_id:0,timestamp:0,members:0});
-}
 
 var users_per_fill = 30;
 var per_fill_backoff = 10;
@@ -114,24 +109,13 @@ var fillLists = function() {
 	});
 }
 
-var sum = function(xs) {return _.reduce(xs, function(memo, num){ return memo + num; }, 0)};
+var lists_info = []
 
-var filter_window = 40;
-var rmspt_times = [25];
-var rmspt_tweets = [1];
-
-var recent_ms_per_tweet = function() {
-	// return 500;
-	rmspt_times = _.first(rmspt_times,filter_window);
-	rmspt_tweets = _.first(rmspt_tweets,filter_window);
-	// console.log(rmspt_times);
-	// console.log(rmspt_tweets);
-	return sum(rmspt_times)/sum(rmspt_tweets);
+for (var i=0;i < 1000;i++) {
+	lists_info.push({index:i,members:0});
 }
 
-var hits = 0;
-var at_bats = 0;
-var missed_list_seconds = 0;
+var current_info;
 
 var occ = false;
 var refreshLists = function() {
@@ -140,12 +124,22 @@ var refreshLists = function() {
 		return;
 	}
 	occ=true;
-	var l = _.min(lists_info.filter(function(d) {return d.members===5000}),function(d) {return d.timestamp});
-	var params = {owner_screen_name: my_screen_name, slug: 'a'+l.index, count:200};
-	if (l.since_id > 0) {
-		var rmspt = recent_ms_per_tweet();
-		console.log("rmspt: " + rmspt);
-		params.max_id = utcToSnowflake(snowflakeToUTC(l.since_id)+rmspt*168.57765670053308).toString(); 
+
+	if (current_info === undefined) {
+		var l = _.min(lists_info.filter(function(d) {return d.members===5000}),function(d) {return d.since_id||0});
+		current_info = {list_id:l.index, old_since_id:l.since_id,so_far:0};
+		var log_line = "Starting on list a" + current_info.list_id;
+		if (current_info.old_since_id !== undefined) 
+			log_line += " which was " + snowflakeToSecondsAgo(current_info.old_since_id) + " seconds behind.";
+		console.log(log_line);
+	}
+	var params = {owner_screen_name: my_screen_name, slug: 'a'+current_info.list_id, count:200};
+	if (current_info.max_id !== undefined) {
+		console.log("Fetching tweets more than " + snowflakeToSecondsAgo(current_info.max_id) + " seconds old.")
+		params.max_id = current_info.max_id.toString(); 
+	}
+	if (current_info.old_since_id !== undefined) {
+		params.since_id = utcToSnowflake(snowflakeToUTC(current_info.old_since_id)-2000).toString();
 	}
 	// console.log(params);
 	T.get('lists/statuses', params,
@@ -154,29 +148,23 @@ var refreshLists = function() {
 					console.log('lists/statuses');
 					console.log(params);
 					console.log(err);
-				} else if (reply.length > 0) {
-					rmspt_times.unshift((snowflakeToUTC(reply[0].id_str) - snowflakeToUTC(reply[reply.length-1].id_str)));
-					rmspt_tweets.unshift(199);
-					var new_since_id = bignum(reply[0].id_str);
-					// console.log("Overlap: " + reply.filter(function(d){return bignum(d.id_str) <=l.since_id}).length);
-					if (l.since_id > 0) {
-						at_bats++;
-						if (bignum(_.last(reply).id_str) <=l.since_id)  {
-							hits++;
-							console.log("hit!");
-						} else {
-							missed_list_seconds += (snowflakeToUTC(_.last(reply).id_str) - snowflakeToUTC(l.since_id))/1000;
-						}
-						console.log("Hit percentage: " + hits/at_bats);
-						console.log("Total missed list-seconds: " + missed_list_seconds);
-					}
-					console.log("List a" + l.index + " was " + snowflakeToSecondsAgo(l.since_id) + " seconds behind, now " + snowflakeToSecondsAgo(new_since_id) + ". (" + reply.length + ")")
-					lists_info[l.index].timestamp = snowflakeToUTC(new_since_id);
-					lists_info[l.index].since_id = new_since_id;
-					addTweets(reply,'list');
 				} else {
-					console.log("List a" + l.index + " gave us nothing.");
-					lists_info[l.index].timestamp = (new Date).getTime();
+					current_info.so_far += reply.length;
+					addTweets(reply,'list');
+					if (current_info.new_since_id === undefined) {
+						current_info.new_since_id = bignum(reply[0].id_str); // Under the circumstances when this code is hit, reply[0] should ("should") exist
+					}
+					if ((reply.length<190) || (current_info.old_since_id === undefined) || (bignum(_.last(reply).id_str) <= current_info.old_since_id)) {
+						// if (reply.length===0) {
+						// 	var gap = snowflakeToSecondsAgo(current_info.old_since_id) - snowflakeToSecondsAgo(current_info.max_id);
+						// 	console.log("twitter's tapped out... we lost " + gap + "seconds.");
+						// }
+						console.log("Total grabbed: " + current_info.so_far);
+						lists_info[current_info.list_id].since_id = current_info.new_since_id;
+						current_info = undefined;
+					} else {
+						current_info.max_id = bignum(_.last(reply).id_str);
+					}
 				}
 				occ=false;
 			});
@@ -243,6 +231,6 @@ var finishRelationships = function(direction,state) {
 };
 
 var refreshBostonTrigger = setInterval(refreshBoston,(15*60*1000)/175);
-var refreshListsTrigger = setInterval(refreshLists,(15*60*1000)/179);
+var refreshListsTrigger = setInterval(refreshLists,(15*60*1000)/179.5);
 var relationsTrigger = setInterval(startRelationships,61*1000);
 fillLists();
