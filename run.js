@@ -84,12 +84,12 @@ var fillLists = function() {
 	// console.log("Start " + durf);
 	sql_conn.query("SELECT list_id, COUNT(*) as num FROM users WHERE list_id IS NOT NULL GROUP BY list_id", function(e,r) {
 		r.forEach(function(d) {lists_info[d.list_id].members=d.num});
-		var target = _.find(lists_info, function(d) {return d.members < 5000;});
+		var target = _.find(lists_info, function(d) {return d.members < 4999;});
 		var list_fill_pointer = target.index;
-		var num_to_add = Math.min(5000-target.members,users_per_fill);
+		var num_to_add = Math.min(4999-target.members,users_per_fill);
 		sql_conn.query("SELECT user_id FROM users WHERE list_id IS NULL LIMIT ?", num_to_add,
 			function (e,r) {
-				// console.log("Adding " + r.length + " members to list a" + list_fill_pointer + ".");
+				console.log("Adding " + r.length + " members to list a" + list_fill_pointer + ".");
 				if (r.length > 0) {
 					var uids = _.pluck(r, 'user_id');
 					var params = {owner_screen_name: my_screen_name, slug: 'a'+list_fill_pointer, user_id: uids};
@@ -135,7 +135,12 @@ var refreshLists = function() {
 	occ=true;
 
 	if (current_info === undefined) {
-		var l = _.min(lists_info.filter(function(d) {return d.members===5000}),function(d) {return d.since_id||0});
+		var l = _.min(lists_info.filter(function(d) {return d.members>4990}),function(d) {return d.since_id||0});
+		if (l.index === undefined) {
+			console.log("no lists worth refreshing!");
+			occ=false;
+			return;
+		}
 		current_info = {list_id:l.index, old_since_id:l.since_id,so_far:0};
 		var log_line = "Starting on list a" + current_info.list_id;
 		if (current_info.old_since_id !== undefined) 
