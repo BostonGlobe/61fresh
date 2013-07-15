@@ -20,7 +20,8 @@ var sql_conn = mysql.createConnection({
   password : '',
   database : 'condor',
   supportBigNumbers : 'true',
-  timezone : 'UTC'
+  timezone : 'UTC',
+  charset: 'UTF8MB4_UNICODE_CI'
 });
 
 sql_conn.on('error', function(err) {
@@ -40,13 +41,25 @@ var snowflakeToSecondsAgo = function(sf) {
 	return Math.floor(((new Date).getTime()-snowflakeToUTC(sf))/(1000));
 }
 
+
 var addTweets = function(tweets,memo) {
 	if (tweets.length > 0) {
 		var values = tweets.map(
 			function(d) {
 				return [d.id_str, d.text, new Date(d.created_at), d.user.id_str];
 			});
-		sql_conn.query("REPLACE INTO tweets (tweet_id, text, created_at, user_id) VALUES ?", [values]);
+		sql_conn.query("REPLACE INTO tweets (tweet_id, text, created_at, user_id) VALUES ?", [values],
+			function (e) {
+				if (e) {
+					console.log(e);
+					console.log(values);
+				}
+			});
+		// var raw_vals = tweets.map(
+		// 	function(d) {
+		// 		return [d.id_str, JSON.stringify(d)]
+		// 	});
+		// sql_conn.query("REPLACE INTO tweets_raw (tweet_id, json) VALUES ?", [raw_vals]);
 	}
 }
 
@@ -67,7 +80,8 @@ var refreshBoston = function() {
 						} else {
 							return d;
 						}
-					});
+					})
+					.filter(function(d) {return d.user !== undefined}) // Ideally we'd want to know what sort of tweet doesn't have a user, but for now I'm content with not crashing
 				search_since_id = reply.search_metadata.max_id_str;
 				sql_conn.query("INSERT IGNORE INTO users (user_id) VALUES ?", [real_statuses.map(function(d) {return [d.user.id_str];})]);
 				addTweets(real_statuses,"search");
@@ -87,7 +101,7 @@ var fillLists = function() {
 		var target = _.find(lists_info, function(d) {return d.members < 4999;});
 		var list_fill_pointer = target.index;
 		var num_to_add = Math.min(4999-target.members,users_per_fill);
-		sql_conn.query("SELECT user_id FROM users WHERE list_id IS NULL LIMIT ?", num_to_add,
+		sql_conn.query("SELECT user_id FROM users WHERE list_id IS NULL AND suspended = 0 LIMIT ?", num_to_add,
 			function (e,r) {
 				console.log("Adding " + r.length + " members to list a" + list_fill_pointer + ".");
 				if (r.length > 0) {
@@ -152,9 +166,9 @@ var refreshLists = function() {
 		console.log("Fetching tweets more than " + snowflakeToSecondsAgo(current_info.max_id) + " seconds old.")
 		params.max_id = current_info.max_id.toString(); 
 	}
-	if (current_info.old_since_id !== undefined) {
-		params.since_id = utcToSnowflake(snowflakeToUTC(current_info.old_since_id)-2000).toString();
-	}
+	// if (current_info.old_since_id !== undefined) {
+	// 	params.since_id = utcToSnowflake(snowflakeToUTC(current_info.old_since_id)-2000).toString();
+	// }
 	// console.log(params);
 	T.get('lists/statuses', params,
 			function(err, reply) {
@@ -187,19 +201,16 @@ var refreshLists = function() {
 var friends_state = {};
 var followers_state = {};
 
-var getRandomUser = function(callback) {
-	sql_conn.query("SELECT COUNT(*) as num FROM users",
+var getRelationshipsUserToUpdate = function(relationship,callback) {
+	sql_conn.query("select user_id from users where user_id not in (select user_id from relation_responses where direction=?)", relationship,
 		function(err, rows) {
-			sql_conn.query("SELECT user_id FROM users limit ?,1",Math.floor(Math.random()*rows[0].num),
-				function(err, rows) {
-					callback(rows[0].user_id);
-				});
+			callback(rows[Math.floor(Math.random()*rows.length)].user_id);
 		});
 }
 
 var startRelationships = function() {
 	if (friends_state.user_id === undefined) {
-		getRandomUser(function(r) {
+		getRelationshipsUserToUpdate('friends',function(r) {
 			friends_state = {user_id:r, cursor: -1, so_far:[], created_at: new Date};
 			finishRelationships('friends',friends_state);
 		});
@@ -208,7 +219,7 @@ var startRelationships = function() {
 	}
 
 	if (followers_state.user_id === undefined) {
-		getRandomUser(function(r) {
+		getRelationshipsUserToUpdate('followers',function(r) {
 			followers_state = {user_id:r, cursor: -1, so_far:[], created_at: new Date};
 			finishRelationships('followers',followers_state);
 		});
@@ -231,12 +242,23 @@ var finishRelationships = function(direction,state) {
 					sql_conn.query("INSERT INTO relation_responses SET ?",
 						{user_id: state.user_id,
 						 direction: direction,
-						 response: JSON.stringify(state.so_far),
 						 created_at: state.created_at},
-						function(err) {
-	    					if (err) console.log(err);
+						function(err, result) {
+	    					if (err) {
+	    						console.log(err);
+	    					} else {
+	    						var values = state.so_far.map(
+									function(d) {
+										if (direction==="friends") {
+											return [result.insertId, state.user_id, d];
+										} else {
+											return [result.insertId, d, state.user_id];
+										}
+									});
+	    						sql_conn.query("REPLACE INTO relations (relation_response_id, source_user_id, target_user_id) VALUES ?", [values]);
+	    					}
+	    					delete state.user_id;
 						});
-					delete state.user_id;
 				} else {
 					state.cursor = reply.next_cursor_str;
 				}
@@ -244,7 +266,41 @@ var finishRelationships = function(direction,state) {
 		});
 };
 
+var refreshUsers = function() {
+	sql_conn.query("select user_id from users order by last_updated asc limit 100",
+			function(err, rows) {
+				var uids = _.pluck(rows,'user_id');
+				T.get('users/lookup', {user_id:_.pluck(rows,'user_id')},
+					function(err, reply) {
+						if (err) {
+							console.log("users/lookup");
+							console.log(err);
+						} else {
+							console.log("Refreshing " + reply.length + " users.");
+							uids.forEach(
+								function(uid) {
+									var d = _.find(reply, function(x) {return uid.toString() === x.id_str});
+									var values;
+									if (d !== undefined) {
+										values = {
+											screen_name: d.screen_name,
+											friends_count: d.friends_count,
+											followers_count: d.followers_count
+										};
+									} else {
+										values = {suspended:1};
+									}
+									values.last_updated = new Date;
+									sql_conn.query("UPDATE users SET ? WHERE user_id = ?",[values, uid]);
+								});
+						}
+					});
+			});
+};
+
+
 var refreshBostonTrigger = setInterval(refreshBoston,(15*60*1000)/175);
 var refreshListsTrigger = setInterval(refreshLists,(15*60*1000)/179.5);
 var relationsTrigger = setInterval(startRelationships,61*1000);
+var refreshUsersTrigger = setInterval(refreshUsers,(15*60*1000)/176);
 fillLists();
