@@ -17,7 +17,7 @@ var mysql      = require('mysql');
 var sql_conn = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : '',
+  password : 'globelab',
   database : 'condor',
   supportBigNumbers : 'true',
   timezone : 'UTC',
