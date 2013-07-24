@@ -144,5 +144,3 @@ var refillAllLists = function() {
 				});
 		});
 }
-
-
