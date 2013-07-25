@@ -44,15 +44,42 @@ var snowflakeToSecondsAgo = function(sf) {
 
 var addTweets = function(tweets,memo) {
 	if (tweets.length > 0) {
-		var values = tweets.map(
+		var tweet_rows = tweets.map(
 			function(d) {
 				return [d.id_str, d.text, new Date(d.created_at), d.user.id_str];
 			});
-		sql_conn.query("REPLACE INTO tweets (tweet_id, text, created_at, user_id) VALUES ?", [values],
+		sql_conn.query("REPLACE INTO tweets (tweet_id, text, created_at, user_id) VALUES ?", [tweet_rows],
 			function (e) {
 				if (e) {
 					console.log(e);
-					console.log(values);
+					console.log(tweet_rows);
+				}
+			});
+		var url_rows = [];
+		var hashtag_rows = [];
+		var tweet_rows = tweets.forEach(
+			function(tweet) {
+				tweet.entities.urls.forEach(
+					function (url) {
+						url_rows.push([url.expanded_url, tweet.user.id_str, tweet.id_str, new Date(tweet.created_at)])
+					})
+				tweet.entities.hashtags.forEach(
+					function (hashtag) {
+						hashtag_rows.push([hashtag.text, tweet.user.id_str, tweet.id_str, new Date(tweet.created_at)])
+					})
+			});
+		sql_conn.query("REPLACE INTO tweeted_urls (url, user_id, tweet_id, created_at) VALUES ?", [url_rows],
+			function (e) {
+				if (e) {
+					console.log(e);
+					console.log(url_rows);
+				}
+			});
+		sql_conn.query("REPLACE INTO tweeted_hashtags (hashtag, user_id, tweet_id, created_at) VALUES ?", [hashtag_rows],
+			function (e) {
+				if (e) {
+					console.log(e);
+					console.log(url_rows);
 				}
 			});
 		// var raw_vals = tweets.map(
