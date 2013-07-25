@@ -1,5 +1,6 @@
 var bignum = require('bignum');
 var _ = require("underscore");
+var crypto = require('crypto');
 
 var Twit = require('twit')
 
@@ -61,14 +62,15 @@ var addTweets = function(tweets,memo) {
 			function(tweet) {
 				tweet.entities.urls.forEach(
 					function (url) {
-						url_rows.push([url.expanded_url, tweet.user.id_str, tweet.id_str, new Date(tweet.created_at)])
+						var url_hash = crypto.createHash('sha1').update(url.expanded_url).digest("hex");
+						url_rows.push([url.expanded_url, url_hash, tweet.user.id_str, tweet.id_str, new Date(tweet.created_at)])
 					})
 				tweet.entities.hashtags.forEach(
 					function (hashtag) {
 						hashtag_rows.push([hashtag.text, tweet.user.id_str, tweet.id_str, new Date(tweet.created_at)])
 					})
 			});
-		sql_conn.query("REPLACE INTO tweeted_urls (url, user_id, tweet_id, created_at) VALUES ?", [url_rows],
+		sql_conn.query("REPLACE INTO tweeted_urls (url, url_hash, user_id, tweet_id, created_at) VALUES ?", [url_rows],
 			function (e) {
 				if (e) {
 					console.log(e);
