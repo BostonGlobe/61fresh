@@ -70,14 +70,14 @@ var addTweets = function(tweets,memo) {
 						hashtag_rows.push([hashtag.text, tweet.user.id_str, tweet.id_str, new Date(tweet.created_at)])
 					})
 			});
-		sql_conn.query("REPLACE INTO tweeted_urls (url, url_hash, user_id, tweet_id, created_at) VALUES ?", [url_rows],
+		sql_conn.query("INSERT IGNORE INTO tweeted_urls (url, url_hash, user_id, tweet_id, created_at) VALUES ?", [url_rows],
 			function (e) {
 				if (e) {
 					console.log(e);
 					console.log(url_rows);
 				}
 			});
-		sql_conn.query("REPLACE INTO tweeted_hashtags (hashtag, user_id, tweet_id, created_at) VALUES ?", [hashtag_rows],
+		sql_conn.query("INSERT IGNORE INTO tweeted_hashtags (hashtag, user_id, tweet_id, created_at) VALUES ?", [hashtag_rows],
 			function (e) {
 				if (e) {
 					console.log(e);
