@@ -58,17 +58,27 @@ var addTweets = function(tweets,memo) {
 			});
 		var url_rows = [];
 		var hashtag_rows = [];
-		var tweet_rows = tweets.forEach(
+		var mention_rows = [];
+		tweets.forEach(
 			function(tweet) {
 				tweet.entities.urls.forEach(
 					function (url) {
 						var url_hash = crypto.createHash('sha1').update(url.expanded_url).digest("hex");
 						url_rows.push([url.expanded_url, url_hash, tweet.user.id_str, tweet.id_str, new Date(tweet.created_at)])
-					})
+					});
+				tweet.entities.media.forEach(
+					function (url) {
+						var url_hash = crypto.createHash('sha1').update(url.expanded_url).digest("hex");
+						url_rows.push([url.expanded_url, url_hash, tweet.user.id_str, tweet.id_str, new Date(tweet.created_at)])
+					});
 				tweet.entities.hashtags.forEach(
 					function (hashtag) {
 						hashtag_rows.push([hashtag.text, tweet.user.id_str, tweet.id_str, new Date(tweet.created_at)])
-					})
+					});
+				tweet.entities.user_mentions.forEach(
+					function (mention) {
+						mention_rows.push([mention.id_str, tweet.user.id_str, tweet.id_str, new Date(tweet.created_at)])
+					});
 			});
 		sql_conn.query("INSERT IGNORE INTO tweeted_urls (url, url_hash, user_id, tweet_id, created_at) VALUES ?", [url_rows],
 			function (e) {
@@ -81,14 +91,16 @@ var addTweets = function(tweets,memo) {
 			function (e) {
 				if (e) {
 					console.log(e);
-					console.log(url_rows);
+					console.log(hashtag_rows);
 				}
 			});
-		// var raw_vals = tweets.map(
-		// 	function(d) {
-		// 		return [d.id_str, JSON.stringify(d)]
-		// 	});
-		// sql_conn.query("REPLACE INTO tweets_raw (tweet_id, json) VALUES ?", [raw_vals]);
+		sql_conn.query("INSERT IGNORE INTO tweeted_mentions (mentioned_user_id, user_id, tweet_id, created_at) VALUES ?", [mention_rows],
+			function (e) {
+				if (e) {
+					console.log(e);
+					console.log(mention_rows);
+				}
+			});
 	}
 }
 
