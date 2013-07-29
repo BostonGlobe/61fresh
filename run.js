@@ -66,11 +66,13 @@ var addTweets = function(tweets,memo) {
 						var url_hash = crypto.createHash('sha1').update(url.expanded_url).digest("hex");
 						url_rows.push([url.expanded_url, url_hash, tweet.user.id_str, tweet.id_str, new Date(tweet.created_at)])
 					});
-				tweet.entities.media.forEach(
-					function (url) {
-						var url_hash = crypto.createHash('sha1').update(url.expanded_url).digest("hex");
-						url_rows.push([url.expanded_url, url_hash, tweet.user.id_str, tweet.id_str, new Date(tweet.created_at)])
-					});
+				if ('media' in tweet.entities) {
+					tweet.entities.media.forEach(
+						function (url) {
+							var url_hash = crypto.createHash('sha1').update(url.expanded_url).digest("hex");
+							url_rows.push([url.expanded_url, url_hash, tweet.user.id_str, tweet.id_str, new Date(tweet.created_at)])
+						});
+				}
 				tweet.entities.hashtags.forEach(
 					function (hashtag) {
 						hashtag_rows.push([hashtag.text, tweet.user.id_str, tweet.id_str, new Date(tweet.created_at)])
