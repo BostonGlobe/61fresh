@@ -34,6 +34,22 @@ var getMoreUrls = function() {
 	}
 }
 
+var deriveDomains = function() {
+	var goInsert = function() {
+		console.log(out_rows.length);
+		var row = out_rows.pop();
+		sql_conn.query("UPDATE tweeted_urls SET domain = ? WHERE url_hash = ?", row,
+			function() {if (out_rows.length > 0) setTimeout(goInsert,0);});
+	}
+	var out_rows;
+	sql_conn.query("SELECT url_hash, real_url FROM tweeted_urls WHERE domain IS NULL AND real_url IS NOT NULL", function(e,rows) {
+		out_rows = rows.map(function (row) {
+			return [getDomain(row.real_url),row.url_hash]
+		});
+		setTimeout(goInsert,0);
+	});
+}
+
 var getAndResolve = function() {
 	var target = url_queue.pop();
 	if (target === undefined)
@@ -42,6 +58,7 @@ var getAndResolve = function() {
 	var current_url = target.url;
 	var redirect_callback = function(res) {
 		// console.log(res.statusCode);
+		res.socket.destroy()
 		if ((res.statusCode >= 300) && (res.statusCode < 400) && ('location' in res.headers)) {
 			current_url = url.resolve(current_url,res.headers.location);
 			if (redirects_left == 0) {
@@ -59,8 +76,9 @@ var getAndResolve = function() {
 	var finish = function() {
 		// console.log([target.url,normalizeURL(current_url),redirects_left]);
 		var normed_url = normalizeURL(current_url);
+		var domain = getDomain(current_url);
 		waiting_count++
-		sql_conn.query("UPDATE tweeted_urls SET real_url = ? WHERE url_hash = ?", [normed_url,target.url_hash],
+		sql_conn.query("UPDATE tweeted_urls SET real_url = ?, domain = ? WHERE url_hash = ?", [normed_url,domain,target.url_hash],
 			function(e,res) {
 				console.log(--waiting_count);
 				if (e) {
@@ -72,7 +90,7 @@ var getAndResolve = function() {
 	}
 	var follow_redirect = function() {
 		var options = url.parse(current_url);
-		options.method="HEAD";
+		options.method="GET";
 		options.agent=false;
 		options.headers={	'User-Agent':'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
 							'Referer':'http://google.com'};
@@ -80,12 +98,20 @@ var getAndResolve = function() {
 		if (options.protocol === 'https:') {
 			var req = https.request(options, redirect_callback).on('error', function(e) {console.log(["https error",e,current_url]);});
 			req.end();
-		} else {
+		} else if (options.protocol === 'http:') {
 			var req = http.request(options, redirect_callback).on('error', function(e) {console.log(["http error",e,current_url]);});
 			req.end();
 		}
 	}
 	follow_redirect();
+}
+
+var getDomain = function(in_url) {
+	var host = url.parse(in_url).host;
+	if (host.slice(0,4)==="www.")
+		return host.slice(4);
+	else
+		return host;
 }
 
 var normalizeURL = function(in_url) {
@@ -98,7 +124,8 @@ var normalizeURL = function(in_url) {
 	return url.format(parsed)
 }
 
-setInterval(getAndResolve,100);
-setInterval(getMoreUrls,10000);
+// deriveDomains();
+setInterval(getAndResolve,10);
+setInterval(getMoreUrls,1000);
 getMoreUrls();
 
