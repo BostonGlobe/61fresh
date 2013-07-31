@@ -2,6 +2,7 @@
 
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
+import datetime
 import json
 import MySQLdb
 
@@ -27,17 +28,21 @@ for row in cur:
 	background_popularity[row[0]] = float(row[1])
 
 
-out = []
+links = []
 
 cur.execute(recent_query)
 for row in cur:
 	# out.append({'url':row[0], 'hotness': row[1]-background_popularity[row[0]]})
-	out.append({'url':row[0], 'hotness': (row[1]*row[1])/background_popularity[row[0]]})
+	links.append({'url':row[0], 'hotness': (row[1]*row[1])/background_popularity[row[0]]})
 
-out.sort(key=lambda x: x['hotness'],reverse=True)
+links.sort(key=lambda x: x['hotness'],reverse=True)
+
+out = {	'generated_at': datetime.datetime.utcnow().isoformat(),
+		'links':links[:10]}
+
 
 s3_conn = S3Connection('***REMOVED***', '***REMOVED***')
 k = Key(s3_conn.get_bucket('condor.globe.com'))
 k.key = 'json/daniel.json'
-k.set_contents_from_string(json.dumps(out[:10],indent=1))
+k.set_contents_from_string(json.dumps(out,indent=1))
 k.set_acl('public-read')
