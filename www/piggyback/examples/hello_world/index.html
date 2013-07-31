@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+        	Piggyback example: Hello, World
+        </title>
+        <script src="../../lib/ejs.js"></script>
+        <script src="../../lib/jquery.min.js"></script>
+	    <script src="https://raw.github.com/flatiron/director/master/build/director.min.js"></script>
+        <script src="../../piggyback.js"></script>
+        <script src="controllers/application_controller.js"></script>
+        <script src="controllers/index_controller.js"></script>
+        <script src="controllers/cat_controller.js"></script>
+    </head>
+    <body>
+		<div id='page'></div>
+		<script>
+		
+		
+		jQuery(document).ready(function() {
+			new Base().log("ready");
+//			new ApplicationController().setup_routes();
+			new IndexController().start();
+		})
+		</script>
+	</body>
+</html>

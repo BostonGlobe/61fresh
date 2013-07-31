@@ -19,7 +19,7 @@ var sql_conn = mysql.createConnection({
   user     : 'root',
   password : 'globelab',
   database : 'condor',
-  supportBigNumbers : 'true',
+  supportBigNumbers : 'true', 
   timezone : 'UTC',
   charset: 'UTF8MB4_UNICODE_CI'
 });
