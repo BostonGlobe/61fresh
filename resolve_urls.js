@@ -2,6 +2,7 @@ var http = require('http');
 var https = require('https');
 var url = require('url');
 var _ = require("underscore");
+var crypto = require('crypto');
 
 var mysql      = require('mysql');
 var sql_conn = mysql.createConnection({
@@ -50,6 +51,22 @@ var deriveDomains = function() {
 	});
 }
 
+var addRealURLHash = function() {
+	var goInsert = function() {
+		console.log(out_rows.length);
+		var row = out_rows.pop();
+		sql_conn.query("UPDATE tweeted_urls SET real_url_hash = ? WHERE url_hash = ?", row,
+			function() {if (out_rows.length > 0) setTimeout(goInsert,0);});
+	}
+	var out_rows;
+	sql_conn.query("SELECT url_hash, real_url FROM tweeted_urls WHERE real_url IS NOT NULL AND real_url_hash IS NULL GROUP BY url_hash", function(e,rows) {
+		out_rows = rows.map(function (row) {
+			return [crypto.createHash('sha1').update(row.real_url).digest("hex"),row.url_hash]
+		});
+		setTimeout(goInsert,0);
+	});
+}
+
 var getAndResolve = function() {
 	var target = url_queue.pop();
 	if (target === undefined)
@@ -76,9 +93,10 @@ var getAndResolve = function() {
 	var finish = function() {
 		// console.log([target.url,normalizeURL(current_url),redirects_left]);
 		var normed_url = normalizeURL(current_url);
+		var real_url_hash = crypto.createHash('sha1').update(normed_url).digest("hex");
 		var domain = getDomain(current_url);
 		waiting_count++
-		sql_conn.query("UPDATE tweeted_urls SET real_url = ?, domain = ? WHERE url_hash = ?", [normed_url,domain,target.url_hash],
+		sql_conn.query("UPDATE tweeted_urls SET real_url = ?, real_url_hash = ?, domain = ? WHERE url_hash = ?", [normed_url,real_url_hash,domain,target.url_hash],
 			function(e,res) {
 				console.log(--waiting_count);
 				if (e) {
@@ -125,6 +143,7 @@ var normalizeURL = function(in_url) {
 }
 
 // deriveDomains();
+// addRealURLHash();
 setInterval(getAndResolve,10);
 setInterval(getMoreUrls,1000);
 getMoreUrls();
