@@ -106,6 +106,16 @@ var getAndResolve = function() {
 				}
 			});
 	}
+	var error_out = function(e) {
+		console.log(['http(s) error',e,current_url]);
+		sql_conn.query("UPDATE tweeted_urls SET real_url = ?, real_url_hash = ? WHERE url_hash = ?", ['error','error',target.url_hash],
+			function(e,res) {
+				if (e) {
+					console.log(["mysql update error",e]);
+				}
+			});
+	}
+
 	var follow_redirect = function() {
 		var options = url.parse(current_url);
 		options.method="GET";
@@ -114,10 +124,10 @@ var getAndResolve = function() {
 							'Referer':'http://google.com'};
 		// console.log(current_url);
 		if (options.protocol === 'https:') {
-			var req = https.request(options, redirect_callback).on('error', function(e) {console.log(["https error",e,current_url]);});
+			var req = https.request(options, redirect_callback).on('error', error_out);
 			req.end();
 		} else if (options.protocol === 'http:') {
-			var req = http.request(options, redirect_callback).on('error', function(e) {console.log(["http error",e,current_url]);});
+			var req = http.request(options, redirect_callback).on('error', error_out);
 			req.end();
 		}
 	}
