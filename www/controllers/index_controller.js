@@ -4,6 +4,7 @@ IndexController = function()
 	this.handle_json = function(json)
 	{
 		this.json = json
+		this.log("handle_json")
 		this.render('index')
 	}
 

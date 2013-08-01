@@ -1,6 +1,47 @@
-<pre style='text-align:left'>
-	
-<%for (i=0;i<json.links.length;++i) {%>
-<span style='padding:1em;background-color:white;border:1px solid #333;margin-right:1em;font-weight:bold'><%=json.links[i].hotness%></span><a href='<%=json.links[i].url%>'><%=json.links[i].url%></a><br>
-<%}%>
-</pre>
+<div class='header'>
+	<div class='logo'>61FRESH</div>
+	<div class="tagline">
+		boston news, tweeted by bostonians. updated every 10 minutes.
+	</div>
+	<div class='last_updated'>
+		last updated <%=moment(Date.parse(json.generated_at)).fromNow()%>
+	</div>
+</div>
+<%_.each(json.articles,function(article){%>
+<div class='article'>
+	<div>
+	<div class='article_hotness'>
+		<%=article.total_tweets%>
+		<div  class='article_hotness_label'>boston<br>tweets</div>
+	</div>
+	<%if (article.image_url) {%>
+	<div class='article_image_container'><img class='article_image' src='<%=article.image_url%>'/></div>
+	<%}%>
+	<div class='article_header'>
+		<div class='article_source'><a href='http://<%=article.source%>'><%=article.source%></a></div>
+		<div class='article_total_tweets'><%=article.total_tweets%> boston tweets</div><div class='article_found_at'>, first tweeted <%=moment(article.first_tweeted).fromNow()%></div>
+	</div>
+	<div class='article_title'><a href='<%=article.url%>'><%=article.title%></a></div>
+	<div class='article_description'><%=article.description%></div>
+	<%if (article.tweeters && article.tweeters.length>0) {%>
+		<div class='article_tweeters'>
+			tweeted by
+			<%_.each(article.tweeters,function(tweeter){%>
+				<div class='article_tweeter'>
+					<div class='article_tweeter_screen_name'>
+					<div class='article_tweeter_image_container'>
+						<img class='article_tweeter_image' src='<%=tweeter.profile_image_url%>'></img>
+					</div>
+					<a href='http://www.twitter.com/<%=tweeter.screen_name%>'><%=tweeter.screen_name%></a>
+					</div> (<%=tweeter.followers_count%>)
+				</div>
+			<%})%>
+			<%if (article.total_tweets>article.tweeters.length) {%>
+				&nbsp;and <%=article.total_tweets-article.tweeters.length%> others
+			<%}%>
+		</div>
+	<%}%>
+	</div>
+	<div style='clear:both'></div>
+</div>
+<%})%>

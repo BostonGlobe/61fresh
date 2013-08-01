@@ -1,45 +1,547 @@
 {
- "generated_at": "2013-07-31T22:30:05.023112", 
- "links": [
+ "generated_at": "2013-08-01T21:47:45.725973", 
+ "articles": [
   {
-   "url": "http://www.bostonglobe.com/business/2013/07/31/weak-economic-growth-mass/7IQzvlgDaXIRvfpH80DrdK/story.html", 
-   "hotness": 4.0
+   "total_tweets": 19, 
+   "description": "A dead shark was found lying in front of the Sea Dog Brew Pub in Nantucket this morning and removed by the department of public works. \"It's not too often we find sharks on land like that,\" said John Braginton-Smith, a foreman for the department.", 
+   "title": "Something's fishy in Nantucket - dead shark is dumped at door of pub", 
+   "url": "http://www.boston.com/metrodesk/2013/08/01/something-fishy-nantucket-dead-shark-dumped-door-pub/P8v6i2jcgCgxmaWKkDsXHL/story.html", 
+   "source": "boston.com", 
+   "first_tweeted": "2013-08-01T17:24:34", 
+   "hotness": 13.473684210526315, 
+   "tweeters": [
+    {
+     "followers_count": 137980, 
+     "screen_name": "BostonDotCom", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3046195454/8c22510e96774b8deaee272ce5649d72_normal.png", 
+     "name": "Boston.com"
+    }, 
+    {
+     "followers_count": 4516, 
+     "screen_name": "GlobeEricWilbur", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000073720833/ec111437a660a6372a1476df0a71e632_normal.jpeg", 
+     "name": "Eric Wilbur"
+    }, 
+    {
+     "followers_count": 4050, 
+     "screen_name": "steveannear", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3107919860/d6c5459c0336b9736de0e65bed99b856_normal.png", 
+     "name": "Steve Annear"
+    }, 
+    {
+     "followers_count": 2111, 
+     "screen_name": "abtran", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/674384126/andrewhead_normal.jpg", 
+     "name": "Andrew Ba Tran"
+    }, 
+    {
+     "followers_count": 1660, 
+     "screen_name": "Squirrely007", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000132650162/80e4df0731da3f8ea43bac1eae8ca35d_normal.jpeg", 
+     "name": "I LIKE WHAT I LIKE"
+    }, 
+    {
+     "followers_count": 1522, 
+     "screen_name": "BostonAngela", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3751047194/e5870f1cab60c60f1054fd60ce174491_normal.jpeg", 
+     "name": "Angela Nelson"
+    }, 
+    {
+     "followers_count": 1493, 
+     "screen_name": "BrewboundFurn", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/2290090532/image_normal.jpg", 
+     "name": "Chris Furnari"
+    }, 
+    {
+     "followers_count": 482, 
+     "screen_name": "cdevers", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/2326489705/5D5F4928-A686-46C3-9D95-3CC339613FCA_normal", 
+     "name": "Chris Devers"
+    }, 
+    {
+     "followers_count": 463, 
+     "screen_name": "hxdai", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3462463018/79ca36c5b3c6cc9ee631ae5d1d0075a0_normal.png", 
+     "name": "Huaxin Dai"
+    }, 
+    {
+     "followers_count": 391, 
+     "screen_name": "Terriogan", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000124283966/19ed1084cc524850b4b08926dbfc1b9c_normal.jpeg", 
+     "name": "Terri Ogan"
+    }
+   ]
   }, 
   {
-   "url": "http://bostinno.streetwise.co/2013/07/31/bethenny-frankel-daytime-talk-show-to-air-september-9-2013/", 
-   "hotness": 3.0
+   "total_tweets": 12, 
+   "description": "Boston police commissioner Edward F. Davis is beginning to be mentioned as a candidate for the next secretary of homeland security, with speculation in Washington and Boston suggesting that he may be in the mix for the prominent federal post.", 
+   "title": "Boston police commissioner Ed Davis is subject of buzz for top homeland security post", 
+   "url": "http://www.boston.com/politicalintelligence/2013/08/01/boston-police-commissioner-davis-subject-buzz-for-top-homeland-security-post/7qHoyQVg4DRv85PeYunRzI/story.html", 
+   "source": "boston.com", 
+   "first_tweeted": "2013-08-01T19:28:03", 
+   "hotness": 12.0, 
+   "tweeters": [
+    {
+     "followers_count": 8954, 
+     "screen_name": "bostonchamber", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/1851081362/GBCC_SiteLogo_LargeREV2_normal.jpg", 
+     "name": "Boston Chamber"
+    }, 
+    {
+     "followers_count": 6494, 
+     "screen_name": "SueWinMA", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3173145643/668fdc05e076e1c5e6dd8a273cafe30a_normal.png", 
+     "name": "Suzanne Williams"
+    }, 
+    {
+     "followers_count": 5727, 
+     "screen_name": "jessbidgood", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000147105453/caea1ddb2100b752676e779a4c1e8ff2_normal.jpeg", 
+     "name": "Jess Bidgood"
+    }, 
+    {
+     "followers_count": 4104, 
+     "screen_name": "GlobeJenPeter", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/1186682662/1260846930_6312_normal.jpg", 
+     "name": "Jennifer Peter"
+    }, 
+    {
+     "followers_count": 3265, 
+     "screen_name": "mariasacchetti", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/344513261566692527/88abf7a621eac43ce47009df15cde59f_normal.jpeg", 
+     "name": "Maria Sacchetti"
+    }, 
+    {
+     "followers_count": 3000, 
+     "screen_name": "StephanieEbbert", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/914347559/IMG_3338_normal.jpg", 
+     "name": "Stephanie Ebbert"
+    }, 
+    {
+     "followers_count": 2945, 
+     "screen_name": "GlobeMCramer", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/1190630706/RSCN0483_normal.JPG", 
+     "name": "Maria Cramer"
+    }, 
+    {
+     "followers_count": 1522, 
+     "screen_name": "BostonAngela", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3751047194/e5870f1cab60c60f1054fd60ce174491_normal.jpeg", 
+     "name": "Angela Nelson"
+    }, 
+    {
+     "followers_count": 487, 
+     "screen_name": "GlobeKConti", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/2913251908/aa2c55491980ddc09e4181ab67a04819_normal.jpeg", 
+     "name": "Katheleen Conti"
+    }, 
+    {
+     "followers_count": 451, 
+     "screen_name": "NH_777", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000159444926/f76529b8d7bbc65293767eab17c607d7_normal.jpeg", 
+     "name": "Naomi H"
+    }
+   ]
   }, 
   {
-   "url": "http://www.boston.com/sports/columnists/wilbur/2013/07/peavy_deal_is_a.html", 
-   "hotness": 3.0
+   "total_tweets": 9, 
+   "description": "BOSTON (CBS) - Aaron Hernandez is maintaining his innocence in a letter written in response to a fan, according to TMZ. The website obtained the letter from the fan, who himself was imprisoned where Hernandez is currently behind bars and wanted to send support to the former Patriots tight end.", 
+   "title": "Aaron Hernandez Claims Innocence In Letter From Jail, Expects 'Not Guilty' Verdict", 
+   "url": "http://boston.cbslocal.com/2013/08/01/aaron-hernandez-claims-innocence-in-letter-from-jail-expects-not-guilty-verdict/", 
+   "source": "boston.cbslocal.com", 
+   "image_url": "http://i2.wp.com/cbsboston.files.wordpress.com/2013/07/wedcourt.jpg?fit=440%2C330", 
+   "first_tweeted": "2013-08-01T20:51:37", 
+   "hotness": 9.0, 
+   "tweeters": [
+    {
+     "followers_count": 51053, 
+     "screen_name": "985TheSportsHub", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000177256369/f26bc35420ed6bf60e583780c49dc470_normal.jpeg", 
+     "name": "98.5 The Sports Hub"
+    }, 
+    {
+     "followers_count": 1962, 
+     "screen_name": "Matt_Sully", 
+     "profile_image_url": null, 
+     "name": null
+    }, 
+    {
+     "followers_count": 871, 
+     "screen_name": "pearljam7279", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000218521254/666c3596067f16c51ee7cb8bb0acd85e_normal.jpeg", 
+     "name": "Meghan "
+    }, 
+    {
+     "followers_count": 544, 
+     "screen_name": "Finny_Cent", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000031206712/8ac7486834bb9c815908813c60c98520_normal.jpeg", 
+     "name": "AF5"
+    }, 
+    {
+     "followers_count": 133, 
+     "screen_name": "SteveMalfoy", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000148234436/5075079ab60463d5b69d18a7f1bb7207_normal.jpeg", 
+     "name": "Stevie Loud"
+    }, 
+    {
+     "followers_count": 115, 
+     "screen_name": "carefaceee5", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000222571662/e0d7ec2509e37c0de10ef4654d5d7647_normal.jpeg", 
+     "name": "Carolyn Gingras"
+    }, 
+    {
+     "followers_count": 90, 
+     "screen_name": "therealamort", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/1118768088/14769_759104501422_9132999_43177094_305617_n_normal.jpg", 
+     "name": "Adam M"
+    }, 
+    {
+     "followers_count": 60, 
+     "screen_name": "TyTyBLA", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000217188687/207854955b04dc74bbc2057a020c8d79_normal.jpeg", 
+     "name": "Tyler Browne"
+    }, 
+    {
+     "followers_count": 13, 
+     "screen_name": "maryellen_sb", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000055590879/7644f32dff4d74d0f24f50fabfcc03e4_normal.jpeg", 
+     "name": "maryellen"
+    }
+   ]
   }, 
   {
-   "url": "http://bostonherald.com/news_opinion/local_coverage/2013/07/lawmakers_ok_sales_tax_holiday_bill_awaits_gov_s_signature", 
-   "hotness": 2.0
+   "total_tweets": 8, 
+   "description": "If you're an online business today, you've got to go mobile. But it's not enough to simply optimize your site for mobile or develop an app. Your mobile business must be cutting-edge, streamlined, and deliver a stellar user-experience. But to master mobile, every company needs a little help.", 
+   "title": "10 Boston Mobile Business Innovators", 
+   "url": "http://bostinno.streetwise.co/channels/10-boston-mobile-business-innovators/", 
+   "source": "bostinno.streetwise.co", 
+   "first_tweeted": "2013-08-01T18:47:09", 
+   "hotness": 8.0, 
+   "tweeters": [
+    {
+     "followers_count": 26968, 
+     "screen_name": "BostInno", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3314802473/f7d5c89cb0722c196a4e7639165f5907_normal.jpeg", 
+     "name": "BostInno"
+    }, 
+    {
+     "followers_count": 5102, 
+     "screen_name": "Jumptap", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/1496563433/jumptap_bug_normal.png", 
+     "name": "Jumptap, Inc."
+    }, 
+    {
+     "followers_count": 2616, 
+     "screen_name": "Kinvey", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3560837281/f56792df4166f56a0756a01b137f247d_normal.png", 
+     "name": "Kinvey"
+    }, 
+    {
+     "followers_count": 1478, 
+     "screen_name": "dolan_td", 
+     "profile_image_url": null, 
+     "name": null
+    }, 
+    {
+     "followers_count": 491, 
+     "screen_name": "BostInnoChannel", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3314854370/f98cb50d675085f13aa56c7944c7d288_normal.jpeg", 
+     "name": "BostInnoChannels"
+    }, 
+    {
+     "followers_count": 308, 
+     "screen_name": "cvercolen", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000075649888/4739342fe9fcbdea1e22836aec9cda06_normal.jpeg", 
+     "name": "Craig VerColen"
+    }, 
+    {
+     "followers_count": 84, 
+     "screen_name": "eggoosh", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/612693980/2009-12-26_22.34.30_normal.jpg", 
+     "name": "meghan mcqueeney"
+    }, 
+    {
+     "followers_count": 53, 
+     "screen_name": "elainepappas2", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/2763043781/c6523c11b6f310e39743cf2102e7ab15_normal.png", 
+     "name": "elaine pappas"
+    }
+   ]
   }, 
   {
-   "url": "http://nesn.com/2013/07/pro-bowl-teams-to-be-picked-by-team-captains-in-fantasy-style-draft-game-no-longer-afc-vs-nfc/", 
-   "hotness": 2.0
+   "total_tweets": 8, 
+   "description": "A dead shark was found lying in front of the Sea Dog Brew Pub in Nantucket this morning and removed by the department of public works. \"It's not too often we find sharks on land like that,\" said John Braginton-Smith, a foreman for the department.", 
+   "title": "Something's fishy in Nantucket - dead shark is dumped at door of pub - The Boston Globe", 
+   "url": "http://www.bostonglobe.com/metro/2013/08/01/something-fishy-nantucket-dead-shark-dumped-door-pub/FdEFNrNQwbg1qRzp0aV7lI/story.html?s_campaign=sm_tw", 
+   "source": "bostonglobe.com", 
+   "image_url": "http://c.o0bg.com/rf/image_371w/Boston/2011-2020/2013/08/01/BostonGlobe.com/Metro/Images/IMG_9309.jpg", 
+   "first_tweeted": "2013-08-01T18:41:51", 
+   "hotness": 8.0, 
+   "tweeters": [
+    {
+     "followers_count": 250129, 
+     "screen_name": "BostonGlobe", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/1357463919/bGlobe_normal.jpg", 
+     "name": "The Boston Globe"
+    }, 
+    {
+     "followers_count": 8450, 
+     "screen_name": "GarrettQuinn", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3078190678/4c258e6e06199731b76ce9b9a6bac8bf_normal.jpeg", 
+     "name": "Garrett Quinn"
+    }, 
+    {
+     "followers_count": 6542, 
+     "screen_name": "schlaf", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000203055264/bc0f865cc659300033a21986a97ea7e0_normal.jpeg", 
+     "name": "Steve Schlafman"
+    }, 
+    {
+     "followers_count": 1741, 
+     "screen_name": "wendypierce", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3472488148/5626d2b3829574ed051200fab4f636f0_normal.jpeg", 
+     "name": "Wendy G. Pierce"
+    }, 
+    {
+     "followers_count": 624, 
+     "screen_name": "JCroninWrites", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/2903417056/bcc0542f0973ad4bacb8d067bf97b6cd_normal.jpeg", 
+     "name": "James Cronin"
+    }, 
+    {
+     "followers_count": 223, 
+     "screen_name": "MarkTheShark927", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/1665245156/SHARK_LOGO__normal.jpg", 
+     "name": "Mark Stevens"
+    }, 
+    {
+     "followers_count": 148, 
+     "screen_name": "Julia_Messier", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/2019471633/tumblr_lm87glGHIQ1qcgqm2o1_1280_normal.jpg", 
+     "name": "Julia Messier"
+    }, 
+    {
+     "followers_count": 24, 
+     "screen_name": "CancerChickChat", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/2386724766/zq2hl2as6sw4keduyha6_normal.jpeg", 
+     "name": "Cycling Cancer Chick"
+    }
+   ]
   }, 
   {
-   "url": "http://nesn.com/2013/07/report-manchester-united-wants-cesc-fabregas-willing-to-break-club-transfer-record-for-barcelona-midfielder/", 
-   "hotness": 2.0
+   "total_tweets": 6, 
+   "description": "BOSTON (CBS) - Four months after the Boston Marathon bombings, the business that was most severely damaged in the blasts is set to reopen. A PR spokesperson for Forum confirmed to CBS Boston that the Boylston Street restaurant will re-open to the public on August 16.", 
+   "title": "Forum On Boylston Street To Reopen To Public On August 16th", 
+   "url": "http://boston.cbslocal.com/2013/08/01/forum-on-boylston-street-to-reopen-august-15th/", 
+   "source": "boston.cbslocal.com", 
+   "image_url": "http://i0.wp.com/cbsboston.files.wordpress.com/2013/08/forum.jpg?fit=440%2C330", 
+   "first_tweeted": "2013-08-01T20:52:33", 
+   "hotness": 6.0, 
+   "tweeters": [
+    {
+     "followers_count": 48398, 
+     "screen_name": "cbsboston", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/1690962277/cbsboston_twitterv3_normal.jpg", 
+     "name": "WBZ Boston News"
+    }, 
+    {
+     "followers_count": 2012, 
+     "screen_name": "bossprtsthennow", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3559728238/647ffda6ddde302d23b4c86daf7a061d_normal.jpeg", 
+     "name": "BST&N"
+    }, 
+    {
+     "followers_count": 1704, 
+     "screen_name": "TheSteveDuJour", 
+     "profile_image_url": null, 
+     "name": null
+    }, 
+    {
+     "followers_count": 500, 
+     "screen_name": "CallMeDer", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/1780860529/image_normal.jpg", 
+     "name": "Amanda"
+    }, 
+    {
+     "followers_count": 144, 
+     "screen_name": "anniehox", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000156798236/bf44de63bb70494c0a92edc6fe3a5afe_normal.jpeg", 
+     "name": "Annie"
+    }, 
+    {
+     "followers_count": 13, 
+     "screen_name": "DLDolliver", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/2443111696/image_normal.jpg", 
+     "name": "Diana S. Dolliver"
+    }
+   ]
   }, 
   {
-   "url": "http://www.boston.com/blogs/news/opinion/bostoncomment/2013/07/meet_the_mayoral_candidates_if_you_could_fix_one_t.html", 
-   "hotness": 2.0
+   "total_tweets": 5, 
+   "description": "The photos sprinkle your Instagram feed: a view so breathtaking, a dish so flavorful, no filter could possibly enhance its natural beauty. But the sad truth is, deviant, selfie-snapping devils run rampant in the social media world, willing to fib all their followers into thinking their lives are inherently enchanting.", 
+   "title": "We Know You're Lying About Those #NoFilter Photos on Instagram", 
+   "url": "http://bostinno.streetwise.co/2013/08/01/filter-fakers-website-shows-nofilter-photos-on-instagram/", 
+   "source": "bostinno.streetwise.co", 
+   "image_url": "http://wp.streetwise.co/wp-content/uploads//2013/08/Screen-Shot-2013-08-01-at-11.50.44-AM.png", 
+   "first_tweeted": "2013-08-01T18:47:04", 
+   "hotness": 5.0, 
+   "tweeters": [
+    {
+     "followers_count": 26968, 
+     "screen_name": "BostInno", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3314802473/f7d5c89cb0722c196a4e7639165f5907_normal.jpeg", 
+     "name": "BostInno"
+    }, 
+    {
+     "followers_count": 3119, 
+     "screen_name": "laurlandry", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/1629137957/DSC_1489_normal.jpg", 
+     "name": "Lauren Landry"
+    }, 
+    {
+     "followers_count": 1866, 
+     "screen_name": "BostInnoSocial", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3314908335/05907907e6ced10a81e755a719125c48_normal.jpeg", 
+     "name": "BostInno Social"
+    }, 
+    {
+     "followers_count": 449, 
+     "screen_name": "melissaykay", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/1143825680/070e810_normal.jpg", 
+     "name": "Melissa Stevens"
+    }, 
+    {
+     "followers_count": 247, 
+     "screen_name": "julia_shaw", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/276631598/n5812294_32962447_9918_normal.jpg", 
+     "name": "julia shaw"
+    }
+   ]
   }, 
   {
-   "url": "http://www.bostonglobe.com/2013/06/26/same-sex-marriage-over-time/mbVFMQPyxZCpM2eSQMUsZK/story.html", 
-   "hotness": 2.0
+   "total_tweets": 5, 
+   "description": "Here's the best way to celebrate National IPA Day here in Boston: As soon as you get off work, go drink some IPAs. If you need help figuring out where to drink said IPAs, you haven't drank in Boston much. Every bar carries a bunch, because nearly every brewery worth its salt has an IPA in its arsenal.", 
+   "title": "Hop to It: It's National IPA Day", 
+   "url": "http://bostinno.streetwise.co/2013/08/01/national-ipa-day-best-ipas-in-boston/", 
+   "source": "bostinno.streetwise.co", 
+   "first_tweeted": "2013-08-01T18:14:08", 
+   "hotness": 5.0, 
+   "tweeters": [
+    {
+     "followers_count": 26968, 
+     "screen_name": "BostInno", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3314802473/f7d5c89cb0722c196a4e7639165f5907_normal.jpeg", 
+     "name": "BostInno"
+    }, 
+    {
+     "followers_count": 1207, 
+     "screen_name": "melissablett", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3622105547/670365e1af49976bed161e462eea8852_normal.jpeg", 
+     "name": "Melissa Ablett"
+    }, 
+    {
+     "followers_count": 606, 
+     "screen_name": "alexeweaver", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/2991814265/549a8e6e942217282a86e6d52bf5f54a_normal.jpeg", 
+     "name": "Alex E. Weaver"
+    }, 
+    {
+     "followers_count": 392, 
+     "screen_name": "kathyasi", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/2509178408/zt8sjtgm75t4o5j9labq_normal.jpeg", 
+     "name": "Katherine Yasi"
+    }, 
+    {
+     "followers_count": 261, 
+     "screen_name": "samantharruda", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000041277189/2a39411ca8cfdce3032e6743491a3129_normal.jpeg", 
+     "name": "Samantha Ruda"
+    }
+   ]
   }, 
   {
-   "url": "http://www.bostonglobe.com/metro/2013/07/31/death-tamerlan-tsarnaev-friend-will-not-investigated-state-fla-official-says/9VQELGFMmicS7ByqcmnPcO/story.html", 
-   "hotness": 2.0
+   "total_tweets": 5, 
+   "description": "The University of Connecticut women's basketball team took a trip to the White House on July 31 to receive commendations from President Obama for winning the NCAA championship title in April, defeating Louisville 93-60. The jovial affair took a turn for the silly when two players, Stefanie Dolson (left) and Kiah Stokes (right), gave the president bunny ears as they posed for photos.", 
+   "title": "UConn women 'bunny ear' President Obama", 
+   "url": "http://www.boston.com/news/source/2013/08/uconn_women_bunny_ear_president_obama.html?camp=twit%3Abostondotcom-robo&dlvrit=980919", 
+   "source": "boston.com", 
+   "image_url": "http://www.boston.com/news/source/assets_c/2013/08/0801_uconn_E-thumb-609x405-109773.jpg", 
+   "first_tweeted": "2013-08-01T18:19:47", 
+   "hotness": 5.0, 
+   "tweeters": [
+    {
+     "followers_count": 137980, 
+     "screen_name": "BostonDotCom", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3046195454/8c22510e96774b8deaee272ce5649d72_normal.png", 
+     "name": "Boston.com"
+    }, 
+    {
+     "followers_count": 195, 
+     "screen_name": "LKMadda", 
+     "profile_image_url": null, 
+     "name": null
+    }, 
+    {
+     "followers_count": 159, 
+     "screen_name": "usernametaken93", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/2618518338/6cr2sl5jguzzkuldo3o3_normal.jpeg", 
+     "name": "Mujtaba Ali"
+    }, 
+    {
+     "followers_count": 57, 
+     "screen_name": "CoreBodyLife", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3688160882/f3c65fee5e0c9b9860596ae6266be124_normal.jpeg", 
+     "name": "JLKuncik"
+    }, 
+    {
+     "followers_count": 21, 
+     "screen_name": "JiBa777", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000194877992/edac3a275e1bd29525bb24b0cf6c1a2b_normal.jpeg", 
+     "name": "JiBa iBaDoOBaDa"
+    }
+   ]
   }, 
   {
-   "url": "http://www.bostonmagazine.com/best-of-boston/2013/forty-winks-2/", 
-   "hotness": 2.0
+   "total_tweets": 5, 
+   "description": "With eight weeks until Boston's preliminary election, I have gone back to my anonymous political insiders for an update on how they see the mayoral race. The answer: city councilor John Connolly and state representative Marty Walsh are considered the clear co-favorites, running neck-and-neck for the big office.", 
+   "title": "Mayoral Power Rankings: It's John vs. Marty", 
+   "url": "http://www.bostonmagazine.com/news/blog/2013/08/01/mayoral-power-rankings-its-john-vs-marty/", 
+   "source": "bostonmagazine.com", 
+   "image_url": "http://cdn1.bostonmagazine.com/wp-content/themes/BostonMagazine/images/boston_logo_home.gif", 
+   "first_tweeted": "2013-08-01T20:34:37", 
+   "hotness": 5.0, 
+   "tweeters": [
+    {
+     "followers_count": 10146, 
+     "screen_name": "dbernstein", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3673739802/0edc4539c974fa0fbea11a2cbbbba64a_normal.jpeg", 
+     "name": "David S. Bernstein"
+    }, 
+    {
+     "followers_count": 410, 
+     "screen_name": "bostonparks", 
+     "profile_image_url": null, 
+     "name": null
+    }, 
+    {
+     "followers_count": 224, 
+     "screen_name": "EngelJamie", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3354921903/63b72c3556ec6521e31d4c0048bdf469_normal.jpeg", 
+     "name": "Jamie Engel"
+    }, 
+    {
+     "followers_count": 156, 
+     "screen_name": "NCStinn", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/2801141186/089105718d25eef56831ac02a279ea0e_normal.jpeg", 
+     "name": "Nathaniel Stinnett"
+    }, 
+    {
+     "followers_count": 104, 
+     "screen_name": "LzOConnor", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000030414190/6d15d792ca3329dbc3647207259a0690_normal.jpeg", 
+     "name": "Liz OConnor"
+    }
+   ]
   }
  ]
 }
