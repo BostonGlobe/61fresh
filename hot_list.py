@@ -5,7 +5,8 @@ from boto.s3.key import Key
 import datetime
 import json
 import MySQLdb
-
+from urllib import quote
+import urllib2
 
 conn = MySQLdb.connect(
 	host='***REMOVED***',
@@ -39,11 +40,17 @@ links.sort(key=lambda x: x['hotness'],reverse=True)
 
 links = links[:10]
 
-for link in links:
+embedly_list = json.load(urllib2.urlopen("http://api.embed.ly/1/extract?key=***REMOVED***&urls=" + ','.join([quote(x['url']) for x in links])))
+
+for (link,embedly) in zip(links,embedly_list):
 	cur.execute("select count(distinct user_id), min(created_at) from tweeted_urls where real_url_hash = %s",(link['hash']))
 	for row in cur:
 		link['total_tweets'] = row[0]
 		link['first_tweeted'] = row[1].isoformat()
+	link['title'] = embedly['title']
+	link['description'] = embedly['description']
+	if (len(embedly['images']) > 0):
+		link['image_url'] = embedly['images'][0]['url']
 	del link['hash']
 
 out = {	'generated_at': datetime.datetime.utcnow().isoformat(),
