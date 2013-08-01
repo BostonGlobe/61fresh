@@ -1,5 +1,5 @@
 cb = null
-function Base()
+function PiggyBack()
 {
 	debug=true
 	
@@ -88,8 +88,9 @@ function Base()
 		}
 	}
 
-	this.get_param = function(query,key)
+	this.query_param = function(key)
 	{
+		query = document.location.href
 		that=this
 		pairs = query.match(/([^&=?]+)=([^&=?]+)/g)
 		kvs={}
@@ -123,5 +124,7 @@ function Base()
 	};
 
 }
+
+PiggyBack();
 
 

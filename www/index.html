@@ -14,7 +14,7 @@
 	 <link rel="stylesheet" href="css/bootstrap.css">
 
     <!-- Custom styles for this template -->
-    <link href="starter-template.css" rel="stylesheet">
+    <link href="starter-template.css" rel="stylsesheet">
   </head>
 
   <body>
@@ -46,15 +46,14 @@
 
     </div><!-- /.container -->
     <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="http://underscorejs.org/underscore-min.js"></script>
     <script src="http://embeddedjavascript.googlecode.com/files/ejs_0.9_alpha_1_production.js"></script>
     <script src="piggyback/piggyback.js"></script>
     <script src="controllers/application_controller.js"></script>
     <script src="controllers/index_controller.js"></script>
 	<script>
 		jQuery(document).ready(function() {
-			new Base().log("ready");
-		//	new ApplicationController().setup_routes();
-			new IndexController();
+			new IndexController().log("ready");
 		})
 	</script>
   </body>
