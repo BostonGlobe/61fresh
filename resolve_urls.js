@@ -95,10 +95,10 @@ var getAndResolve = function() {
 		var normed_url = normalizeURL(current_url);
 		var real_url_hash = crypto.createHash('sha1').update(normed_url).digest("hex");
 		var domain = getDomain(current_url);
-		waiting_count++
+		// waiting_count++
 		sql_conn.query("UPDATE tweeted_urls SET real_url = ?, real_url_hash = ?, domain = ? WHERE url_hash = ?", [normed_url,real_url_hash,domain,target.url_hash],
 			function(e,res) {
-				console.log(--waiting_count);
+				// console.log(--waiting_count);
 				if (e) {
 					console.log(["mysql update error",e]);
 				} else {
@@ -144,7 +144,7 @@ var normalizeURL = function(in_url) {
 
 // deriveDomains();
 // addRealURLHash();
-setInterval(getAndResolve,10);
+setInterval(getAndResolve,100);
 setInterval(getMoreUrls,1000);
 getMoreUrls();
 
