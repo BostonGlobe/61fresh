@@ -51,6 +51,10 @@ for (link,embedly) in zip(links,embedly_list):
 	link['description'] = embedly['description']
 	if (len(embedly['images']) > 0):
 		link['image_url'] = embedly['images'][0]['url']
+	link['tweeters'] = []
+	cur.execute("select screen_name, name, followers_count, profile_image_url from users join tweeted_urls using(user_id) where real_url_hash = %s group by user_id order by followers_count desc limit 10",(link['hash']))
+	for row in cur:
+		link['tweeters'].append({'screen_name': row[0], 'name': row[1], 'followers_count': row[2], 'profile_image_url': row[3]})
 	del link['hash']
 
 out = {	'generated_at': datetime.datetime.utcnow().isoformat(),
