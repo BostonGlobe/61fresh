@@ -328,7 +328,9 @@ var refreshUsers = function() {
 										values = {
 											screen_name: d.screen_name,
 											friends_count: d.friends_count,
-											followers_count: d.followers_count
+											followers_count: d.followers_count,
+											name: d.name,
+											profile_image_url: d.profile_image_url
 										};
 									} else {
 										values = {suspended:1};

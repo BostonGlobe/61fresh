@@ -3,8 +3,7 @@
 import os
 import time
 
+print "starting..."
 while True:
-	print "starting..."
 	os.system("node run.js")
-	print "looks like we crashed. sleeping for ten minutes."
-	time.sleep(600)
+	print "looks like we crashed. restarting."
