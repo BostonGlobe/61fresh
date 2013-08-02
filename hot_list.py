@@ -34,15 +34,29 @@ links = []
 cur.execute(recent_query)
 for row in cur:
 	# out.append({'url':row[0], 'hotness': row[1]-background_popularity[row[0]]})
-	links.append({'url':row[0], 'hotness': (row[1]*row[1])/background_popularity[row[0]], 'hash':row[2], 'source':row[3]})
+	links.append({'url':row[0], 'hotness': (row[1]*row[1])/background_popularity[row[0]], 'hash':row[2], 'source':row[3], 'embedly_blob':row[4]})
 
 links.sort(key=lambda x: x['hotness'],reverse=True)
 
 links = links[:10]
 
-embedly_list = json.load(urllib2.urlopen("http://api.embed.ly/1/extract?key=***REMOVED***&urls=" + ','.join([quote(x['url']) for x in links])))
+to_get_from_embedly = [x for x in links if x['embedly_blob'] is None]
 
-for (link,embedly) in zip(links,embedly_list):
+if len(to_get_from_embedly) > 0:
+	embedly_list = json.load(urllib2.urlopen("http://api.embed.ly/1/extract?key=***REMOVED***&urls=" + ','.join([quote(x['url']) for x in to_get_from_embedly])))
+
+	for (link,embedly) in zip(to_get_from_embedly,embedly_list):
+		embedly_blob = json.dumps(embedly)
+		cur.execute("insert into url_info (real_url_hash,embedly_blob) values (%s,%s) on duplicate key update embedly_blob = %s",(link['hash'],embedly_blob,embedly_blob))
+		for target in links:
+			if target['hash'] == link['hash']:
+				target['embedly_blob'] = embedly_blob
+				break
+	conn.commit()
+
+for link in links:
+	embedly = json.loads(link['embedly_blob'])
+	del link['embedly_blob']
 	cur.execute("select count(distinct user_id), min(created_at) from tweeted_urls where real_url_hash = %s",(link['hash']))
 	for row in cur:
 		link['total_tweets'] = row[0]
