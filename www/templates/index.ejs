@@ -19,7 +19,7 @@
 	<%}%>
 	<div class='article_header'>
 		<div class='article_source'><a href='http://<%=article.source%>'><%=article.source%></a></div>
-		<div class='article_total_tweets'><%=article.total_tweets%> boston tweets</div><div class='article_found_at'>, first tweeted <%=moment(article.first_tweeted).fromNow()%></div>
+		<!--<div class='article_total_tweets'><%=article.total_tweets%> boston tweets</div>--><div class='article_found_at'>first tweeted <%=moment(Date.parse(article.first_tweeted)).fromNow()%></div>
 	</div>
 	<div class='article_title'><a href='<%=article.url%>'><%=article.title%></a></div>
 	<div class='article_description'><%=article.description%></div>
@@ -32,7 +32,7 @@
 					<div class='article_tweeter_image_container'>
 						<img class='article_tweeter_image' src='<%=tweeter.profile_image_url%>'></img>
 					</div>
-					<a href='http://www.twitter.com/<%=tweeter.screen_name%>'><%=tweeter.screen_name%></a>
+					<a href='http://www.twitter.com/<%=tweeter.screen_name%>'><%=tweeter.name%></a>
 					</div> (<%=tweeter.followers_count%>)
 				</div>
 			<%})%>
