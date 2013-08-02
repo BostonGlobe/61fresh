@@ -28,7 +28,9 @@ a:active { text-decoration: underline; }
 .header
 {
 	margin-bottom:2em;
+	padding:1em;
 }
+
 .logo
 {
 	font-size:30px;
@@ -84,6 +86,13 @@ a:active { text-decoration: underline; }
 	color:$light_text_color;
 	text-transform:lowercase;
 	font-size:12px;
+}
+
+.article_is_new
+{
+	color:red;
+	font-weight:bold;
+	display:inline;
 }
 
 .article_total_tweets
