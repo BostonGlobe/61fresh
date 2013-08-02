@@ -9,7 +9,7 @@ IndexController = function()
 		_.each(this.json.articles,function(article){
 			if (titles[article.title]) // found a dupe
 			{
-				titles[article.title].source +=", "+article.source
+				if (article.source!=titles[article.title].source) titles[article.title].source +=", "+article.source
 				article.deleted=true
 				return; 
 			}

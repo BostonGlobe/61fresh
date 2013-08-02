@@ -1,128 +1,15 @@
 {
- "generated_at": "2013-08-02T13:40:07.810092", 
+ "generated_at": "2013-08-02T16:10:23.275590", 
  "articles": [
   {
    "total_tweets": 8, 
-   "description": "Elizabeth Warren has rarely been accused of reticence. But since entering the Senate, she's distinguished herself as one of the few who bucks the institution's long-time tradition of engaging with reporters in hallways. The newly-elected senator from Massachusetts has a policy of not answering questions when approached in the Capitol.", 
-   "title": "Senator? Senator? If it's in a Senate hallway, Elizabeth Warren rarely answers", 
-   "url": "http://www.bostonglobe.com/news/politics/2013/08/01/senator-senator-senate-hallway-elizabeth-warren-rarely-answers/3mCgnCAatFsgOaphgA4d5I/story.html?s_campaign=sm_tw", 
-   "source": "bostonglobe.com", 
-   "image_url": "http://c.o0bg.com/rf/image_r/Boston/2011-2020/2013/08/02/BostonGlobe.com/National/Images/Copy%20of%20HATCH.r.jpg", 
-   "first_tweeted": "2013-08-02T11:49:50", 
-   "hotness": 8.0, 
-   "tweeters": [
-    {
-     "followers_count": 250119, 
-     "screen_name": "BostonGlobe", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/1357463919/bGlobe_normal.jpg", 
-     "name": "The Boston Globe"
-    }, 
-    {
-     "followers_count": 8465, 
-     "screen_name": "GarrettQuinn", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/3078190678/4c258e6e06199731b76ce9b9a6bac8bf_normal.jpeg", 
-     "name": "Garrett Quinn"
-    }, 
-    {
-     "followers_count": 4032, 
-     "screen_name": "leung", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/817464646/croppedhead_normal.jpg", 
-     "name": "Shirley Leung"
-    }, 
-    {
-     "followers_count": 3229, 
-     "screen_name": "gintautasd", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/3442853096/019808608a3eeaaea4b20a0eec6de126_normal.jpeg", 
-     "name": "Gintautas Dumcius"
-    }, 
-    {
-     "followers_count": 2474, 
-     "screen_name": "erwiest", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/378800000045023192/49cb5f2230dddf49e5a3b65c0a5f2e0c_normal.jpeg", 
-     "name": "Edward Wiest"
-    }, 
-    {
-     "followers_count": 2164, 
-     "screen_name": "jessicaesquire", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/3461381683/d8d0f0443b21a2cbc1b8e6057f718adc_normal.jpeg", 
-     "name": "Jessica"
-    }, 
-    {
-     "followers_count": 585, 
-     "screen_name": "AbbieRuzicka", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/3308752121/c29a78ea4ca6a7f6aebe23027b5f0455_normal.jpeg", 
-     "name": "Abbie Ruzicka"
-    }, 
-    {
-     "followers_count": 89, 
-     "screen_name": "M_E_Miller", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/378800000116359130/0aa9ab918e93e90026f42b3658fac89e_normal.jpeg", 
-     "name": "Matthew Miller"
-    }
-   ]
-  }, 
-  {
-   "total_tweets": 7, 
-   "description": "Going for German take-out gained a whole new meaning in Colorado Springs, Colo. recently. Security cameras outside a popular German restaurant caught images of a hungry bear stealing one of the restaurant's large dumpsters.", 
-   "title": "Smarter than the average bear: Cameras catch fuzzy thief wheeling away a dumpster", 
-   "url": "http://www.boston.com/news/source/2013/08/smarter_than_the_average_bear_cameras_catch_furry_thief_whee.html?s_campaign=ThisJustIn_Widget", 
-   "source": "boston.com", 
-   "first_tweeted": "2013-08-02T11:56:36", 
-   "hotness": 7.0, 
-   "tweeters": [
-    {
-     "followers_count": 661, 
-     "screen_name": "SoloChills", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/378800000204880990/e99b113b8048e01855287b53ea4bfd2c_normal.jpeg", 
-     "name": "SoloChills"
-    }, 
-    {
-     "followers_count": 442, 
-     "screen_name": "Mark_Chiarelli", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/2659829598/719544a3c467663925e0789299e47a00_normal.jpeg", 
-     "name": "Mark Chiarelli"
-    }, 
-    {
-     "followers_count": 329, 
-     "screen_name": "AnthemTheatre", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/2509830509/294q8a1hl7d24mtrq8g3_normal.jpeg", 
-     "name": "Anthem Theatre Co"
-    }, 
-    {
-     "followers_count": 221, 
-     "screen_name": "jomo1511", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/352398898/img019_normal.jpg", 
-     "name": "Joe Mullaney"
-    }, 
-    {
-     "followers_count": 159, 
-     "screen_name": "usernametaken93", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/2618518338/6cr2sl5jguzzkuldo3o3_normal.jpeg", 
-     "name": "Mujtaba Ali"
-    }, 
-    {
-     "followers_count": 64, 
-     "screen_name": "cvrourke", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/2222079805/image_normal.jpg", 
-     "name": "Clio V. Rourke"
-    }, 
-    {
-     "followers_count": 61, 
-     "screen_name": "scottlobdell", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/1896972679/linkedin2_normal.jpg", 
-     "name": "Scott Lobdell"
-    }
-   ]
-  }, 
-  {
-   "total_tweets": 6, 
    "description": null, 
    "title": "Cocked N' Loaded to pound out rock", 
    "url": "http://bostonherald.com/entertainment/music/music_news/2013/08/cocked_n_loaded_to_pound_out_rock", 
    "source": "bostonherald.com", 
    "image_url": "http://bostonherald.com/sites/default/files/styles/full/public/media/2013/05/04/073013cocked.jpg?c=4e9e2d7cedee29f0c530c4a929435783", 
    "first_tweeted": "2013-08-02T12:56:48", 
-   "hotness": 6.0, 
+   "hotness": 8.0, 
    "tweeters": [
     {
      "followers_count": 1815, 
@@ -135,6 +22,18 @@
      "screen_name": "zuzubar", 
      "profile_image_url": "http://a0.twimg.com/profile_images/302292576/Picture_3_normal.jpg", 
      "name": "Box O'Pals"
+    }, 
+    {
+     "followers_count": 1126, 
+     "screen_name": "kevinhoskins", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3118096802/b09ecb06873d471b30baa4ea2a965e47_normal.jpeg", 
+     "name": "Kevin Hoskins"
+    }, 
+    {
+     "followers_count": 1065, 
+     "screen_name": "jedgottlieb", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/86817876/JJdogWeb_normal.jpg", 
+     "name": "Jed's Guestlisted"
     }, 
     {
      "followers_count": 738, 
@@ -163,16 +62,129 @@
    ]
   }, 
   {
-   "total_tweets": 6, 
+   "total_tweets": 7, 
+   "description": "You can read between those blurred lines all you wan't, but Robin Thicke's song by that title is catchy as hell and fun to blast with the volume turned up to 11. So let's put aside all the he said, she said and just enjoy it, courtesy of Jimmy Fallon and his stupidly awesome house band in The Roots.", 
+   "title": "Here's Robin Thicke Feat. Jimmy Fallon & The Roots: 'Blurred Lines' [Video]", 
+   "url": "http://bostinno.streetwise.co/2013/08/02/blurred-lines-jimmy-fallon-the-roots-video/", 
+   "source": "bostinno.streetwise.co", 
+   "first_tweeted": "2013-08-02T13:58:36", 
+   "hotness": 7.0, 
+   "tweeters": [
+    {
+     "followers_count": 26981, 
+     "screen_name": "BostInno", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3314802473/f7d5c89cb0722c196a4e7639165f5907_normal.jpeg", 
+     "name": "BostInno"
+    }, 
+    {
+     "followers_count": 1410, 
+     "screen_name": "Mendelj2", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000173358292/5aa45da3cd6848e4d19c70bbac11d8ef_normal.jpeg", 
+     "name": "Josh Mendelsohn"
+    }, 
+    {
+     "followers_count": 1208, 
+     "screen_name": "melissablett", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3622105547/670365e1af49976bed161e462eea8852_normal.jpeg", 
+     "name": "Melissa Ablett"
+    }, 
+    {
+     "followers_count": 975, 
+     "screen_name": "ericnrandall", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/2763445170/0770e6e1cdd9deb93df4c6ba25d675a6_normal.jpeg", 
+     "name": "Eric Randall"
+    }, 
+    {
+     "followers_count": 681, 
+     "screen_name": "alicia_carlson", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/1782790117/twitter_normal.jpg", 
+     "name": "Alicia Carlson"
+    }, 
+    {
+     "followers_count": 315, 
+     "screen_name": "adamoneill", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/106233258/DSCF0492_2_normal.jpg", 
+     "name": "AdamONeill"
+    }, 
+    {
+     "followers_count": 70, 
+     "screen_name": "Jennie_Jackson", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3058654196/56c2630b6ba5bc92c73ef8f40168ebb8_normal.jpeg", 
+     "name": "Jennie Jackson"
+    }
+   ]
+  }, 
+  {
+   "total_tweets": 7, 
+   "description": "It's been said before that Alfredo Aceves does things his own way, and apparently that extends to naming his newborn son. Aceves currently remains with the Pawtucket Red Sox, where he's been for most of the 2013 season despite success in the closer's role in Boston last year.", 
+   "title": "Report: Alfredo Aceves Names Newborn Son Apollo The First Aceves", 
+   "url": "http://nesn.com/2013/08/report-alfredo-aceves-names-newborn-son-apollo-the-first-aceves/", 
+   "source": "nesn.com", 
+   "image_url": "http://i2.wp.com/nesncom.files.wordpress.com/2013/04/alfredo-aceves3.jpg?fit=440%2C330", 
+   "first_tweeted": "2013-08-02T14:04:48", 
+   "hotness": 7.0, 
+   "tweeters": [
+    {
+     "followers_count": 119546, 
+     "screen_name": "NESN", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3078466606/0052318907dcaf122762284bcd712cf9_normal.png", 
+     "name": "NESN"
+    }, 
+    {
+     "followers_count": 8425, 
+     "screen_name": "redsoxbuzztap", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/492346980/redsox_normal.gif", 
+     "name": "Boston Red Sox Buzz"
+    }, 
+    {
+     "followers_count": 1130, 
+     "screen_name": "DouchyDustin", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000106379996/4c36710866e34b98fbf348431067cf7d_normal.jpeg", 
+     "name": "Dustin Pedroia"
+    }, 
+    {
+     "followers_count": 332, 
+     "screen_name": "kjm234", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/2896765044/6dccc82cbf72f70eb32c070e1f7bf536_normal.jpeg", 
+     "name": "Kyle MacNeil"
+    }, 
+    {
+     "followers_count": 258, 
+     "screen_name": "zachstoloff", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/2859507463/087fb7b036cde5aea1759546c11383c0_normal.png", 
+     "name": "Zach Stoloff"
+    }, 
+    {
+     "followers_count": 156, 
+     "screen_name": "StillyRy", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000151153567/a4f772809c96715272f48f284ed73fed_normal.jpeg", 
+     "name": "Ryan Stillman"
+    }, 
+    {
+     "followers_count": 101, 
+     "screen_name": "srenfro21", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3560888469/549fc277c34f1fcca547f6605cdeb2da_normal.jpeg", 
+     "name": "Stephen Renfro"
+    }
+   ]
+  }, 
+  {
+   "total_tweets": 10, 
    "description": "Tom Menino got one thing wrong: Saying no to Walmart. The next mayor of Boston needs to get it right. It's too easy to paint the world's biggest retailer as the big bad wolf. You've read the script: It decimates mom-and-pop businesses, underpays workers, and blights communities.", 
    "title": "New mayor of Boston should say yes to Walmart - The Boston Globe", 
    "url": "http://www.bostonglobe.com/business/2013/08/01/new-mayor-boston-should-say-yes-walmart/7AUto8YJeTcxb6WnQ2VYmO/story.html?s_campaign=sm_tw", 
    "source": "bostonglobe.com", 
    "first_tweeted": "2013-08-02T10:11:39", 
-   "hotness": 6.0, 
+   "hotness": 6.4, 
    "tweeters": [
     {
-     "followers_count": 4032, 
+     "followers_count": 5501, 
+     "screen_name": "AndreaWBZ", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3640955225/297e86d6755c506190a9fee6f7f26228_normal.jpeg", 
+     "name": "AndreaWBZ"
+    }, 
+    {
+     "followers_count": 4038, 
      "screen_name": "leung", 
      "profile_image_url": "http://a0.twimg.com/profile_images/817464646/croppedhead_normal.jpg", 
      "name": "Shirley Leung"
@@ -182,6 +194,12 @@
      "screen_name": "danteramos", 
      "profile_image_url": "http://a0.twimg.com/profile_images/610957984/DRKenyaSquare_normal.jpg", 
      "name": "Dante Ramos"
+    }, 
+    {
+     "followers_count": 1222, 
+     "screen_name": "markpothier", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/1512741182/Photo_on_2011-08-25_at_08.46__2_normal.jpg", 
+     "name": "Mark Pothier"
     }, 
     {
      "followers_count": 819, 
@@ -202,10 +220,296 @@
      "name": "Larry Yu"
     }, 
     {
+     "followers_count": 291, 
+     "screen_name": "megwoolhouse", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/1541648926/bostonglobe_normal.jpg", 
+     "name": "Megan Woolhouse"
+    }, 
+    {
      "followers_count": 140, 
      "screen_name": "cam_todd", 
      "profile_image_url": "http://a0.twimg.com/profile_images/3083619417/775ebe6b2730fadc26546f36fd51aa85_normal.png", 
      "name": "Cam Todd"
+    }, 
+    {
+     "followers_count": 98, 
+     "screen_name": "matthewsconley", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/1362814073/Jan_2011_iPhone_Pics_076_normal.jpg", 
+     "name": "Matthew Shea Conley"
+    }
+   ]
+  }, 
+  {
+   "total_tweets": 8, 
+   "description": "Tom Menino got one thing wrong: Saying no to Walmart. The next mayor of Boston needs to get it right. It's too easy to paint the world's biggest retailer as the big bad wolf. You've read the script: It decimates mom-and-pop businesses, underpays workers, and blights communities.", 
+   "title": "New mayor of Boston should say yes to Walmart - The Boston Globe", 
+   "url": "http://www.bostonglobe.com/business/2013/08/01/new-mayor-boston-should-say-yes-walmart/7AUto8YJeTcxb6WnQ2VYmO/story.html", 
+   "source": "bostonglobe.com", 
+   "first_tweeted": "2013-08-02T05:16:02", 
+   "hotness": 6.125, 
+   "tweeters": [
+    {
+     "followers_count": 250119, 
+     "screen_name": "BostonGlobe", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/1357463919/bGlobe_normal.jpg", 
+     "name": "The Boston Globe"
+    }, 
+    {
+     "followers_count": 30852, 
+     "screen_name": "stevegarfield", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/2622743592/ntrs67c7i06nr9wdhrgl_normal.jpeg", 
+     "name": "Steve Garfield"
+    }, 
+    {
+     "followers_count": 1831, 
+     "screen_name": "GlobeDougMost", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3225015278/10dd9ed0403bc52f1c3c1b74762978c1_normal.jpeg", 
+     "name": "Doug Most"
+    }, 
+    {
+     "followers_count": 1181, 
+     "screen_name": "HomemakerMan", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3000487904/b0dbd6e56aff898ce9b73820db82211d_normal.jpeg", 
+     "name": "Homemaker Man"
+    }, 
+    {
+     "followers_count": 818, 
+     "screen_name": "JoeKane52", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3510446313/9fb6866884c9fe302e26dd5def794d08_normal.jpeg", 
+     "name": "Joe Kane"
+    }, 
+    {
+     "followers_count": 796, 
+     "screen_name": "JohnAKeith", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3550677145/69e0ecd7ad1cebe1b1c4531d3a28a6cd_normal.png", 
+     "name": "John A Keith"
+    }, 
+    {
+     "followers_count": 146, 
+     "screen_name": "GlobeBiz", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/1562662293/bGlobe_twitter_AV_business_normal.png", 
+     "name": "Globe Business News"
+    }, 
+    {
+     "followers_count": 121, 
+     "screen_name": "BostonoGoing", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3113327100/71272a9f926047bbb506b4e58319d07e_normal.jpeg", 
+     "name": "Boston oGoing"
+    }
+   ]
+  }, 
+  {
+   "total_tweets": 6, 
+   "description": "Red Sox designated hitter David Ortiz was fined a \"significant\" amount for his dugout rage in Baltimore, according to a major league source. Ortiz was not suspended for taking a bat to the dugout phone on Saturday, but Major League Baseball didn't let him off the hook, either.", 
+   "title": "David Ortiz fined for dugout tirade - The Boston Globe", 
+   "url": "http://www.bostonglobe.com/sports/2013/08/02/david-ortiz-fined-for-dugout-tirade/1HFJjmuuT72S6pBFehJoJM/story.html", 
+   "source": "bostonglobe.com", 
+   "first_tweeted": "2013-08-02T13:36:07", 
+   "hotness": 6.0, 
+   "tweeters": [
+    {
+     "followers_count": 250119, 
+     "screen_name": "BostonGlobe", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/1357463919/bGlobe_normal.jpg", 
+     "name": "The Boston Globe"
+    }, 
+    {
+     "followers_count": 58950, 
+     "screen_name": "GlobeSox", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/83061945/sox_normal.JPG", 
+     "name": "Boston Globe Red Sox"
+    }, 
+    {
+     "followers_count": 16553, 
+     "screen_name": "BGlobeSports", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/1550117897/bGlobe_twitter_AVsports_normal.jpg", 
+     "name": "Boston Globe Sports"
+    }, 
+    {
+     "followers_count": 2136, 
+     "screen_name": "siomo", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000126638474/f366f6ff062e950ea711a24c083c3a59_normal.jpeg", 
+     "name": "Siobhan Morris"
+    }, 
+    {
+     "followers_count": 273, 
+     "screen_name": "BrendalizVelez", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/2480487626/xmmzxu28blqb49jnwxfv_normal.jpeg", 
+     "name": "Brenda-liz Velez"
+    }, 
+    {
+     "followers_count": 255, 
+     "screen_name": "JaredMay76", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000219619601/d159c568721ed47996cb87de12b8eb12_normal.jpeg", 
+     "name": "J\u039bR\u039eD M\u039bY"
+    }
+   ]
+  }, 
+  {
+   "total_tweets": 6, 
+   "description": "Backed by City Councilor Stephen Murphy, parents don't want kids watching the bloody brawls in Boston. On August 14, Boston will have an \"Ultimate Fighting Champion Homecoming,\" and celebrate the return of the sport to the city.", 
+   "title": "Boston Official Wants Ban on Anyone Under 18 Attending UFC Matches", 
+   "url": "http://www.bostonmagazine.com/news/blog/2013/08/02/boston-ban-ufc-fighting-under-18/", 
+   "source": "bostonmagazine.com", 
+   "image_url": "http://cdn1.bostonmagazine.com/wp-content/uploads/2013/08/63404_871158155261_325789893_n.jpg", 
+   "first_tweeted": "2013-08-02T13:58:33", 
+   "hotness": 6.0, 
+   "tweeters": [
+    {
+     "followers_count": 45652, 
+     "screen_name": "BostonMagazine", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/2684699052/0b40c5c731005438705018e829f2ee4c_normal.png", 
+     "name": "bostonmagazine.com"
+    }, 
+    {
+     "followers_count": 5695, 
+     "screen_name": "caulkthewagon", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000102565203/b9d3d06af0ad74ce3008c30a7eb8dd53_normal.jpeg", 
+     "name": "Robin"
+    }, 
+    {
+     "followers_count": 4051, 
+     "screen_name": "steveannear", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3107919860/d6c5459c0336b9736de0e65bed99b856_normal.png", 
+     "name": "Steve Annear"
+    }, 
+    {
+     "followers_count": 1620, 
+     "screen_name": "SchwartzHub", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000134544814/ffdf889f96bd57cbe9255bde0fbb003f_normal.jpeg", 
+     "name": "Jason Schwartz"
+    }, 
+    {
+     "followers_count": 1122, 
+     "screen_name": "jaykelly26", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000193600946/3cd734fdef6d54d718d2cda2f92a08c1_normal.jpeg", 
+     "name": "Marginal Prophet"
+    }, 
+    {
+     "followers_count": 389, 
+     "screen_name": "kbecerra", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/534556811/me_normal.jpg", 
+     "name": "Karina Becerra"
+    }
+   ]
+  }, 
+  {
+   "total_tweets": 9, 
+   "description": "Elizabeth Warren has rarely been accused of reticence. But since entering the Senate, she's distinguished herself as one of the few who bucks the institution's long-time tradition of engaging with reporters in hallways. The newly-elected senator from Massachusetts has a policy of not answering questions when approached in the Capitol.", 
+   "title": "Senator? Senator? If it's in a Senate hallway, Elizabeth Warren rarely answers", 
+   "url": "http://www.bostonglobe.com/news/politics/2013/08/01/senator-senator-senate-hallway-elizabeth-warren-rarely-answers/3mCgnCAatFsgOaphgA4d5I/story.html?s_campaign=sm_tw", 
+   "source": "bostonglobe.com", 
+   "image_url": "http://c.o0bg.com/rf/image_r/Boston/2011-2020/2013/08/02/BostonGlobe.com/National/Images/Copy%20of%20HATCH.r.jpg", 
+   "first_tweeted": "2013-08-02T11:49:50", 
+   "hotness": 5.444444444444445, 
+   "tweeters": [
+    {
+     "followers_count": 250119, 
+     "screen_name": "BostonGlobe", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/1357463919/bGlobe_normal.jpg", 
+     "name": "The Boston Globe"
+    }, 
+    {
+     "followers_count": 8465, 
+     "screen_name": "GarrettQuinn", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3078190678/4c258e6e06199731b76ce9b9a6bac8bf_normal.jpeg", 
+     "name": "Garrett Quinn"
+    }, 
+    {
+     "followers_count": 4038, 
+     "screen_name": "leung", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/817464646/croppedhead_normal.jpg", 
+     "name": "Shirley Leung"
+    }, 
+    {
+     "followers_count": 3229, 
+     "screen_name": "gintautasd", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3442853096/019808608a3eeaaea4b20a0eec6de126_normal.jpeg", 
+     "name": "Gintautas Dumcius"
+    }, 
+    {
+     "followers_count": 2474, 
+     "screen_name": "erwiest", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000045023192/49cb5f2230dddf49e5a3b65c0a5f2e0c_normal.jpeg", 
+     "name": "Edward Wiest"
+    }, 
+    {
+     "followers_count": 2163, 
+     "screen_name": "jessicaesquire", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3461381683/d8d0f0443b21a2cbc1b8e6057f718adc_normal.jpeg", 
+     "name": "Jessica"
+    }, 
+    {
+     "followers_count": 586, 
+     "screen_name": "AbbieRuzicka", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3308752121/c29a78ea4ca6a7f6aebe23027b5f0455_normal.jpeg", 
+     "name": "Abbie Ruzicka"
+    }, 
+    {
+     "followers_count": 89, 
+     "screen_name": "M_E_Miller", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000116359130/0aa9ab918e93e90026f42b3658fac89e_normal.jpeg", 
+     "name": "Matthew Miller"
+    }, 
+    {
+     "followers_count": 74, 
+     "screen_name": "thecors", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/472634380/Chuck_Deezy_normal.jpg", 
+     "name": "Tim Corsi"
+    }
+   ]
+  }, 
+  {
+   "total_tweets": 7, 
+   "description": "To protect Washington from attack, the Army didn't turn to some cutting-edge technology such as drones outfitted with spy cameras. Instead, it opted for something out of the 18th century. Next year, the military will set aloft high above the nation's capital a pair of blimp-like helium balloons that look like they should be floating above Fenway Park advertising ice cream.", 
+   "title": "For the latest in radar, Raytheon built a balloon", 
+   "url": "http://www.bostonglobe.com/business/2013/08/01/for-latest-radar-raytheon-built-balloon/zqBQS7ociPy3YZqYn2epAO/story.html?s_campaign=sm_tw", 
+   "source": "bostonglobe.com", 
+   "image_url": "http://c.o0bg.com/rf/image_371w/Boston/2011-2020/2013/08/02/BostonGlobe.com/Business/Images/rtn11_ids_jlens_img3_1.jpg", 
+   "first_tweeted": "2013-08-02T10:10:27", 
+   "hotness": 5.142857142857143, 
+   "tweeters": [
+    {
+     "followers_count": 250119, 
+     "screen_name": "BostonGlobe", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/1357463919/bGlobe_normal.jpg", 
+     "name": "The Boston Globe"
+    }, 
+    {
+     "followers_count": 23890, 
+     "screen_name": "ScottKirsner", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/3660421461/14da10070ee5f8d1df3f056f88e8258d_normal.jpeg", 
+     "name": "Scott Kirsner"
+    }, 
+    {
+     "followers_count": 4038, 
+     "screen_name": "leung", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/817464646/croppedhead_normal.jpg", 
+     "name": "Shirley Leung"
+    }, 
+    {
+     "followers_count": 3905, 
+     "screen_name": "HeyRatty", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/378800000111153259/f2e5f2edad0b5e597da5e87252e45a84_normal.jpeg", 
+     "name": "Ratty"
+    }, 
+    {
+     "followers_count": 972, 
+     "screen_name": "ITSMNinja", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/828194864/Ninja_4_normal.jpg", 
+     "name": "John Custy"
+    }, 
+    {
+     "followers_count": 819, 
+     "screen_name": "GlobeRoss", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/1284084479/GetPhoto_normal.jpg", 
+     "name": "Casey Ross"
+    }, 
+    {
+     "followers_count": 111, 
+     "screen_name": "davehboston", 
+     "profile_image_url": "http://a0.twimg.com/profile_images/1696810341/dh_normal.jpg", 
+     "name": "Dave Howell"
     }
    ]
   }, 
@@ -232,13 +536,13 @@
      "name": "Boston Herald News"
     }, 
     {
-     "followers_count": 738, 
+     "followers_count": 739, 
      "screen_name": "RicanInBoston", 
      "profile_image_url": "http://a0.twimg.com/profile_images/378800000102525891/1bdf4f1a041defd00505e0fb1129d83f_normal.jpeg", 
      "name": "Eddie Reyes"
     }, 
     {
-     "followers_count": 107, 
+     "followers_count": 106, 
      "screen_name": "FColagiovanni", 
      "profile_image_url": "http://a0.twimg.com/profile_images/705030630/Photo_1_normal.jpg", 
      "name": "Frank Colagiovanni"
@@ -248,214 +552,6 @@
      "screen_name": "quicks6", 
      "profile_image_url": "http://a0.twimg.com/profile_images/344513261583829745/4dabf603047d0fdbfe1c4f0fa4382278_normal.jpeg", 
      "name": "chriS MaC"
-    }
-   ]
-  }, 
-  {
-   "total_tweets": 5, 
-   "description": "To protect Washington from attack, the Army didn't turn to some cutting-edge technology such as drones outfitted with spy cameras. Instead, it opted for something out of the 18th century. Next year, the military will set aloft high above the nation's capital a pair of blimp-like helium balloons that look like they should be floating above Fenway Park advertising ice cream.", 
-   "title": "For the latest in radar, Raytheon built a balloon", 
-   "url": "http://www.bostonglobe.com/business/2013/08/01/for-latest-radar-raytheon-built-balloon/zqBQS7ociPy3YZqYn2epAO/story.html?s_campaign=sm_tw", 
-   "source": "bostonglobe.com", 
-   "image_url": "http://c.o0bg.com/rf/image_371w/Boston/2011-2020/2013/08/02/BostonGlobe.com/Business/Images/rtn11_ids_jlens_img3_1.jpg", 
-   "first_tweeted": "2013-08-02T10:10:27", 
-   "hotness": 5.0, 
-   "tweeters": [
-    {
-     "followers_count": 23892, 
-     "screen_name": "ScottKirsner", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/3660421461/14da10070ee5f8d1df3f056f88e8258d_normal.jpeg", 
-     "name": "Scott Kirsner"
-    }, 
-    {
-     "followers_count": 4032, 
-     "screen_name": "leung", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/817464646/croppedhead_normal.jpg", 
-     "name": "Shirley Leung"
-    }, 
-    {
-     "followers_count": 3907, 
-     "screen_name": "HeyRatty", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/378800000111153259/f2e5f2edad0b5e597da5e87252e45a84_normal.jpeg", 
-     "name": "Ratty"
-    }, 
-    {
-     "followers_count": 819, 
-     "screen_name": "GlobeRoss", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/1284084479/GetPhoto_normal.jpg", 
-     "name": "Casey Ross"
-    }, 
-    {
-     "followers_count": 111, 
-     "screen_name": "davehboston", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/1696810341/dh_normal.jpg", 
-     "name": "Dave Howell"
-    }
-   ]
-  }, 
-  {
-   "total_tweets": 4, 
-   "description": "NEW YORK (AP) - Bird poop for beauty? That's what goes into facials at a luxury spa where the traditional Japanese treatment using imported Asian nightingale excrement mixed with rice bran goes for $180 a pop.", 
-   "title": "Clients drop $180 for bird poop facials at NYC spa", 
-   "url": "http://www.boston.com/news/nation/2013/08/02/clients-drop-for-bird-poop-facials-nyc-spa/V7rd8egbmaa3F65e2qJqjO/story.html", 
-   "source": "boston.com", 
-   "image_url": "http://c.o0bc.com/rf/image_329w/Boston/2011-2020/Wires/2013/08/02/Boston.com/APOnlineImages/2013-08-02/ed927523d5914d19390f6a7067006a0f.jpg", 
-   "first_tweeted": "2013-08-02T10:54:58", 
-   "hotness": 4.0, 
-   "tweeters": [
-    {
-     "followers_count": 2437, 
-     "screen_name": "HenrySantoro", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/344513261568319565/170a2fffbba1eaa1147ee501b8992700_normal.jpeg", 
-     "name": "HenrySantoro"
-    }, 
-    {
-     "followers_count": 458, 
-     "screen_name": "HerOvaThere", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/378800000203133778/7e69c62398f1c9bfcb056152505e333b_normal.jpeg", 
-     "name": "Christina Rose"
-    }, 
-    {
-     "followers_count": 316, 
-     "screen_name": "Robert02139", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/1920619788/RW100_normal.jpg", 
-     "name": "Robert Winters"
-    }, 
-    {
-     "followers_count": 185, 
-     "screen_name": "trigjoh", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/1589913691/adddf39f-ad2d-4078-a66f-ca7aa6b30c71_normal.jpg", 
-     "name": "John Trigg"
-    }
-   ]
-  }, 
-  {
-   "total_tweets": 4, 
-   "description": "Going for German take-out gained a whole new meaning in Colorado Springs, Colo. recently. Security cameras outside a popular German restaurant caught images of a hungry bear stealing one of the restaurant's large dumpsters.", 
-   "title": "Smarter than the average bear: Cameras catch fuzzy thief wheeling away a dumpster", 
-   "url": "http://www.boston.com/news/source/2013/08/smarter_than_the_average_bear_cameras_catch_furry_thief_whee.html?camp=twit%3Abostondotcom-robo&dlvrit=980919", 
-   "source": "boston.com", 
-   "first_tweeted": "2013-08-02T11:34:03", 
-   "hotness": 4.0, 
-   "tweeters": [
-    {
-     "followers_count": 138047, 
-     "screen_name": "BostonDotCom", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/3046195454/8c22510e96774b8deaee272ce5649d72_normal.png", 
-     "name": "Boston.com"
-    }, 
-    {
-     "followers_count": 1246, 
-     "screen_name": "MookWilliams", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/2619759090/58pkhinvykccxzqxoqtx_normal.jpeg", 
-     "name": "Mook Williams"
-    }, 
-    {
-     "followers_count": 595, 
-     "screen_name": "heathgiff", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/378800000098020356/cc297a207becf14ed6a4888be3f9b7ab_normal.jpeg", 
-     "name": "Heather"
-    }, 
-    {
-     "followers_count": 173, 
-     "screen_name": "cleeferson", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/3492385310/96d6da4841e2c0636d47e59f23762087_normal.jpeg", 
-     "name": "Sasha Rivas"
-    }
-   ]
-  }, 
-  {
-   "total_tweets": 4, 
-   "description": "If Whitey Bulger gets into the witness box Friday, here's the first question prosecutors should ask on cross-examination: Mr. Bulger, did you really think submitting a photo of you yukking it up with a pedophile priest would make you come across to the jury as somehow less of a reprehensible degenerate?", 
-   "title": "To Tell the Truth - The Boston Globe", 
-   "url": "http://www.bostonglobe.com/metro/2013/08/01/tell-truth/BrOa589ZkZvME3EzknS5KI/story.html?s_campaign=sm_tw", 
-   "source": "bostonglobe.com", 
-   "first_tweeted": "2013-08-02T11:53:56", 
-   "hotness": 4.0, 
-   "tweeters": [
-    {
-     "followers_count": 250119, 
-     "screen_name": "BostonGlobe", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/1357463919/bGlobe_normal.jpg", 
-     "name": "The Boston Globe"
-    }, 
-    {
-     "followers_count": 6770, 
-     "screen_name": "GlobeCullen", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/349338411/cullen_normal.gif", 
-     "name": "Kevin Cullen"
-    }, 
-    {
-     "followers_count": 4753, 
-     "screen_name": "Channel_Mike", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/1338585910/beaudetstate_normal.jpg", 
-     "name": "Mike Beaudet"
-    }, 
-    {
-     "followers_count": 4488, 
-     "screen_name": "MiltonValencia", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/3690626582/3528b5cc4b4192832e38c66d73710bd7_normal.jpeg", 
-     "name": "Milton Valencia"
-    }
-   ]
-  }, 
-  {
-   "total_tweets": 8, 
-   "description": "That there were still a lot of fans left at Fenway Park in the ninth inning on Thursday night was a testament to the pleasant weather. Surely nobody believed they would see the Red Sox come back and win. The Sox were down, 7-2, against the Seattle Mariners and had the bottom of their order coming up against closer Tom Wilhelmsen.", 
-   "title": "Life is good in Walk-Off City", 
-   "url": "http://www.boston.com/sports/baseball/redsox/extras/extra_bases/2013/08/life_is_good_in_walk-off_city.html", 
-   "source": "boston.com", 
-   "image_url": "http://www.boston.com/sports/baseball/redsox/extras/extra_bases/assets_c/2013/08/scrappytweet-thumb-500x167-109796.jpg", 
-   "first_tweeted": "2013-08-02T05:48:34", 
-   "hotness": 3.125, 
-   "tweeters": [
-    {
-     "followers_count": 138047, 
-     "screen_name": "BostonDotCom", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/3046195454/8c22510e96774b8deaee272ce5649d72_normal.png", 
-     "name": "Boston.com"
-    }, 
-    {
-     "followers_count": 58947, 
-     "screen_name": "GlobeSox", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/83061945/sox_normal.JPG", 
-     "name": "Boston Globe Red Sox"
-    }, 
-    {
-     "followers_count": 8425, 
-     "screen_name": "redsoxbuzztap", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/492346980/redsox_normal.gif", 
-     "name": "Boston Red Sox Buzz"
-    }, 
-    {
-     "followers_count": 3205, 
-     "screen_name": "redsoxtweets", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/70983639/images_normal.jpg", 
-     "name": "redsoxtweets"
-    }, 
-    {
-     "followers_count": 1986, 
-     "screen_name": "idigmywork", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/2305465898/image_normal.jpg", 
-     "name": "Jeff Masterson"
-    }, 
-    {
-     "followers_count": 1781, 
-     "screen_name": "mattpep15", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/1303818753/mp_twitter_normal.jpg", 
-     "name": "Matt Pepin"
-    }, 
-    {
-     "followers_count": 1263, 
-     "screen_name": "RedSoxDieHard", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/300785138/1128210194_69614_normal.jpg", 
-     "name": "Red Sox Die Hard Fan"
-    }, 
-    {
-     "followers_count": 68, 
-     "screen_name": "dcote24", 
-     "profile_image_url": "http://a0.twimg.com/profile_images/1525070520/dc_normal.jpg", 
-     "name": "David Cote"
     }
    ]
   }
