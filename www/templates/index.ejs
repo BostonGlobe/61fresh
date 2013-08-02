@@ -37,7 +37,7 @@
 						<img class='article_tweeter_image' src='<%=tweeter.profile_image_url%>'></img>
 					</div>
 					<a href='http://www.twitter.com/<%=tweeter.screen_name%>'><%=tweeter.name%></a>
-					</div> (<%=tweeter.followers_count%>)
+					</div> (<%=""+tweeter.followers_count%>)
 				</div>
 			<%})%>
 			<%if (article.total_tweets>article.tweeters.length) {%>
