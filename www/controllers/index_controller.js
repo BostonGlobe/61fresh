@@ -4,7 +4,19 @@ IndexController = function()
 	this.handle_json = function(json)
 	{
 		this.json = json
-		this.log("handle_json")
+		titles = {}
+		that=this
+		_.each(this.json.articles,function(article){
+			if (titles[article.title]) // found a dupe
+			{
+				titles[article.title].source +=", "+article.source
+				article.deleted=true
+				return; 
+			}
+			titles[article.title]=article;
+			if ((new Date().getTime()-new Date(article.first_tweeted).getTime())<30*60*1000) article.is_new=true // 1 hour
+			else article.is_new=false
+		})
 		this.render('index')
 	}
 
