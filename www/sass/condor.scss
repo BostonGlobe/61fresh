@@ -117,10 +117,38 @@ a:active { text-decoration: underline; }
 	font-weight:bold;
 }
 
+.article_title_screen_name
+{
+	font-size:8px;
+	display:none;
+}
+
+.article_title_screen_name:before {
+  content: '@'
+}
+
+.article_profile_image_url
+{
+	float:left;
+	padding:0.25em;
+	padding-left:0px;
+	padding-top:0px;
+}
+
 .article_description
 {
 	font-size:12px;
 	display:block;
+}
+
+.article_description_title
+{
+	font-style:italic;
+	display:inline;
+}
+
+.article_description_title:after {
+  content: ''
 }
 
 .article_image_container
