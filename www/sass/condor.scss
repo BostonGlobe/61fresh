@@ -13,7 +13,7 @@ body {
 
 a:link { text-decoration: none; color: $dark_link_color; }
 a:visited { text-decoration: none; color: $dark_link_color; }
-a:hover { text-decoration: none; border-bottom:6px solid #369;padding-bottom:0px; }
+a:hover { text-decoration: none; }
 a:active { text-decoration: none; }
 
 
@@ -78,7 +78,7 @@ a:active { text-decoration: none; }
 
 .article_header a:link { text-decoration: none; color: $light_color; }
 .article_header a:visited { text-decoration: none; color: $light_color; }
-.article_header a:hover { text-decoration: none; border-bottom:6px solid #369;padding-bottom:0px; }
+.article_header a:hover { text-decoration: none; }
 .article_header a:active { text-decoration: underline; }
 
 .article_header

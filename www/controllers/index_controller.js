@@ -39,7 +39,7 @@ IndexController = function()
 			else article.is_new=false
 		})
 		view = this.query_param("view")
-		if (view==null) view='index'
+		if (view==null) view='tweet_headlines'
 		
 		this.render("index",view)
 	}
