@@ -20,7 +20,9 @@
 	<%}%>
 	<div class='article_header'>
 		<div class='article_source'><a href='http://<%=article.source%>'><%=article.source%></a></div>
-		<!--<div class='article_total_tweets'><%=article.total_tweets%> boston tweets</div>--><div class='article_found_at'>first tweeted <%=moment(Date.parse(article.first_tweeted)).fromNow()%></div>
+		<!--<div class='article_total_tweets'><%=article.total_tweets%> boston tweets</div>--><div class='article_found_at'>article, first tweeted <%=moment(Date.parse(article.first_tweeted)).fromNow()%>
+			by <a href='http://www.twitter.com/<%=article.first_tweeter.screen_name%>'>@<%=article.first_tweeter.screen_name%></a>
+			</div>
 		<%if (article.is_new) {%>
 			<div class='article_is_new'>new!</div>
 		<%}%>
