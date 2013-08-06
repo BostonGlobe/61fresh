@@ -70,7 +70,7 @@ for link in links:
 	link['tweeters'] = []
 	cur.execute("select screen_name, name, followers_count, profile_image_url, text, tweet_id, tweeted_urls.created_at from users join tweeted_urls using(user_id) join tweets using(tweet_id) where real_url_hash = %s group by tweeted_urls.user_id order by followers_count desc",(link['hash']))
 	for row in cur:
-		link['tweeters'].append({'screen_name': row[0], 'name': row[1], 'followers_count': row[2], 'profile_image_url': row[3], 'text':row[4], 'tweet_id':row[5], 'created_at':row[6].isoformat()})
+		link['tweeters'].append({'screen_name': row[0], 'name': row[1], 'followers_count': row[2], 'profile_image_url': row[3], 'text':row[4], 'tweet_id':str(row[5]), 'created_at':row[6].isoformat()})
 	del link['hash']
 
 out = {	'generated_at': datetime.datetime.utcnow().isoformat(),

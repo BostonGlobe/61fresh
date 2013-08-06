@@ -67,6 +67,7 @@ for link in links:
 	link['tweeters'] = []
 	cur.execute("select screen_name, name, followers_count, profile_image_url, text, tweet_id, tweeted_urls.created_at as created_at from users join tweeted_urls using(user_id) join tweets using(tweet_id) where real_url_hash = %s group by tweeted_urls.user_id order by followers_count desc",(link['hash']))
 	for row in cur:
+		row['tweet_id'] = str(row['tweet_id'])
 		row['created_at'] = row['created_at'].isoformat()
 		link['tweeters'].append(row)
 	del link['hash']
