@@ -1,6 +1,6 @@
 IndexController = function()
 {
-	this.DEFAULT_SET='daniel';
+	this.DEFAULT_SET='hotlist';
 	this.handle_json = function(json)
 	{
 		this.json = json
@@ -12,8 +12,10 @@ IndexController = function()
 			
 			// find earliest tweet, make it the 'author' tweet
 			article.first_tweeter=article.tweeters[1]
-			_.each(article.tweets,function(tweet,i){
-				if (new Date(tweet.created_at).getTime()<new Date(first_tweeter).created_at.getTime()) article.first_tweeter = tweet
+			_.each(article.tweeters,function(tweet,i){
+				that.log(tweet.text)
+//				that.log(new Date(tweet.created_at).getTime()+":"+new Date(article.first_tweeter.created_at).getTime()+":"+new Date(tweet.created_at).getTime()<new Date(article.first_tweeter.created_at).getTime())
+				if (new Date(tweet.created_at).getTime()<new Date(article.first_tweeter.created_at).getTime()) article.first_tweeter = tweet
 			})
 			// find and combine duplicate articles
 			if (titles[article.title]) // found a dupe
