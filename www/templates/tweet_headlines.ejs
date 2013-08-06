@@ -27,8 +27,18 @@
 			<div class='article_is_new'>new!</div>
 		<%}%>
 	</div>
-	<div class='article_title'><a href='<%=article.url%>'><%=article.title%></a></div>
-	<div class='article_description'><%=article.description%></div>
+	<div class='article_title'>
+	<div class='article_profile_image_url'><a href='http://www.twitter.com/statuses/<%=article.tweet_id%>'>
+		<img src='<%=article.profile_image_url%>'/></a>
+		<div class='article_title_screen_name'><%=article.tweet_title_screen_name%></div>
+		
+		</div>
+	<a href='<%=article.url%>'><%=article.tweet_title%></a>
+	</div>
+	<div class='article_description'>
+		<div class='article_description_title'><%=article.title%> &#8230;</div>
+	
+	<%=article.description%></div>
 	<%if (article.tweeters && article.tweeters.length>0) {%>
 		<div class='article_tweeters'>
 			tweeted by
@@ -38,7 +48,7 @@
 					<div class='article_tweeter_image_container'>
 						<img class='article_tweeter_image' src='<%=tweeter.profile_image_url%>'></img>
 					</div>
-					<a href='http://www.twitter.com/<%=tweeter.screen_name%>'><%=tweeter.name%></a>
+					<a title="<%=moment(new Date(tweeter.created_at)).fromNow()%>: <%=tweeter.text%>" href='http://www.twitter.com/<%=tweeter.screen_name%>/statuses/<%=tweeter.tweet_id%>'><%=tweeter.name%></a>
 					</div> (<%=""+tweeter.followers_count%>)
 				</div>
 			<%})%>
