@@ -10,19 +10,19 @@ IndexController = function()
 			},
 			{
 				'name':'#bosmayor hashtag',
-				'set':'#bosmayor'
+				'set':'bosmayor'
 			},
 			{
 				'name':'#boston hashtag',
-				'set':'#boston'
+				'set':'boston'
 			},
 			{
 				'name':'#bospoli hashtag',
-				'set':'#bospoli'
+				'set':'bospoli'
 			},
 			{
 				'name':'#mapoli hashtag',
-				'set':'#mapoli'
+				'set':'mapoli'
 			}
 			]
 		}
