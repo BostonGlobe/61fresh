@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>61FRESH</title>
+
+    <!-- Bootstrap core CSS -->
+	 <link rel="stylesheet" href="css/condor.css">
+	 <link rel="stylesheet" href="css/bootstrap.css">
+
+    <!-- Custom styles for this template -->
+    <link href="starter-template.css" rel="stylsesheet">
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+
+    <div class="container">
+		<div id='index'></div>
+
+    </div><!-- /.container -->
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="https://rawgithub.com/timrwood/moment/2.1.0/min/moment.min.js"></script>
+
+    <script src="http://underscorejs.org/underscore-min.js"></script>
+    <script src="http://embeddedjavascript.googlecode.com/files/ejs_0.9_alpha_1_production.js"></script>
+    <script src="piggyback/piggyback.js"></script>
+    <script src="controllers/application_controller.js"></script>
+    <script src="controllers/feed_controller.js"></script>
+	<script>
+		jQuery(document).ready(function() {
+			new FeedController().log("feed ready");
+		})
+	</script>
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-42978209-1', 'bit.ly');
+	  ga('send', 'pageview');
+
+	</script>
+  </body>
+</html>
