@@ -140,6 +140,11 @@ var fillLists = function() {
 	// var durf = Math.random().toString(36).substring(5);
 	// console.log("Start " + durf);
 	sql_conn.query("SELECT list_id, COUNT(*) as num FROM users WHERE list_id IS NOT NULL GROUP BY list_id", function(e,r) {
+		if (e) {
+			console.log("search/tweets");
+			console.log(e);
+			return;
+		}
 		r.forEach(function(d) {lists_info[d.list_id].members=d.num});
 		var target = _.find(lists_info, function(d) {return d.members < 4999;});
 		var list_fill_pointer = target.index;
