@@ -10,6 +10,11 @@ FeedController = function()
 			if (article.url=='Error') return;
 			// find earliest tweet, make it the 'author' tweet
 			article.first_tweeter=article.tweeters[0]
+			if (!article.first_tweeter) 
+			{
+				article.deleted=true
+				return
+			}
 			_.each(article.tweeters,function(tweet,i){
 				if (new Date(tweet.created_at).getTime()<new Date(article.first_tweeter.created_at).getTime()) article.first_tweeter = tweet
 			})
