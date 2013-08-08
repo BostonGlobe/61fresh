@@ -17,8 +17,8 @@ var my_screen_name = "***REMOVED***";
 var mysql      = require('mysql');
 var sql_conn = mysql.createConnection({
   host     : 'localhost',
-  user     : 'root',
-  password : 'globelab',
+  user     : 'condor',
+  password : 'condor',
   database : 'condor',
   supportBigNumbers : 'true', 
   timezone : 'UTC',
