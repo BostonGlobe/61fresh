@@ -23,7 +23,16 @@ IndexController = function()
 			{
 				'name':'#mapoli hashtag',
 				'set':'mapoli'
+			},
+			{
+				'name':'#redsox hashtag',
+				'set':'redsox'
+			},
+			{
+				'name':'#MBTA hashtag',
+				'set':'mbta'
 			}
+			
 			]
 		}
 		this.render("index")
