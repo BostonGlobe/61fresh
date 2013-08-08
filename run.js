@@ -49,7 +49,7 @@ var addTweets = function(tweets,memo) {
 			function(d) {
 				return [d.id_str, d.text, new Date(d.created_at), d.user.id_str];
 			});
-		sql_conn.query("REPLACE INTO tweets (tweet_id, text, created_at, user_id) VALUES ?", [tweet_rows],
+		sql_conn.query("INSERT IGNORE INTO tweets (tweet_id, text, created_at, user_id) VALUES ?", [tweet_rows],
 			function (e) {
 				if (e) {
 					console.log(e);
