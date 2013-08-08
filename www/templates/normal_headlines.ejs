@@ -7,12 +7,9 @@
 		last updated <%=moment(Date.parse(json.generated_at)).fromNow()%>
 	</div>
 </div>
-
-<div class='articles'>
-<div class='index_header'>available feeds</div>
-<%_.each(json.links,function(link) {%>
+<div class='index_header'>test feeds</div>
+<%_.each(json.links,function(link){%>
 	<div class='article'>
-		<a href='feed.html?set=<%=link.set%>'><%=link.name%></a>
+		<div class='article_title'><a href='feed.html?set=<%=link.set%>'><%=link.name%></a></div>
 	</div>
 <%})%>
-</div>
