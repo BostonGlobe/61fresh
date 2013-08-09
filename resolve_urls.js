@@ -68,12 +68,9 @@ var addRealURLHash = function() {
 }
 
 var getAndResolve = function() {
-	console.log(url_queue.length);
 	var target = url_queue.pop();
-	if (target === undefined) {
-		setTimeout(getAndResolve,1000);
+	if (target === undefined)
 		return;
-	}
 	var redirects_left = 5;
 	var current_url = target.url;
 	var redirect_callback = function(res) {
@@ -101,7 +98,6 @@ var getAndResolve = function() {
 		// waiting_count++
 		sql_conn.query("UPDATE tweeted_urls SET real_url = ?, real_url_hash = ?, domain = ? WHERE url_hash = ? AND real_url_hash IS NULL", [normed_url,real_url_hash,domain,target.url_hash],
 			function(e,res) {
-				setTimeout(getAndResolve,0);
 				// console.log(--waiting_count);
 				if (e) {
 					console.log(["mysql update error",e]);
@@ -114,7 +110,6 @@ var getAndResolve = function() {
 		console.log(['http(s) error',e,current_url]);
 		sql_conn.query("UPDATE tweeted_urls SET real_url = ?, real_url_hash = ? WHERE url_hash = ?", ['error','error',target.url_hash],
 			function(e,res) {
-				setTimeout(getAndResolve,100);
 				if (e) {
 					console.log(["mysql update error",e]);
 				}
@@ -130,11 +125,9 @@ var getAndResolve = function() {
 		// console.log(current_url);
 		if (options.protocol === 'https:') {
 			var req = https.request(options, redirect_callback).on('error', error_out);
-			req.setTimeout(2000,error_out);
 			req.end();
 		} else if (options.protocol === 'http:') {
 			var req = http.request(options, redirect_callback).on('error', error_out);
-			req.setTimeout(2000,error_out);
 			req.end();
 		}
 	}
@@ -161,14 +154,7 @@ var normalizeURL = function(in_url) {
 
 // deriveDomains();
 // addRealURLHash();
-
-// setInterval(getAndResolve,100);
+setInterval(getAndResolve,100);
 setInterval(getMoreUrls,1000);
 getMoreUrls();
-setTimeout(getAndResolve,0);
-setTimeout(getAndResolve,200);
-setTimeout(getAndResolve,400);
-setTimeout(getAndResolve,600);
-setTimeout(getAndResolve,800);
-
 
