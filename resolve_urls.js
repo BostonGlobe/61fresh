@@ -68,6 +68,7 @@ var addRealURLHash = function() {
 }
 
 var getAndResolve = function() {
+	console.log(url_queue.length);
 	var target = url_queue.pop();
 	if (target === undefined) {
 		setTimeout(getAndResolve,1000);
@@ -162,6 +163,10 @@ var normalizeURL = function(in_url) {
 // setInterval(getAndResolve,100);
 setInterval(getMoreUrls,1000);
 getMoreUrls();
-getAndResolve();
+setTimeout(getAndResolve,0);
+setTimeout(getAndResolve,200);
+setTimeout(getAndResolve,400);
+setTimeout(getAndResolve,600);
+setTimeout(getAndResolve,800);
 
 
