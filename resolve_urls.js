@@ -69,8 +69,10 @@ var addRealURLHash = function() {
 
 var getAndResolve = function() {
 	var target = url_queue.pop();
-	if (target === undefined)
+	if (target === undefined) {
+		setTimeout(getAndResolve,1000);
 		return;
+	}
 	var redirects_left = 5;
 	var current_url = target.url;
 	var redirect_callback = function(res) {
@@ -160,6 +162,6 @@ var normalizeURL = function(in_url) {
 // setInterval(getAndResolve,100);
 setInterval(getMoreUrls,1000);
 getMoreUrls();
-setTimeout(getAndResolve,1000);
+getAndResolve();
 
 
