@@ -67,7 +67,6 @@ var addRealURLHash = function() {
 	});
 }
 
-var http_in_flight = 0;
 
 var getAndResolve = function() {
 	var target = url_queue.pop();
@@ -77,7 +76,6 @@ var getAndResolve = function() {
 	var current_url = target.url;
 	var redirect_callback = function(res) {
 		// console.log(res.statusCode);
-		console.log(--http_in_flight);
 		res.socket.destroy()
 		if ((res.statusCode >= 300) && (res.statusCode < 400) && ('location' in res.headers)) {
 			var new_url = url.resolve(current_url,res.headers.location);
@@ -92,7 +90,9 @@ var getAndResolve = function() {
 		} else {
 			if (res.statusCode == 200) {
 				finish();
-			}
+            } else {
+                error_out("status code: " + res.statusCode);
+            }
 		}
 	};
 	var finish = function() {
@@ -113,7 +113,6 @@ var getAndResolve = function() {
 			});
 	}
 	var error_out = function(e) {
-		console.log(--http_in_flight);
 		console.log(['http(s) error',e,current_url]);
 		sql_conn.query("UPDATE tweeted_urls SET real_url = ?, real_url_hash = ? WHERE url_hash = ?", ['error','error',target.url_hash],
 			function(e,res) {
@@ -144,11 +143,9 @@ var getAndResolve = function() {
 								'Referer':'http://google.com'};
 			// console.log(current_url);
 			if (options.protocol === 'https:') {
-				console.log(++http_in_flight);
 				var req = https.request(options, redirect_callback).on('error', error_out);
 				req.end();
 			} else if (options.protocol === 'http:') {
-				console.log(++http_in_flight);
 				var req = http.request(options, redirect_callback).on('error', error_out);
 				req.end();
 			}
