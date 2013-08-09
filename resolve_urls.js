@@ -98,6 +98,7 @@ var getAndResolve = function() {
 		// waiting_count++
 		sql_conn.query("UPDATE tweeted_urls SET real_url = ?, real_url_hash = ?, domain = ? WHERE url_hash = ? AND real_url_hash IS NULL", [normed_url,real_url_hash,domain,target.url_hash],
 			function(e,res) {
+				setTimeout(getAndResolve,0);
 				// console.log(--waiting_count);
 				if (e) {
 					console.log(["mysql update error",e]);
@@ -110,6 +111,7 @@ var getAndResolve = function() {
 		console.log(['http(s) error',e,current_url]);
 		sql_conn.query("UPDATE tweeted_urls SET real_url = ?, real_url_hash = ? WHERE url_hash = ?", ['error','error',target.url_hash],
 			function(e,res) {
+				setTimeout(getAndResolve,100);
 				if (e) {
 					console.log(["mysql update error",e]);
 				}
@@ -154,7 +156,10 @@ var normalizeURL = function(in_url) {
 
 // deriveDomains();
 // addRealURLHash();
-setInterval(getAndResolve,10);
+
+// setInterval(getAndResolve,100);
 setInterval(getMoreUrls,1000);
 getMoreUrls();
+setTimeout(getAndResolve,1000);
+
 
