@@ -154,7 +154,7 @@ var normalizeURL = function(in_url) {
 
 // deriveDomains();
 // addRealURLHash();
-setInterval(getAndResolve,100);
+setInterval(getAndResolve,10);
 setInterval(getMoreUrls,1000);
 getMoreUrls();
 
