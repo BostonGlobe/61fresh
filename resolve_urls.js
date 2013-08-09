@@ -127,7 +127,7 @@ var getAndResolve = function() {
 				current_url = known_urls[current_url];
 				setTimeout(follow_redirect,0);
 			}
-		}
+		} else {
 			var options = url.parse(current_url);
 			options.method="GET";
 			options.agent=false;
@@ -141,6 +141,7 @@ var getAndResolve = function() {
 				var req = http.request(options, redirect_callback).on('error', error_out);
 				req.end();
 			}
+		}
 	}
 	follow_redirect();
 }
