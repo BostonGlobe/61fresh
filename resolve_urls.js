@@ -130,9 +130,11 @@ var getAndResolve = function() {
 		// console.log(current_url);
 		if (options.protocol === 'https:') {
 			var req = https.request(options, redirect_callback).on('error', error_out);
+			req.setTimeout(2000,error_out);
 			req.end();
 		} else if (options.protocol === 'http:') {
 			var req = http.request(options, redirect_callback).on('error', error_out);
+			req.setTimeout(2000,error_out);
 			req.end();
 		}
 	}
