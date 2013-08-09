@@ -96,7 +96,7 @@ var getAndResolve = function() {
 		var real_url_hash = crypto.createHash('sha1').update(normed_url).digest("hex");
 		var domain = getDomain(current_url);
 		// waiting_count++
-		sql_conn.query("UPDATE tweeted_urls SET real_url = ?, real_url_hash = ?, domain = ? WHERE url_hash = ?", [normed_url,real_url_hash,domain,target.url_hash],
+		sql_conn.query("UPDATE tweeted_urls SET real_url = ?, real_url_hash = ?, domain = ? WHERE url_hash = ? AND real_url_hash IS NULL", [normed_url,real_url_hash,domain,target.url_hash],
 			function(e,res) {
 				// console.log(--waiting_count);
 				if (e) {
