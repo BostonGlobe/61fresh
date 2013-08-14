@@ -21,7 +21,7 @@ sql_conn.on('error', function(err) {
 
 
 var url_queue = [];
-waiting_count = 0;
+var known_urls = {};
 
 var getMoreUrls = function() {
 	if (url_queue.length == 0) {
@@ -67,6 +67,7 @@ var addRealURLHash = function() {
 	});
 }
 
+
 var getAndResolve = function() {
 	var target = url_queue.pop();
 	if (target === undefined)
@@ -77,7 +78,9 @@ var getAndResolve = function() {
 		// console.log(res.statusCode);
 		res.socket.destroy()
 		if ((res.statusCode >= 300) && (res.statusCode < 400) && ('location' in res.headers)) {
-			current_url = url.resolve(current_url,res.headers.location);
+			var new_url = url.resolve(current_url,res.headers.location);
+			known_urls[current_url] = new_url;
+			current_url = new_url;
 			if (redirects_left == 0) {
 				finish();
 			} else {
@@ -87,16 +90,19 @@ var getAndResolve = function() {
 		} else {
 			if (res.statusCode == 200) {
 				finish();
-			}
+            } else {
+                error_out("status code: " + res.statusCode);
+            }
 		}
 	};
 	var finish = function() {
+		known_urls[current_url] = 'final';
 		// console.log([target.url,normalizeURL(current_url),redirects_left]);
 		var normed_url = normalizeURL(current_url);
 		var real_url_hash = crypto.createHash('sha1').update(normed_url).digest("hex");
 		var domain = getDomain(current_url);
 		// waiting_count++
-		sql_conn.query("UPDATE tweeted_urls SET real_url = ?, real_url_hash = ?, domain = ? WHERE url_hash = ?", [normed_url,real_url_hash,domain,target.url_hash],
+		sql_conn.query("UPDATE tweeted_urls SET real_url = ?, real_url_hash = ?, domain = ? WHERE url_hash = ? AND real_url_hash IS NULL", [normed_url,real_url_hash,domain,target.url_hash],
 			function(e,res) {
 				// console.log(--waiting_count);
 				if (e) {
@@ -117,18 +123,32 @@ var getAndResolve = function() {
 	}
 
 	var follow_redirect = function() {
-		var options = url.parse(current_url);
-		options.method="GET";
-		options.agent=false;
-		options.headers={	'User-Agent':'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
-							'Referer':'http://google.com'};
-		// console.log(current_url);
-		if (options.protocol === 'https:') {
-			var req = https.request(options, redirect_callback).on('error', error_out);
-			req.end();
-		} else if (options.protocol === 'http:') {
-			var req = http.request(options, redirect_callback).on('error', error_out);
-			req.end();
+		if (current_url in known_urls) {
+			if (known_urls[current_url] === "final") {
+				setTimeout(finish,0);
+			} else {
+				current_url = known_urls[current_url];
+				if (redirects_left == 0) {
+					finish();
+				} else {
+					redirects_left--;
+					follow_redirect();
+				}
+			}
+		} else {
+			var options = url.parse(current_url);
+			options.method="GET";
+			options.agent=false;
+			options.headers={	'User-Agent':'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+								'Referer':'http://google.com'};
+			// console.log(current_url);
+			if (options.protocol === 'https:') {
+				var req = https.request(options, redirect_callback).on('error', error_out);
+				req.end();
+			} else if (options.protocol === 'http:') {
+				var req = http.request(options, redirect_callback).on('error', error_out);
+				req.end();
+			}
 		}
 	}
 	follow_redirect();
