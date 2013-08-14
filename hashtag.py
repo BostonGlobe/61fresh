@@ -31,7 +31,8 @@ from tweeted_urls left join url_info using(real_url_hash)
 	left join tweeted_hashtags using (tweet_id) 
 where hashtag='"""+hashtag+"""'  
 	and real_url is not null 
-	and tweeted_urls.created_at>adddate(now(),interval -2 hour)
+	and real_url <> 'error'
+	and tweeted_urls.created_at>adddate(now(),interval -24 hour)
 group by real_url 
 having age < 24
 order by total_tweets desc;
@@ -74,7 +75,7 @@ if len(to_get_from_embedly) > 0:
 	print " query complete"
 
 for link in links:
-	if link['url']=='Error':
+	if link['url']=='error':
 		continue
 	embedly = json.loads(link['embedly_blob'])
 	del link['embedly_blob']
