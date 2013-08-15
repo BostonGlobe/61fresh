@@ -23,7 +23,7 @@ conn = MySQLdb.connect(
 cur = conn.cursor()
 
 cur.execute("SET time_zone='+0:00'")
-print " .... "
+#print " .... "
 recent_query = """
 select real_url as url,count(distinct tweeted_urls.user_id) as total_tweets, MIN(tweeted_urls.created_at) as first_tweeted, 
 	TIMESTAMPDIFF(HOUR,MIN(tweeted_urls.created_at),NOW()) as age, real_url_hash as hash, domain as source, embedly_blob 
@@ -37,13 +37,13 @@ group by real_url
 having age < 24
 order by total_tweets desc;
 """
-print recent_query
+#print recent_query
 links = []
 
 cur.execute(recent_query)
-print " master query complete"
+#print " master query complete"
 for row in cur:
-	print row['url']
+	#print row['url']
 	frac_age = float(row['age'])/24.0
 	if row['age'] < 4:
 		multiplier = 1.20-frac_age
@@ -53,7 +53,7 @@ for row in cur:
 		multiplier = 1.05-frac_age
 	row['hotness'] = multiplier * row['total_tweets']
 	links.append(row)
-print "done iterating"
+#print "done iterating"
 links.sort(key=lambda x: x['hotness'],reverse=True)
 
 links = links[:10]
@@ -90,7 +90,7 @@ for link in links:
 	cur.execute("select screen_name, name, followers_count, profile_image_url, text, tweet_id, tweeted_urls.created_at as created_at from users join tweeted_urls using(user_id) join tweets using(tweet_id) where real_url_hash = %s group by tweeted_urls.user_id order by followers_count desc",(link['hash']))
 	for row in cur:
 		row['tweet_id'] = str(row['tweet_id'])
-		print row['text']
+#		print row['text']
 		row['created_at'] = row['created_at'].isoformat()
 		link['tweeters'].append(row)
 	del link['hash']
@@ -100,7 +100,7 @@ out = {	'generated_at': datetime.datetime.utcnow().isoformat(),
 
 # print json.dumps(out,indent=1)
 json_out = json.dumps(out,indent=1)
-print json_out
+#print json_out
 s3_conn = S3Connection('***REMOVED***', '***REMOVED***')
 k = Key(s3_conn.get_bucket('condor.globe.com'))
 k.key = 'json/'+hashtag+'.json'
