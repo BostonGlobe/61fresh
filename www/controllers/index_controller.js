@@ -5,8 +5,8 @@ IndexController = function()
 	{
 		this.json = {"links":[	
 			{
-				'name':'hotlist',
-				'set':'hotlist'
+				'name':'hotlist2',
+				'set':'hotlist2'
 			},
 			{
 				'name':'#bosmayor hashtag',

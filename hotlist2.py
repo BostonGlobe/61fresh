@@ -99,6 +99,6 @@ out = {	'generated_at': datetime.datetime.utcnow().isoformat(), 'popularity_weig
 
 s3_conn = S3Connection('***REMOVED***', '***REMOVED***')
 k = Key(s3_conn.get_bucket('condor.globe.com'))
-k.key = 'json/hotlist.json'
+k.key = 'json/hotlist2.json'
 k.set_contents_from_string(json.dumps(out,indent=1))
 k.set_acl('public-read')
