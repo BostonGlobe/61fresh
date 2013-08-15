@@ -50,6 +50,7 @@ FeedController = function()
 	this.start = function()
 	{
 		this.set = this.query_param("set")
+		this.diag = this.query_param("diag")
 		if (!this.set) this.set=this.DEFAULT_SET
 		this.log("rendering index page with set "+set)
 		set_url = "json/"+this.set+".json"

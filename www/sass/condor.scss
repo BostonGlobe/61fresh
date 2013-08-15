@@ -3,6 +3,9 @@ $light_text_color: #777;
 $black_color: #333;
 $light_color: green;
 $dark_link_color:#369;
+$diagnostics_color:purple;
+$diagnostics_border: #eee;
+
 body {
   padding-top: 50px;
 	margin-left:20%;
@@ -50,12 +53,25 @@ a:active { text-decoration: none; }
 	
 }
 
-.dataset_line
+.diagnostics_header
 {
-	color:purple;
+	color:$diagnostics_color;
 	font-style:italic;
 	float:right;
+	padding:0.25em;
 }
+
+.diagnostics_row
+{
+	border:2px solid $diagnostics_border;
+	color:$diagnostics_color;
+	padding:0.25em;
+	font-size:10px;
+	width:105px;
+	position:absolute;
+	left:5px;
+}
+
 
 .last_updated
 {

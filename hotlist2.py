@@ -8,6 +8,10 @@ import MySQLdb
 import MySQLdb.cursors
 from urllib import quote
 import urllib2
+import sys
+
+popularity_weight = float(sys.argv[1])
+
 
 conn = MySQLdb.connect(
 	host='***REMOVED***',
@@ -21,24 +25,40 @@ cur = conn.cursor()
 
 cur.execute("SET time_zone='+0:00'")
 
-recent_query = 'select real_url as url, count(distinct user_id) as total_tweets, MIN(created_at) as first_tweeted, TIMESTAMPDIFF(HOUR,MIN(created_at),NOW()) as age, real_url_hash as hash, domain as source, embedly_blob from tweeted_urls left join url_info using(real_url_hash) where domain in ("somerville.patch.com","metrowestdailynews.com","metro.us","dotnews.com","mbta.com","boston.eater.com","commonhealth.wbur.org","patriotledger.com","boston.redsox.mlb.com","news.harvard.edu","bostonrestaurants.blogspot.com","boston.craigslist.org","artery.wbur.org","patriots.com","bpdnews.com","bu.edu","digboston.com","universalhub.com","web.mit.edu","wgbhnews.org","wbur.org","necn.com","boston.cbslocal.com","nesn.com","bostonherald.com","bostonmagazine.com","bostonglobe.com","boston.com","radioboston.wbur.org","weather.boston.cbslocal.com","somervillebeat.com","live.boston.com","thecrimson.com","thesomervillenews.com","gazettenet.com","backbay.patch.com","barstoolsports.com","scoutsomerville.com","jewishboston.com","wgbh.org","somervillema.gov","commonwealthmagazine.org","publicartboston.com","epaper.bostonglobe.com","boston.sportsthenandnow.com","cambridgema.gov","stats.boston.cbslocal.com","allstonpudding.com","martywalsh.org","thebostoncalendar.com","vanyaland.com","weei.com","providencejournal.com") group by real_url having age < 24;'
+recent_query = """select real_url as url, count(distinct user_id) as total_tweets, 
+MIN(created_at) as first_tweeted, TIMESTAMPDIFF(HOUR,MIN(created_at),NOW()) as age, 
+real_url_hash as hash, domain as source, embedly_blob from tweeted_urls 
+left join url_info using(real_url_hash) 
+where domain in ("somerville.patch.com","metrowestdailynews.com","metro.us","dotnews.com","mbta.com","boston.eater.com","commonhealth.wbur.org","patriotledger.com","boston.redsox.mlb.com","news.harvard.edu","bostonrestaurants.blogspot.com","boston.craigslist.org","artery.wbur.org","patriots.com","bpdnews.com","bu.edu","digboston.com","universalhub.com","web.mit.edu","wgbhnews.org","wbur.org","necn.com","boston.cbslocal.com","nesn.com","bostonherald.com","bostonmagazine.com","bostonglobe.com","boston.com","radioboston.wbur.org","weather.boston.cbslocal.com","somervillebeat.com","live.boston.com","thecrimson.com","thesomervillenews.com","gazettenet.com","backbay.patch.com","barstoolsports.com","scoutsomerville.com","jewishboston.com","wgbh.org","somervillema.gov","commonwealthmagazine.org","publicartboston.com","epaper.bostonglobe.com","boston.sportsthenandnow.com","cambridgema.gov","stats.boston.cbslocal.com","allstonpudding.com","martywalsh.org","thebostoncalendar.com","vanyaland.com","weei.com","providencejournal.com") 
+group by real_url having age < 12;"""
 links = []
 
 cur.execute(recent_query)
+
+#for row in cur:
+#	frac_age = float(row['age'])/24.0
+#	if (frac_age)
+#	if row['age'] < 4:
+#		multiplier = 4-(3*frac_age) 
+#	elif row['age'] < 12:
+#		multiplier = 1.05-frac_age
+#	else:
+#		multiplier = 1.05-frac_age
+#	row['hotness'] = multiplier * row['total_tweets']
+
 for row in cur:
-	frac_age = float(row['age'])/24.0
-	if row['age'] < 4:
-		multiplier = 1.20-frac_age
-	elif row['age'] < 12:
-		multiplier = 1.05-frac_age
-	else:
-		multiplier = 1.05-frac_age
-	row['hotness'] = multiplier * row['total_tweets']
+	row['age']+=1
+	age = row['age']
+	popularity_factor = float((row['total_tweets']-2)*popularity_weight)
+	age_factor = float(age * age)
+	row['popularity_factor'] = popularity_factor
+	row['age_factor'] = age_factor
+	row['hotness'] = popularity_factor / age_factor
 	links.append(row)
 
 links.sort(key=lambda x: x['hotness'],reverse=True)
 
-links = links[:10]
+links = links[:20]
 
 to_get_from_embedly = [x for x in links if x['embedly_blob'] is None]
 
@@ -72,8 +92,8 @@ for link in links:
 		link['tweeters'].append(row)
 	del link['hash']
 
-out = {	'generated_at': datetime.datetime.utcnow().isoformat(),
-		'articles':links[:10]}
+out = {	'generated_at': datetime.datetime.utcnow().isoformat(), 'popularity_weight':popularity_weight,'diagnostics':True,
+		'articles':links[:50]}
 
 # print json.dumps(out,indent=1)
 
