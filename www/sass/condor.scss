@@ -191,6 +191,14 @@ a:active { text-decoration: none; }
 	-moz-border-radius:14px;	
 }
 
+@media only screen and (max-width: 400px) {
+	.article_image_container
+	{
+		width:100%;
+	}
+}
+
+
 .article_image
 {
 	width:100%;
