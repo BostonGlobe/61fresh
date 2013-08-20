@@ -2,7 +2,7 @@ pushd .
 cd ~/condor
 rm -rf data
 mkdir data
-python hotlist2.py > data/articles.json
+python hotlist2.py > data/articles_12.json
 mkdir data/hashtags
 python hashtag.py bospoli > data/hashtags/bospoli.json
 python hashtag.py mapoli > data/hashtags/mapoli.json
@@ -12,6 +12,7 @@ python hashtag.py patriots > data/hashtags/patriots.json
 
 mkdir data/leaders
 python hotlist2.py 168 > data/leaders/week.json
+cat data/leaders/week.json > data/articles_168.json
 
 rm -rf www/json
 mkdir www/json
