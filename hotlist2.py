@@ -117,5 +117,5 @@ _json = json.dumps(out)
 k.set_contents_from_string(_json)
 k.set_acl('public-read')
 print _json
-k.set_contents_from_string(_json.dumps(out,indent=1))
+k.set_contents_from_string(_json)
 k.set_acl('public-read')
