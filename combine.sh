@@ -3,6 +3,8 @@ cd ~/condor
 rm -rf data
 mkdir data
 python hotlist2.py > data/articles_12.json
+cp data/articles_12.json data/articles.json
+
 mkdir data/hashtags
 python hashtag.py bospoli > data/hashtags/bospoli.json
 python hashtag.py mapoli > data/hashtags/mapoli.json
