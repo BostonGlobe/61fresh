@@ -2,7 +2,7 @@
 
 To install me on amazon linux, here are the steps:
 
-    sudo yum install -y git gcc-c++ openssl-devel make
+    sudo yum install -y git gcc-c++ openssl-devel make python-botocore MySQL-python
     wget http://nodejs.org/dist/node-latest.tar.gz
     tar -zxvf node-latest.tar.gz
     cd node-v*
