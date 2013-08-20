@@ -26,7 +26,7 @@ else:
 conn = MySQLdb.connect(
 	host='***REMOVED***',
  	user='condor',
- 	passwd='condor',
+ 	passwd='globelab',
  	db ='condor',
 	use_unicode=True,
     charset="utf8",
@@ -117,3 +117,5 @@ json = json.dumps(out)
 k.set_contents_from_string(json)
 k.set_acl('public-read')
 print json
+k.set_contents_from_string(json.dumps(out,indent=1))
+k.set_acl('public-read')

@@ -8,7 +8,7 @@ var mysql      = require('mysql');
 var sql_conn = mysql.createConnection({
   host     : '***REMOVED***',
   user     : 'condor',
-  password : 'condor',
+  password : 'globelab',
   database : 'condor',
   supportBigNumbers : 'true',
   timezone : 'UTC',
