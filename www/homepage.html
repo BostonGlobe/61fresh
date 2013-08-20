@@ -16,6 +16,14 @@
     <!-- Custom styles for this template -->
     <link href="starter-template.css" rel="stylsesheet">
 	<link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+
+    <div class="container">
+		<div id='index'></div>
+
+    </div><!-- /.container -->
     <script src="http://code.jquery.com/jquery.js"></script>
     <script src="js/moment.js"></script>
 
@@ -23,10 +31,10 @@
     <script src="http://embeddedjavascript.googlecode.com/files/ejs_0.9_alpha_1_production.js"></script>
     <script src="piggyback/piggyback.js"></script>
     <script src="controllers/application_controller.js"></script>
-    <script src="controllers/feed_controller.js"></script>
+    <script src="controllers/homepage_controller.js"></script>
 	<script>
 		jQuery(document).ready(function() {
-			new FeedController().log("feed ready");
+			new HomepageController().log("homepage ready");
 		})
 	</script>
 	<script>
@@ -39,19 +47,5 @@
 	  ga('send', 'pageview');
 
 	</script>
-  </head>
-
-  <body>
-
-    <div class="container">
-		<div class='header'>
-			<div class='logo'>61FRESH</div>
-			<div class="tagline">
-				boston news, tweeted by bostonians. updated every 10 minutes.
-			</div>
-			<div class='last_updated'></div>
-		</div>
-		<div id='index'><h1>loading ...</h1></div>
-    </div><!-- /.container -->
   </body>
 </html>

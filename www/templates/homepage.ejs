@@ -1,0 +1,156 @@
+<div class='header'>
+	<div class="diagnostics_header">
+		<%if (diag && json.articles.diagnostics) {%>
+			<div>
+				popularity weight: <%=json.articles.popularity_weight%>
+			</div>
+		<%}%>
+	</div>
+	<div class='logo'>61FRESH</div>
+	<div class="tagline">
+		boston news, tweeted by bostonians. updated every 10 minutes.
+	</div>
+	<div class='last_updated'>
+		last updated <%=moment(Date.parse(json.articles.generated_at)).fromNow()%>
+	</div>
+</div>
+<div>
+	<div id='right_rail'>
+	
+	<%_.each(json.leaders,function(leader){%>
+		<div class='rail_set'>
+			<div class='rail_set_header'>most-tweeted last <%=leader.data.age_in_hours/24%> days</div>
+			<div class='rail_set_articles'>
+				<%_.each(leader.data.articles,function(article,i){%>
+					<%if (i>9) return%>
+					<div>
+						<div class='rail_set_article'>
+							<%if (article.image_url&&i<0) {%>
+							<div class='rail_set_article_image_container'><img class='rail_set_article_image' src='<%=article.image_url%>'/></div>
+							<%}%>
+							<div class='rail_set_article_header'>
+							<%=moment(new Date(article.first_tweeted)).fromNow()%> on <a href='http://<%=article.source%>'><%=article.source%></a>
+							</div>
+							<div class='rail_set_article_link'>
+								<a href='<%=article.url%>'><%=article.title%></a> 
+								<div class='rail_set_article_num_tweets'>
+									<%=article.total_tweets%>
+								</div>
+							</div>
+						</div>
+					</div>
+				<%})%>
+			</div>
+		</div>
+		<%})%>
+		
+	<%_.each(json.hashtags,function(hashtag){%>
+		<div class='rail_set'>
+		<div class='rail_set_header'>#<%=hashtag.name%></div>
+			<div class='rail_set_articles'>
+			<%_.each(hashtag.data.articles,function(article,i){%>
+					<%if (i>4) return%>
+					<div>
+						<div class='rail_set_article'>
+							<div class='rail_set_article_header'>
+								<%=moment(new Date(article.first_tweeted)).fromNow()%> on <a href='http://<%=article.source%>'><%=article.source%></a>
+							</div>
+							<div class='rail_set_article_link'>
+								<a href='<%=article.url%>'><%=article.title%></a> 
+								<div class='rail_set_article_num_tweets'>
+									<%=article.total_tweets%>
+								</div>
+							</div>
+						</div>
+					</div>
+				<%})%>
+			</div>
+		</div>
+		<%})%>		
+		
+	</div>
+	<div id='main'>
+		<%_.each(json.articles.articles,function(article){%>
+			<%if (article.deleted) return%>
+		<div class='article'>
+			<div>
+			<%if (diag && json.articles.diagnostics) {%>
+				<div class='diagnostics_row'>
+					<table>
+						<tr>
+							<td>total_tweets</td>
+							<td><%=article.total_tweets%></td>
+						</tr>
+						<tr>
+							<td>age (in hours)</td>
+							<td><%=article.age%></td>
+						</tr>
+						<tr>
+							<td>popularity_factor</td>
+							<td><%=article.popularity_factor%></td>
+						</tr>
+						<tr>
+							<td>age_factor</td>
+							<td><%=article.age_factor%></td>
+						</tr>
+						<tr>
+							<td>hotness</td>
+							<td><%=(article.hotness+'').substring(0,4)%></td>
+						</tr>
+					</table>
+				</div>
+			<%}%>
+			<div class='article_hotness'>
+				<%=article.total_tweets%>
+				<div  class='article_hotness_label'>boston<br>tweets</div>
+			</div>
+			<%if (article.image_url) {%>
+			<div class='article_image_container'><img class='article_image' src='<%=article.image_url%>'/></div>
+			<%}%>
+			<div class='article_header'>
+				<div class='article_source'><a href='http://<%=article.source%>'><%=article.source%></a></div>
+				<!--<div class='article_total_tweets'><%=article.total_tweets%> boston tweets</div>--><div class='article_found_at'>article, first tweeted <%=moment(Date.parse(article.first_tweeted)).fromNow()%>
+					<%if (article.first_tweeter) {%>
+						by <a href='http://www.twitter.com/<%=article.first_tweeter.screen_name%>'>@<%=article.first_tweeter.screen_name%></a>
+					<%}%>
+					</div>
+				<%if (article.is_new) {%>
+					<div class='article_is_new'>new!</div>
+				<%}%>
+			</div>
+			<div class='article_title'>
+			<div class='article_profile_image_url'><a href='http://www.twitter.com/statuses/<%=article.tweet_id%>'>
+				<img src='<%=article.profile_image_url%>'/></a>
+				<div class='article_title_screen_name'><%=article.tweet_title_screen_name%></div>
+			</div>
+			<a href='<%=article.url%>'><%=article.tweet_title%></a>
+			</div>
+			<div class='article_description'>
+				<div class='article_description_title'><%=article.title%> &#8230;</div>
+	
+			<%=article.description%></div>
+			<%if (article.tweeters && article.tweeters.length>0) {%>
+				<div class='article_tweeters'>
+					tweeted by
+					<%_.each(article.tweeters,function(tweeter){%>
+						<div class='article_tweeter'>
+							<div class='article_tweeter_screen_name'>
+							<div class='article_tweeter_image_container'>
+								<img class='article_tweeter_image' src='<%=tweeter.profile_image_url%>'></img>
+							</div>
+							<a title="<%=moment(new Date(tweeter.created_at)).fromNow()%>: <%=tweeter.text%>" href='http://www.twitter.com/<%=tweeter.screen_name%>/statuses/<%=tweeter.tweet_id%>'><%=tweeter.name%></a>
+							</div> (<%=""+tweeter.followers_count%>)
+						</div>
+					<%})%>
+					<%if (article.total_tweets>article.tweeters.length) {%>
+						&nbsp;and <%=article.total_tweets-article.tweeters.length%> others
+					<%}%>
+				</div>
+			<%}%>
+			</div>
+		</div>
+		<%})%>
+	</div> <!-- main -->
+	<div style='clear:right'>
+	</div>
+</div>
