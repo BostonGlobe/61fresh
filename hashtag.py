@@ -101,7 +101,7 @@ json_out = json.dumps(out,indent=1)
 #print json_out
 s3_conn = S3Connection('***REMOVED***', '***REMOVED***')
 k = Key(s3_conn.get_bucket('condor.globe.com'))
-k.key = 'json/'+hashtag+'.json'
+k.key = 'json/hashtags/'+hashtag+'.json'
 k.set_contents_from_string(json_out)
 k.set_acl('public-read')
 print json_out
