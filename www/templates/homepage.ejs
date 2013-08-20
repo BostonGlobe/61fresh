@@ -47,7 +47,7 @@
 	<%_.each(json.hashtags,function(hashtag){%>
 		<div class='rail_set'>
 		<div class='rail_set_header'><a href='feed.html?set=hashtags/<%=hashtag.name%>'>#<%=hashtag.name%></a></div>
-			<div class='rail_set_articles'>
+			<div class='rail_set_articles'> 
 			<%_.each(hashtag.data.articles,function(article,i){%>
 					<%if (i>4) return%>
 					<div>
