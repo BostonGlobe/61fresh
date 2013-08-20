@@ -84,7 +84,6 @@ HomepageController = function()
 	this.start = function()
 	{
 		this.DEFAULT_SET='data'
-
 		this.set = this.query_param("set")
 		this.diag = this.query_param("diag")
 		if (!this.set) this.set=this.DEFAULT_SET

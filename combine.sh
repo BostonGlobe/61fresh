@@ -13,5 +13,8 @@ python hashtag.py patriots > data/hashtags/patriots.json
 mkdir data/leaders
 python hotlist2.py 168 > data/leaders/week.json
 
+rm -rf www/json
+mkdir www/json
 python combine_json.py data > www/json/data.json
+mv data/* www/json
 popd
