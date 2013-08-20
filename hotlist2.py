@@ -11,7 +11,7 @@ import urllib2
 import sys
 
 if len(sys.argv)>1:
-	age_in_hours = float(sys.argv[1])
+	age_in_hours = int(sys.argv[1])
 else:
 	age_in_hours = 12
 
