@@ -20,5 +20,6 @@ To install me on amazon linux, here are the steps:
 
 
 To start the main ingest and url resolver:
+
     nohup python forever.py &
     nohup node resolve_urls.js &
