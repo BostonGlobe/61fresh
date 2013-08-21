@@ -12,11 +12,19 @@ import sys
 
 hashtag = sys.argv[1] 
 
+try:
+	with open('config-local.json') as fh:
+		config = json.load(fh)
+except IOError:
+	with open('config.json') as fh:
+		config = json.load(fh)
+
 conn = MySQLdb.connect(
-	host='***REMOVED***',
- 	user='condor',
- 	passwd='globelab',
- 	db ='condor',
+	host=config['mysql']['host'],
+	port=config['mysql']['port'],
+ 	user=config['mysql']['user'],
+ 	passwd=config['mysql']['password'],
+ 	db=config['mysql']['database'],
 	use_unicode=True,
     charset="utf8",
     cursorclass = MySQLdb.cursors.DictCursor)
