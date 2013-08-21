@@ -10,12 +10,12 @@ from urllib import quote
 import urllib2
 import sys
 
-hashtag = sys.argv[1]
+hashtag = sys.argv[1] 
 
 conn = MySQLdb.connect(
 	host='***REMOVED***',
  	user='condor',
- 	passwd='condor',
+ 	passwd='globelab',
  	db ='condor',
 	use_unicode=True,
     charset="utf8",
@@ -62,7 +62,6 @@ to_get_from_embedly = [x for x in links if x['embedly_blob'] is None]
 
 if len(to_get_from_embedly) > 0:
 	embedly_list = json.load(urllib2.urlopen("http://api.embed.ly/1/extract?key=***REMOVED***&urls=" + ','.join([quote(x['url']) for x in to_get_from_embedly])))
-	print " ..."
 	for (link,embedly) in zip(to_get_from_embedly,embedly_list):
 		embedly_blob = json.dumps(embedly)
 		cur.execute("insert into url_info (real_url_hash,embedly_blob) values (%s,%s) on duplicate key update embedly_blob = %s",(link['hash'],embedly_blob,embedly_blob))
@@ -72,7 +71,6 @@ if len(to_get_from_embedly) > 0:
 				break
 	conn.commit() 
 	
-	print " query complete"
 
 for link in links:
 	if link['url']=='error':
@@ -103,6 +101,7 @@ json_out = json.dumps(out,indent=1)
 #print json_out
 s3_conn = S3Connection('***REMOVED***', '***REMOVED***')
 k = Key(s3_conn.get_bucket('condor.globe.com'))
-k.key = 'json/'+hashtag+'.json'
+k.key = 'json/hashtags/'+hashtag+'.json'
 k.set_contents_from_string(json_out)
 k.set_acl('public-read')
+print json_out

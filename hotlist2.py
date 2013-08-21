@@ -10,13 +10,23 @@ from urllib import quote
 import urllib2
 import sys
 
-popularity_weight = float(sys.argv[1])
+if len(sys.argv)>1:
+	age_in_hours = int(sys.argv[1])
+else:
+	age_in_hours = 12
 
+popularity_weight=100
+
+# for multi-day queries, don't consider recency, just a popularity rank
+if age_in_hours>72:
+	ignore_age=True 
+else:
+	ignore_age=False
 
 conn = MySQLdb.connect(
 	host='***REMOVED***',
  	user='condor',
- 	passwd='condor',
+ 	passwd='globelab',
  	db ='condor',
 	use_unicode=True,
     charset="utf8",
@@ -24,13 +34,13 @@ conn = MySQLdb.connect(
 cur = conn.cursor()
 
 cur.execute("SET time_zone='+0:00'")
-# "somerville.patch.com","metrowestdailynews.com","metro.us","dotnews.com","mbta.com","boston.eater.com","commonhealth.wbur.org","patriotledger.com","boston.redsox.mlb.com","news.harvard.edu","bostonrestaurants.blogspot.com","boston.craigslist.org","artery.wbur.org","patriots.com","bpdnews.com","bu.edu","digboston.com","universalhub.com","web.mit.edu","wgbhnews.org","wbur.org","necn.com","boston.cbslocal.com","nesn.com","bostonherald.com","bostonmagazine.com","bostonglobe.com","boston.com","radioboston.wbur.org","weather.boston.cbslocal.com","somervillebeat.com","live.boston.com","thecrimson.com","thesomervillenews.com","gazettenet.com","backbay.patch.com","barstoolsports.com","scoutsomerville.com","jewishboston.com","wgbh.org","somervillema.gov","commonwealthmagazine.org","publicartboston.com","epaper.bostonglobe.com","boston.sportsthenandnow.com","cambridgema.gov","stats.boston.cbslocal.com","allstonpudding.com","martywalsh.org","thebostoncalendar.com","vanyaland.com","weei.com","providencejournal.com"
 recent_query = """select real_url as url, count(distinct user_id) as total_tweets, 
 MIN(created_at) as first_tweeted, TIMESTAMPDIFF(HOUR,MIN(created_at),NOW()) as age, 
 real_url_hash as hash, domain as source, embedly_blob from tweeted_urls 
 left join url_info using(real_url_hash) 
 where domain in (select domain from domains where domain_set='boston') 
-group by real_url having age < 12;"""
+group by real_url having age < %s;""" % (age_in_hours)
+
 links = []
 
 cur.execute(recent_query)
@@ -53,7 +63,11 @@ for row in cur:
 	age_factor = float(age * age)
 	row['popularity_factor'] = popularity_factor
 	row['age_factor'] = age_factor
-	row['hotness'] = popularity_factor / age_factor
+	if ignore_age:
+		row['hotness'] = popularity_factor
+	else:
+		row['hotness'] = popularity_factor / age_factor
+		
 	links.append(row)
 
 links.sort(key=lambda x: x['hotness'],reverse=True)
@@ -98,12 +112,20 @@ for link in links:
 
 correlation_matrix = [[getLinksCorrelation(x,y) for x in links] for y in links]
 
-out = {	'generated_at': datetime.datetime.utcnow().isoformat(), 'popularity_weight':popularity_weight,'diagnostics':True, 'correlation': correlation_matrix,
+out = {	'generated_at': datetime.datetime.utcnow().isoformat(),
+		'age_in_hours':age_in_hours,
+		'popularity_weight':popularity_weight,
+		'diagnostics':True,
+		'correlation': correlation_matrix,
 		'articles':links[:50]}
 # print json.dumps(out,indent=1)
 
 s3_conn = S3Connection('***REMOVED***', '***REMOVED***')
 k = Key(s3_conn.get_bucket('condor.globe.com'))
-k.key = 'json/hotlist2.json'
-k.set_contents_from_string(json.dumps(out,indent=1))
+k.key = "json/articles_%s.json" % age_in_hours
+_json = json.dumps(out)
+k.set_contents_from_string(_json)
+k.set_acl('public-read')
+print _json
+k.set_contents_from_string(_json)
 k.set_acl('public-read')

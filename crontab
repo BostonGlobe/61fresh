@@ -1,0 +1,8 @@
+#*/13 * * * * python condor/hashtag.py mapoli
+#*/12 * * * * python condor/hashtag.py bospoli
+#*/11 * * * * python condor/hashtag.py bosmayor
+#*/14 * * * * python condor/hashtag.py boston
+#*/15 * * * * python condor/hashtag.py mbta
+#*/16 * * * * python condor/hashtag.py redsox
+#*/10 * * * * python condor/hotlist2.py 100
+*/10 * * * * ./condor/combine.sh

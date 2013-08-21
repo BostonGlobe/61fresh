@@ -24,6 +24,8 @@ ApplicationController = function()
 			console.log(t)
 		}
 	}
+
+	
 	
 }
 
