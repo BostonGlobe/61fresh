@@ -9,7 +9,20 @@ import MySQLdb.cursors
 from urllib import quote
 import urllib2
 import sys
+import optparse
 
+parser = optparse.OptionParser()
+parser.add_option('-a', '--age', help='max age of urls in hours. default value is 12',default='12')
+parser.add_option('-p', '--popularity_weight', help='multiplier for popularity - higher values will give greater emphasis to popular articles over fresh articles. default is 100',default='100')
+parser.add_option('-n', '--no_tweeters', help="don't return array of tweeters with each url - saves file size. default is False (tweeters will be returned).",default=False)
+parser.add_option('-r', '--num_results', help="number of results to return, default value is 50.",default=False)
+(opts, args) = parser.parse_args()
+
+#print "age: %s" % opts.age
+#print "popularity_weight: %s" % opts.popularity_weight
+#print "no_tweeters: %s" % opts.no_tweeters
+
+exit(0)
 if len(sys.argv)>1:
 	age_in_hours = int(sys.argv[1])
 else:
