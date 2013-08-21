@@ -36,11 +36,19 @@ if age_in_hours>72:
 else:
 	ignore_age=False
 
+try:
+	with open('config-local.json') as fh:
+		config = json.load(fh)
+except IOError:
+	with open('config.json') as fh:
+		config = json.load(fh)
+
 conn = MySQLdb.connect(
-	host='***REMOVED***',
- 	user='condor',
- 	passwd='globelab',
- 	db ='condor',
+	host=config['mysql']['host'],
+	port=config['mysql']['port'],
+ 	user=config['mysql']['user'],
+ 	passwd=config['mysql']['password'],
+ 	db=config['mysql']['database'],
 	use_unicode=True,
     charset="utf8",
     cursorclass = MySQLdb.cursors.DictCursor)
@@ -101,8 +109,12 @@ if len(to_get_from_embedly) > 0:
 				break
 	conn.commit()
 
+def getLinksCorrelation(a,b):
+	return sum([a['keywords'].get(x,0)*b['keywords'].get(x,0) for x in a['keywords'].keys()])
+
 for link in links:
 	embedly = json.loads(link['embedly_blob'])
+	link['keywords'] = {kw['name']:kw['score'] for kw in embedly['keywords']}
 	del link['embedly_blob']
 	link['first_tweeted'] = link['first_tweeted'].isoformat()
 	link['title'] = embedly['title']
@@ -119,7 +131,13 @@ for link in links:
 		link['tweeters'].append(row)
 	del link['hash']
 
-out = {'generated_at': datetime.datetime.utcnow().isoformat(), 'age_in_hours':age_in_hours,'popularity_weight':popularity_weight,'diagnostics':True,
+correlation_matrix = [[getLinksCorrelation(x,y) for x in links] for y in links]
+
+out = {	'generated_at': datetime.datetime.utcnow().isoformat(),
+		'age_in_hours':age_in_hours,
+		'popularity_weight':popularity_weight,
+		'diagnostics':True,
+		'correlation': correlation_matrix,
 		'articles':links[:50]}
 # print json.dumps(out,indent=1)
 

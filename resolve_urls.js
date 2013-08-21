@@ -4,12 +4,20 @@ var url = require('url');
 var _ = require("underscore");
 var crypto = require('crypto');
 
+var config;
+try {
+	config = require(__dirname + '/config-local.json');
+} catch (e) {
+	config = require(__dirname + '/config.json')
+}
+
 var mysql      = require('mysql');
 var sql_conn = mysql.createConnection({
-  host     : '***REMOVED***',
-  user     : 'condor',
-  password : 'globelab',
-  database : 'condor',
+  host     : config.mysql.host,
+  port     : config.mysql.port,
+  user     : config.mysql.user,
+  password : config.mysql.password,
+  database : config.mysql.database,
   supportBigNumbers : 'true',
   timezone : 'UTC',
   charset: 'UTF8MB4_UNICODE_CI'
