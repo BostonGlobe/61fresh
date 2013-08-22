@@ -46,7 +46,6 @@ FeedController = function()
 		if (view==null) view='feed'
 		
 		this.render("index",view)
-		this.do_rail_sets()
 	}
 
 

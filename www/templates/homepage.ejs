@@ -21,7 +21,7 @@
 	
 	<%_.each(json.leaders,function(leader){%>
 		<div class='rail_set'>
-			<div class='rail_set_header'><a href='feed.html?set=articles_<%=leader.data.age_in_hours%>'>most-tweeted last <%=leader.data.age_in_hours/24%> days</a></div>
+			<div class='rail_set_header'>most-tweeted last <%=leader.data.age_in_hours/24%> days</div>
 			<div class='rail_set_articles'>
 				<%_.each(leader.data.articles,function(article,i){%>
 					<%if (i>9) return%>
@@ -48,7 +48,7 @@
 		
 	<%_.each(json.hashtags,function(hashtag){%>
 		<div class='rail_set'>
-		<div class='rail_set_header'><a href='feed.html?set=hashtags/<%=hashtag.name%>'>#<%=hashtag.name%></a></div>
+		<div class='rail_set_header'>#<%=hashtag.name%></div>
 			<div class='rail_set_articles'> 
 			<%_.each(hashtag.data.articles,function(article,i){%>
 					<%if (i>4) return%>
