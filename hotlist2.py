@@ -154,7 +154,7 @@ for link in links:
 		for row in cur:
 			if row['retweeted_tweet_id'] is None:
 				del row['retweeted_tweet_id']
-			row['home_domain'] = row['home_domain'] == link['domain']
+			row['home_domain'] = row['home_domain'] == link['source']
 			row['tweet_id'] = str(row['tweet_id'])
 			row['created_at'] = row['created_at'].isoformat()
 			link['tweeters'].append(row)
