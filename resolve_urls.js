@@ -185,4 +185,4 @@ var normalizeURL = function(in_url) {
 setInterval(getAndResolve,100);
 setInterval(getMoreUrls,1000);
 getMoreUrls();
-
+setTimeout(process.exit,60*60*1000);
