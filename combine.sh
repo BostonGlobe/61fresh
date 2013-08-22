@@ -2,18 +2,18 @@ pushd .
 cd ~/condor
 rm -rf data
 mkdir data
-python hotlist2.py > data/articles_12.json
+python hotlist2.py --num_results=20 > data/articles_12.json
 cp data/articles_12.json data/articles.json
 
 mkdir data/hashtags
-python hashtag.py bospoli > data/hashtags/bospoli.json
-python hashtag.py mapoli > data/hashtags/mapoli.json
-python hashtag.py bosmayor > data/hashtags/bosmayor.json
-python hashtag.py redsox > data/hashtags/redsox.json
-python hashtag.py patriots > data/hashtags/patriots.json
+python hotlist2.py --hashtag=bospoli 	--no_tweeters --num_results=5 > data/hashtags/bospoli.json
+python hotlist2.py --hashtag=mapoli 	--no_tweeters --num_results=5 > data/hashtags/mapoli.json
+python hotlist2.py --hashtag=bosmayor --no_tweeters --num_results=5 > data/hashtags/bosmayor.json
+python hotlist2.py --hashtag=redsox 	--no_tweeters --num_results=5 > data/hashtags/redsox.json
+python hotlist2.py --hashtag=patriots --no_tweeters --num_results=5 > data/hashtags/patriots.json
 
 mkdir data/leaders
-python hotlist2.py 168 > data/leaders/week.json
+python hotlist2.py --no_tweeters --num_results=10 --age=168 > data/leaders/week.json
 cat data/leaders/week.json > data/articles_168.json
 
 rm -rf www/json

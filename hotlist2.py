@@ -9,16 +9,31 @@ import MySQLdb.cursors
 from urllib import quote
 import urllib2
 import sys
+import optparse
 
-if len(sys.argv)>1:
-	age_in_hours = int(sys.argv[1])
-else:
-	age_in_hours = 12
+parser = optparse.OptionParser()
+parser.add_option('-a', '--age', help='max age of urls in hours. default value is 12',default='12')
+parser.add_option('-p', '--popularity_weight', help='multiplier for popularity - higher values will give greater emphasis to popular articles over fresh articles. default is 100',default='100')
+parser.add_option('-n', '--no_tweeters', help="don't return array of tweeters with each url - saves file size. default is False (tweeters will be returned).",default=False)
+parser.add_option('-r', '--num_results', help="number of results to return, default value is 50.",default=50)
+parser.add_option('-t', '--hashtag', help="filter by the given hashtag, not domain list, default is false",default=False)
 
-popularity_weight=100
+(opts, args) = parser.parse_args()
+
+#print "age: %s" % opts.age
+#print "popularity_weight: %s" % opts.popularity_weight
+#print "no_tweeters: %s" % opts.no_tweeters
+
+#exit(0)
+#if len(sys.argv)>1:
+#	age_in_hours = int(sys.argv[1])
+#else:
+#	age_in_hours = 12
+
+#popularity_weight=100
 
 # for multi-day queries, don't consider recency, just a popularity rank
-if age_in_hours>72:
+if opts.age>72:
 	ignore_age=True 
 else:
 	ignore_age=False
@@ -42,16 +57,35 @@ conn = MySQLdb.connect(
 cur = conn.cursor()
 
 cur.execute("SET time_zone='+0:00'")
-recent_query = """select real_url as url, count(distinct user_id) as total_tweets, 
+non_hashtag_query = """select real_url as url, count(distinct user_id) as total_tweets, 
 MIN(created_at) as first_tweeted, TIMESTAMPDIFF(HOUR,MIN(created_at),NOW()) as age, 
 real_url_hash as hash, domain as source, embedly_blob from tweeted_urls 
 left join url_info using(real_url_hash) 
 where domain in (select domain from domains where domain_set='boston') 
-group by real_url having age < %s;""" % (age_in_hours)
+group by real_url having age < %s;"""
+
+hashtag_query = """
+select real_url as url,count(distinct tweeted_urls.user_id) as total_tweets, MIN(tweeted_urls.created_at) as first_tweeted, 
+	TIMESTAMPDIFF(HOUR,MIN(tweeted_urls.created_at),NOW()) as age, real_url_hash as hash, domain as source, embedly_blob 
+from tweeted_urls left join url_info using(real_url_hash) 
+	left join tweeted_hashtags using (tweet_id) 
+where hashtag='%s'  
+	and real_url is not null 
+	and real_url <> 'error'
+	and tweeted_urls.created_at>adddate(now(),interval -24 hour)
+group by real_url 
+having age < 24
+order by total_tweets desc;
+"""
+query = ""
+if (opts.hashtag):
+	query = hashtag_query % opts.hashtag
+else:
+	query = non_hashtag_query % opts.age
 
 links = []
 
-cur.execute(recent_query)
+cur.execute(query)
 
 #for row in cur:
 #	frac_age = float(row['age'])/24.0
@@ -67,7 +101,7 @@ cur.execute(recent_query)
 for row in cur:
 	row['age']+=1
 	age = row['age']
-	popularity_factor = float((row['total_tweets']-2)*popularity_weight)
+	popularity_factor = float((row['total_tweets']-2)*int(opts.popularity_weight))
 	age_factor = float(age * age)
 	row['popularity_factor'] = popularity_factor
 	row['age_factor'] = age_factor
@@ -80,7 +114,7 @@ for row in cur:
 
 links.sort(key=lambda x: x['hotness'],reverse=True)
 
-links = links[:20]
+links = links[:int(opts.num_results)]
 
 to_get_from_embedly = [x for x in links if x['embedly_blob'] is None]
 
@@ -111,26 +145,31 @@ for link in links:
 			link['image_url'] = img['url']
 			break
 	link['tweeters'] = []
-	cur.execute("select screen_name, name, followers_count, profile_image_url, text, tweet_id, tweeted_urls.created_at as created_at from users join tweeted_urls using(user_id) join tweets using(tweet_id) where real_url_hash = %s group by tweeted_urls.user_id order by followers_count desc",(link['hash']))
-	for row in cur:
-		row['tweet_id'] = str(row['tweet_id'])
-		row['created_at'] = row['created_at'].isoformat()
-		link['tweeters'].append(row)
+	if not opts.no_tweeters:
+		cur.execute("select screen_name, name, followers_count, profile_image_url, text, tweet_id, tweeted_urls.created_at as created_at from users join tweeted_urls using(user_id) join tweets using(tweet_id) where real_url_hash = %s group by tweeted_urls.user_id order by followers_count desc",(link['hash']))
+		for row in cur:
+			row['tweet_id'] = str(row['tweet_id'])
+			row['created_at'] = row['created_at'].isoformat()
+			link['tweeters'].append(row)
 	del link['hash']
 
 correlation_matrix = [[getLinksCorrelation(x,y) for x in links] for y in links]
 
 out = {	'generated_at': datetime.datetime.utcnow().isoformat(),
-		'age_in_hours':age_in_hours,
-		'popularity_weight':popularity_weight,
+		'age_in_hours':opts.age,
+		'popularity_weight':opts.popularity_weight,
 		'diagnostics':True,
 		'correlation': correlation_matrix,
-		'articles':links[:50]}
+		'articles':links[:int(opts.num_results)]}
 # print json.dumps(out,indent=1)
 
 s3_conn = S3Connection('***REMOVED***', '***REMOVED***')
 k = Key(s3_conn.get_bucket('condor.globe.com'))
-k.key = "json/articles_%s.json" % age_in_hours
+if opts.hashtag:
+	k.key = 'json/hashtags/'+opts.hashtag+'.json'
+else:
+	k.key = "json/articles_%s.json" % opts.age
+
 _json = json.dumps(out)
 k.set_contents_from_string(_json)
 k.set_acl('public-read')
