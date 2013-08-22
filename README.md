@@ -16,7 +16,7 @@ To install me on amazon linux, here are the steps:
     wget https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py -O - | sudo python27
     sudo /usr/bin/python27 /usr/bin/easy_install pip
 
-    sudo pip-2.7 boto MySQL-python numpy pyyaml nltk
+    sudo pip-2.7 boto MySQL-python numpy pyyaml nltk simplejson
 
     put the private key in ~/.ssh/id_rsa (with proper permissions)
 
