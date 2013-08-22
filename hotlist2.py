@@ -157,8 +157,9 @@ for link in links:
 			link['tweeters'].append(row)
 	del link['hash']
 
-if not opts.min: correlation_matrix = [[getLinksCorrelation(x,y) for x in links] for y in links]
-else: correlation_matrix = []
+#if not opts.min: correlation_matrix = [[getLinksCorrelation(x,y) for x in links] for y in links]
+#else: correlation_matrix = []
+correlation_matrix = []
 
 out = {	'generated_at': datetime.datetime.utcnow().isoformat(),
 		'age_in_hours':opts.age,
