@@ -2,7 +2,7 @@ pushd .
 cd ~/condor
 rm -rf data
 mkdir data
-python hotlist2.py $1 --num_results=20 > data/articles_12.json
+python hotlist2.py $1 --num_results=40 > data/articles_12.json
 mv data/articles_12.json data/articles.json
 
 mkdir data/hashtags

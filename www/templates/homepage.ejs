@@ -1,5 +1,7 @@
 <div class='header'>
 	<div class="diagnostics_header">
+	<input id='sports_mute' type="checkbox" value="1"> mute sports 
+		
 		<%if (diag && json.articles.diagnostics) {%>
 			<div>
 				popularity weight: <%=json.articles.popularity_weight%>
@@ -67,12 +69,13 @@
 			</div>
 		</div>
 		<%})%>		
+		<input id='sports_mute' type="checkbox" value="1"> mute sports 
 		
 	</div>
 	<div id='main'>
 		<%_.each(json.articles.articles,function(article){%>
 			<%if (article.deleted) return%>
-		<div class='article'>
+		<div class='article <%=article.is_sports ? "sports": ""%>'>
 			<div>
 			<%if (diag && json.articles.diagnostics) {%>
 				<div class='diagnostics_row'>
@@ -96,6 +99,10 @@
 						<tr>
 							<td>hotness</td>
 							<td><%=(article.hotness+'').substring(0,4)%></td>
+						</tr>
+						<tr>
+							<td>sports score</td>
+							<td><%=(article.sports_score+'').substring(0,4)%> <br>is_sports:<%=article.is_sports%><br>sports_muted:<%=sports_muted%></td>
 						</tr>
 					</table>
 				</div>

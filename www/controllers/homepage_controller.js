@@ -1,6 +1,9 @@
 HomepageController = function()
 {
 
+	this.SPORTS_THRESHOLD = 0.95
+	this.MAX_ARTICLES = 20
+	
 	this.rail_sets={'sets':
 		[
 			{
@@ -42,8 +45,30 @@ HomepageController = function()
 		titles = {}
 		that=this
 		// loop through & process articles
+		num_articles = 0
+		iter =0
 		_.each(this.json.articles.articles,function(article){
-			if (article.url=='Error') return;
+			this.log(iter)
+			iter+=1
+			if (article.url=='Error') 
+			{
+				article.deleted=true;
+				return;
+			}
+			this.log("muted:"+this.sports_muted+"/article.sports_score:"+article.sports_score+"/that.SPORTS_THRESHOLD:"+that.SPORTS_THRESHOLD)
+			if (that.sports_muted && article.sports_score>that.SPORTS_THRESHOLD) 
+			{
+				article.deleted=true
+				return;
+			}
+			num_articles+=1
+			if (num_articles>that.MAX_ARTICLES) 
+			{
+				article.deleted = true;
+				return;
+			}
+			this.log(":"+num_articles+":"+that.MAX_ARTICLES)
+			
 			// find earliest tweet, make it the 'author' tweet
 			article.first_tweeter=article.tweeters[0]
 			if (!article.first_tweeter) 
@@ -78,17 +103,37 @@ HomepageController = function()
 			else article.is_new=false
 		})
 		this.render("index",'homepage')
+		
+		// do DOM stuff
+		this.get_cookie("sports_mute")=='true' ? $("#sports_mute").prop('checked',true) : $("#sports_mute").prop('checked',false)
+		that=this
+		$('#sports_mute').click(function(e) {
+				that.mute_sports($(this).is(':checked'))
+		});		
 	}
 	
+	this.mute_sports = function(mute)
+	{
+		this.set_cookie("sports_mute",mute)
+		this.sports_muted=!mute;
+		if (mute) alert("You've now muted sports stories. We'll do our best not to show you any!")
+		else alert("You've unmuted sports stories. Be prepared ... this is Boston after all.")
+		location.reload();
+//		$(".sports").each(function(i,obj){
+//			if (mute) $(obj).slideUp();
+//			else $(obj).slideDown();
+//		})
+	}
 
 	this.start = function()
 	{
 		this.DEFAULT_SET='data'
+		this.sports_muted=(this.get_cookie("sports_mute")=='true')
 		this.set = this.query_param("set")
 		this.diag = this.query_param("diag")
 		if (!this.set) this.set=this.DEFAULT_SET
-		this.log("rendering homepage page with set "+set)
-		set_url = "json/"+set+".json"
+		this.log("rendering homepage page with set "+this.set)
+		set_url = "json/"+this.set+".json"
 		$.ajax({
 			url: set_url,
 			dataType: 'json',
@@ -96,11 +141,10 @@ HomepageController = function()
 			success: this.handle_combined_json,
 			cache: false
 		})
+		
 	}
-	
-	this.start();
 }
 
 HomepageController.prototype=new ApplicationController();
 
-HomepageController();
+//HomepageController();
