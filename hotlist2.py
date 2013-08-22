@@ -15,8 +15,10 @@ parser = optparse.OptionParser()
 parser.add_option('-a', '--age', help='max age of urls in hours. default value is 12',default='12')
 parser.add_option('-p', '--popularity_weight', help='multiplier for popularity - higher values will give greater emphasis to popular articles over fresh articles. default is 100',default='100')
 parser.add_option('-n', '--no_tweeters', help="don't return array of tweeters with each url - saves file size. default is False (tweeters will be returned).",default=False)
+parser.add_option('-m', '--min', help="minimize file size. includes only title, url, age, source, first_tweeted, hotness",default=False)
 parser.add_option('-r', '--num_results', help="number of results to return, default value is 50.",default=50)
 parser.add_option('-t', '--hashtag', help="filter by the given hashtag, not domain list, default is false",default=False)
+parser.add_option('-o', '--no_s3', help="don't upload to s3",default=False)
 
 (opts, args) = parser.parse_args()
 
@@ -59,7 +61,7 @@ cur = conn.cursor()
 cur.execute("SET time_zone='+0:00'")
 non_hashtag_query = """select real_url as url, count(distinct user_id) as total_tweets, 
 MIN(created_at) as first_tweeted, TIMESTAMPDIFF(HOUR,MIN(created_at),NOW()) as age, 
-real_url_hash as hash, domain as source, embedly_blob from tweeted_urls 
+real_url_hash as hash, domain as source, embedly_blob,sports_score from tweeted_urls 
 left join url_info using(real_url_hash) 
 where domain in (select domain from domains where domain_set='boston') 
 group by real_url having age < %s;"""
@@ -135,17 +137,18 @@ def getLinksCorrelation(a,b):
 
 for link in links:
 	embedly = json.loads(link['embedly_blob'])
-	link['keywords'] = {kw['name']:kw['score'] for kw in embedly['keywords']}
+	if not opts.min: link['keywords'] = {kw['name']:kw['score'] for kw in embedly['keywords']}
 	del link['embedly_blob']
 	link['first_tweeted'] = link['first_tweeted'].isoformat()
 	link['title'] = embedly['title']
-	link['description'] = embedly['description']
-	for img in embedly['images']:
-		if img['width'] > 300:
-			link['image_url'] = img['url']
-			break
+	if not opts.min: link['description'] = embedly['description']
+	if not opts.min:
+		for img in embedly['images']:
+			if img['width'] > 300:
+				link['image_url'] = img['url']
+				break
 	link['tweeters'] = []
-	if not opts.no_tweeters:
+	if not opts.no_tweeters and not opts.min:
 		cur.execute("select screen_name, name, followers_count, profile_image_url, text, tweet_id, tweeted_urls.created_at as created_at from users join tweeted_urls using(user_id) join tweets using(tweet_id) where real_url_hash = %s group by tweeted_urls.user_id order by followers_count desc",(link['hash']))
 		for row in cur:
 			row['tweet_id'] = str(row['tweet_id'])
@@ -153,7 +156,8 @@ for link in links:
 			link['tweeters'].append(row)
 	del link['hash']
 
-correlation_matrix = [[getLinksCorrelation(x,y) for x in links] for y in links]
+if not opts.min: correlation_matrix = [[getLinksCorrelation(x,y) for x in links] for y in links]
+else: correlation_matrix = []
 
 out = {	'generated_at': datetime.datetime.utcnow().isoformat(),
 		'age_in_hours':opts.age,
@@ -163,16 +167,17 @@ out = {	'generated_at': datetime.datetime.utcnow().isoformat(),
 		'articles':links[:int(opts.num_results)]}
 # print json.dumps(out,indent=1)
 
-s3_conn = S3Connection('***REMOVED***', '***REMOVED***')
-k = Key(s3_conn.get_bucket('condor.globe.com'))
-if opts.hashtag:
-	k.key = 'json/hashtags/'+opts.hashtag+'.json'
-else:
-	k.key = "json/articles_%s.json" % opts.age
-
 _json = json.dumps(out)
-k.set_contents_from_string(_json)
-k.set_acl('public-read')
 print _json
-k.set_contents_from_string(_json)
-k.set_acl('public-read')
+if not opts.no_s3:
+	s3_conn = S3Connection('***REMOVED***', '***REMOVED***')
+	k = Key(s3_conn.get_bucket('condor.globe.com'))
+	if opts.hashtag:
+		k.key = 'json/hashtags/'+opts.hashtag+'.json'
+	else:
+		k.key = "json/articles_%s.json" % opts.age
+
+	k.set_contents_from_string(_json)
+	k.set_acl('public-read')
+	k.set_contents_from_string(_json)
+	k.set_acl('public-read')
