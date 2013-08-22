@@ -29,7 +29,7 @@ users = {}
 for row in cur:
 	if row['user_id'] not in users:
 		users[row['user_id']] = {'total': 0}
-	users[row['user_id']]['domain'] += row['domain']
+	users[row['user_id']]['domain'] = row['domain']
 	users[row['user_id']]['domain_count'] = row['num']
 	users[row['user_id']]['total'] += row['num']
 
