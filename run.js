@@ -55,9 +55,12 @@ var addTweets = function(tweets,memo) {
 	if (tweets.length > 0) {
 		var tweet_rows = tweets.map(
 			function(d) {
-				return [d.id_str, d.text, new Date(d.created_at), d.user.id_str];
+				var retweeted_tweet_id;
+				if ("retweeted_status" in d)
+					retweeted_tweet_id = d.retweeted_status.id_str;
+				return [d.id_str, d.text, new Date(d.created_at), d.user.id_str, retweeted_tweet_id];
 			});
-		sql_conn.query("INSERT IGNORE INTO tweets (tweet_id, text, created_at, user_id) VALUES ?", [tweet_rows],
+		sql_conn.query("INSERT IGNORE INTO tweets (tweet_id, text, created_at, user_id, retweeted_tweet_id) VALUES ?", [tweet_rows],
 			function (e) {
 				if (e) {
 					console.log(e);
