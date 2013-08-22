@@ -137,7 +137,8 @@ def getLinksCorrelation(a,b):
 
 for link in links:
 	embedly = json.loads(link['embedly_blob'])
-	if not opts.min: link['keywords'] = {kw['name']:kw['score'] for kw in embedly['keywords']}
+	if not opts.min: 
+		link['keywords'] = {kw['name']:kw['score'] for kw in embedly['keywords']}
 	del link['embedly_blob']
 	link['first_tweeted'] = link['first_tweeted'].isoformat()
 	link['title'] = embedly['title']
