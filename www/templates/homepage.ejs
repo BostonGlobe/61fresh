@@ -10,7 +10,7 @@
 	</div>
 	<div class='logo'>61FRESH</div>
 	<div class="tagline">
-		boston news, tweeted by bostonians. updated every 10 minutes.
+		Boston news, as tweeted by Bostonians. Updated every 10 minutes.
 	</div>
 	<div class='last_updated'>
 		last updated <%=moment(Date.parse(json.articles.generated_at)).fromNow()%>
@@ -21,10 +21,11 @@
 	
 	<%_.each(json.leaders,function(leader){%>
 		<div class='rail_set'>
-			<div class='rail_set_header'>most-tweeted last <%=leader.data.age_in_hours/24%> days</div>
+			<div class='rail_set_header'>most-tweeted stories last <%=leader.data.age_in_hours/24%> days</div>
 			<div class='rail_set_articles'>
 				<%_.each(leader.data.articles,function(article,i){%>
 					<%if (i>9) return%>
+					<%if (article.url=='http://boston.com/') return%>
 					<div>
 						<div class='rail_set_article'>
 							<%if (article.image_url&&i<0) {%>
@@ -35,7 +36,7 @@
 							</div>
 							<div class='rail_set_article_link'>
 								<a href='<%=article.url%>'><%=article.title%></a> 
-								<div class='rail_set_article_num_tweets'>
+								<div class='rail_set_article_num_tweets count_bubble'>
 									<%=article.total_tweets%>
 								</div>
 							</div>
@@ -45,6 +46,31 @@
 			</div>
 		</div>
 		<%})%>
+		
+		<%_.each(json.domain_leaders,function(domain_leader){%>
+			<div class='rail_set'>
+				<div class='rail_set_header'>most-tweeted domains last <%=domain_leader.data.age_in_days*24%> hours</div>
+				<div class='rail_set_articles'>
+				<table><tr><td valign=top>
+					<%_.each(domain_leader.data.domains,function(domain,i){%>
+						<%if (i==13) {%>
+							</td><td valign=top>
+						<%}%>
+						<div>
+							<div class='rail_set_domain' >
+								<div class='rail_set_domain_num_users_container'>
+									<div class='rail_set_domain_num_users count_bubble'>
+										<%=domain.num_users%> 
+									</div>
+								</div>
+									<a href='http://<%=domain.domain%>'><%=domain.domain%></a> 
+							</div>
+						</div>
+					<%})%>
+					</td></tr></table>
+				</div>
+			</div>
+			<%})%>
 		
 	<%_.each(json.hashtags,function(hashtag){%>
 		<div class='rail_set'>
@@ -59,7 +85,7 @@
 							</div>
 							<div class='rail_set_article_link'>
 								<a href='<%=article.url%>'><%=article.title%></a> 
-								<div class='rail_set_article_num_tweets'>
+								<div class='rail_set_article_num_tweets count_bubble'>
 									<%=article.total_tweets%>
 								</div>
 							</div>
@@ -137,13 +163,10 @@
 			<%=article.description%></div>
 			<%if (article.tweeters && article.tweeters.length>0) {%>
 				<div class='article_tweeters'>
-					tweeted by
+					Tweeted by 
 					<%_.each(article.tweeters,function(tweeter){%>
 						<div class='article_tweeter'>
 							<div class='article_tweeter_screen_name'>
-							<div class='article_tweeter_image_container'>
-								<img class='article_tweeter_image' src='<%=tweeter.profile_image_url%>'></img>
-							</div>
 							<a title="<%=moment(new Date(tweeter.created_at)).fromNow()%>: <%=tweeter.text%>" href='http://www.twitter.com/<%=tweeter.screen_name%>/statuses/<%=tweeter.tweet_id%>'><%=tweeter.name%></a>
 							</div> (<%=""+tweeter.followers_count%>)
 						</div>

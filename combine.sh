@@ -15,6 +15,9 @@ python hotlist2.py $1 --hashtag=patriots 	--min --no_tweeters --num_results=5 > 
 mkdir data/leaders
 python hotlist2.py --min --no_tweeters --num_results=10 --age=168 > data/leaders/week.json
 
+mkdir data/domain_leaders
+python top_domains.py --age=1 --num_results=25 > data/domain_leaders/domains_1.json
+
 rm -rf www/json
 mkdir www/json
 python combine_json.py data > www/json/data.json
