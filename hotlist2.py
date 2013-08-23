@@ -35,7 +35,7 @@ parser.add_option('-o', '--no_s3', help="don't upload to s3",default=False)
 #popularity_weight=100
 
 # for multi-day queries, don't consider recency, just a popularity rank
-if opts.age>72:
+if int(opts.age)>72:
 	ignore_age=True 
 else:
 	ignore_age=False
@@ -163,12 +163,12 @@ for link in links:
 #if not opts.min: correlation_matrix = [[getLinksCorrelation(x,y) for x in links] for y in links]
 #else: correlation_matrix = []
 correlation_matrix = []
-
 out = {	'generated_at': datetime.datetime.utcnow().isoformat(),
 		'age_in_hours':opts.age,
 		'popularity_weight':opts.popularity_weight,
 		'diagnostics':True,
 		'correlation': correlation_matrix,
+		'ignore_age':ignore_age,
 		'articles':links[:int(opts.num_results)]}
 # print json.dumps(out,indent=1)
 

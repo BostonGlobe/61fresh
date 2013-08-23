@@ -126,8 +126,16 @@
 							<td><%=(article.hotness+'').substring(0,4)%></td>
 						</tr>
 						<tr>
+							<td>popularity_weight</td>
+							<td><%=json.articles.popularity_weight%></td>
+						</tr>
+						<tr>
+							<td>ignore_age</td>
+							<td><%=json.articles.ignore_age%></td>
+						</tr>
+						<tr>
 							<td>sports score</td>
-							<td><%=(article.sports_score+'').substring(0,4)%> <br>is_sports:<%=article.is_sports%><br>sports_muted:<%=sports_muted%></td>
+							<td><%=(article.sports_score+'').substring(0,4)%></td>
 						</tr>
 					</table>
 				</div>
