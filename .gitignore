@@ -2,3 +2,5 @@ node_modules
 nohup.out
 config-local.json
 www/json
+*.pyc
+data/
