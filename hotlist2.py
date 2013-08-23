@@ -173,7 +173,7 @@ for link in links:
 			score = 0.0
 
 		classifier_json = json.dumps({'topic':topic,'score':score,'_topic':_topic,'_score':_score})
-		if topic = "Sports":
+		if topic == "Sports":
 			sports_score = str(score)
 		elif topic == "None" and _topic == "sports":
 			sports_score = str(_score)
