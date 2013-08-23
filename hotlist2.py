@@ -10,6 +10,15 @@ from urllib import quote
 import urllib2
 import sys
 import optparse
+import nltk
+
+sys.path.append('./classifier')
+from calais import Calais
+from nclassifier import Classifier
+import codecs
+import pickle
+import time
+
 
 parser = optparse.OptionParser()
 parser.add_option('-a', '--age', help='max age of urls in hours. default value is 12',default='12')
@@ -68,7 +77,7 @@ group by real_url having age < %s;"""
 
 hashtag_query = """
 select real_url as url,count(distinct tweeted_urls.user_id) as total_tweets, MIN(tweeted_urls.created_at) as first_tweeted, 
-	TIMESTAMPDIFF(HOUR,MIN(tweeted_urls.created_at),NOW()) as age, real_url_hash as hash, domain as source, embedly_blob 
+	TIMESTAMPDIFF(HOUR,MIN(tweeted_urls.created_at),NOW()) as age, real_url_hash as hash, domain as source, embedly_blob, sports_score 
 from tweeted_urls left join url_info using(real_url_hash) 
 	left join tweeted_hashtags using (tweet_id) 
 where hashtag='%s'  
@@ -135,8 +144,45 @@ if len(to_get_from_embedly) > 0:
 def getLinksCorrelation(a,b):
 	return sum([a['keywords'].get(x,0)*b['keywords'].get(x,0) for x in a['keywords'].keys()])
 
+calais = Calais("***REMOVED***", submitter="python-calais classify")
+with open('savedclassifier.pickle','rb') as pkfile:
+	classifier = pickle.load(pkfile)
+
 for link in links:
 	embedly = json.loads(link['embedly_blob'])
+
+	if link['sports_score'] is None:
+		analysetext = ' '.join([embedly.get(x,'') for x in ['title', 'description', 'url']])
+		analysetext.encode("utf8")
+		analysetext = analysetext.encode("utf8")
+		analysetext= analysetext.replace('"', '\'')
+
+		#classifier 1
+		#naive bayes
+		_topic = classifier.classify(analysetext)
+		_score = classifier.get_score(analysetext)
+
+		#classifier 2
+		#opencalais crosscheck   
+		try:
+			result = calais.analyze(analysetext)
+			topic =  result.get_topics()
+			score =  result.get_topic_score()
+		except:
+			topic = "None"
+			score = 0.0
+
+		classifier_json = json.dumps({'topic':topic,'score':score,'_topic':_topic,'_score':_score})
+		if topic = "Sports":
+			sports_score = str(score)
+		elif topic == "None" and _topic == "sports":
+			sports_score = str(_score)
+		else:
+			sports_score = '0'
+		link['sports_score'] = sports_score
+		cur.execute("update url_info set topic_blob=%s, sports_score=%s where real_url_hash=%s",(classifier_json,sports_score,link['hash']))
+		conn.commit()
+
 #	if not opts.min: 
 #		link['keywords'] = {kw['name']:kw['score'] for kw in embedly['keywords']}
 	del link['embedly_blob']
