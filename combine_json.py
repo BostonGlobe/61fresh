@@ -15,10 +15,10 @@ directory = sys.argv[1]
 out = {}
 import os, os.path
 
-def upload_to_s3(folder,s): 
+def upload_to_s3(key,s): 
 	s3_conn = S3Connection('***REMOVED***', '***REMOVED***')
 	k = Key(s3_conn.get_bucket('condor.globe.com'))
-	k.key = 'json/'+folder+'.json'
+	k.key = key
 #	print "key %s" % k.key
 	k.set_contents_from_string(s)
 	k.set_acl('public-read')
