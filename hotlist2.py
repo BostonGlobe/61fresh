@@ -146,15 +146,16 @@ while len(all_to_get_from_embedly) > 0:
 def getLinksCorrelation(a,b):
 	return sum([a['keywords'].get(x,0)*b['keywords'].get(x,0) for x in a['keywords'].keys()])
 
-calais = Calais("***REMOVED***", submitter="python-calais classify")
-with open('savedclassifier.pickle','rb') as pkfile:
-	classifier = pickle.load(pkfile)
+if not opts.min:
+	calais = Calais("***REMOVED***", submitter="python-calais classify")
+	with open('savedclassifier.pickle','rb') as pkfile:
+		classifier = pickle.load(pkfile)
 
 for link in links:
 	embedly = json.loads(link['embedly_blob'])
 
-	if link['sports_score'] is None:
-		analysetext = ' '.join([embedly.get(x,'') for x in ['title', 'description', 'url']])
+	if not opts.min and link['sports_score'] is None:
+		analysetext = ' '.join([embedly.get(x,'') for x in ['title', 'description', 'url'] if embedly.get(x,'') is not None])
 		analysetext.encode("utf8")
 		analysetext = analysetext.encode("utf8")
 		analysetext= analysetext.replace('"', '\'')
@@ -175,7 +176,7 @@ for link in links:
 			score = 0.0
 
 		classifier_json = json.dumps({'topic':topic,'score':score,'_topic':_topic,'_score':_score})
-		if topic = "Sports":
+		if topic == "Sports":
 			sports_score = str(score)
 		elif topic == "None" and _topic == "sports":
 			sports_score = str(_score)
