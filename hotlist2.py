@@ -127,9 +127,11 @@ links.sort(key=lambda x: x['hotness'],reverse=True)
 
 links = links[:int(opts.num_results)]
 
-to_get_from_embedly = [x for x in links if x['embedly_blob'] is None]
+all_to_get_from_embedly = [x for x in links if x['embedly_blob'] is None]
 
-if len(to_get_from_embedly) > 0:
+while len(all_to_get_from_embedly) > 0:
+	to_get_from_embedly = all_to_get_from_embedly[:10]
+	all_to_get_from_embedly = all_to_get_from_embedly[10:]
 	embedly_list = json.load(urllib2.urlopen("http://api.embed.ly/1/extract?key=***REMOVED***&urls=" + ','.join([quote(x['url']) for x in to_get_from_embedly])))
 
 	for (link,embedly) in zip(to_get_from_embedly,embedly_list):
