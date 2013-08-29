@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
