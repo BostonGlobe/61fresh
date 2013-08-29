@@ -160,6 +160,42 @@ for link in links:
 		analysetext = analysetext.encode("utf8")
 		analysetext= analysetext.replace('"', '\'')
 
+		#core features extracted from classifier runs
+		sportslist=['sports','nesn','weei','espn',#super types
+			'Baseball','Hockey','Basketball','Football',#sports types
+			'Tennis','Soccer','Lacrosse','Softball', 'Soccer','Flat track roller derby',#sports types
+			'pitch','quarterback','team','win','loss','lost', 'player', 'champion','league', 'game','score','Competition',' inning', 'record','played',#sports terms
+			'Women\'s football','Rugby','Red Sox','RedSox','Sox','red_sox','Bruin','Celtic','Yankees','White Sox',#teams and clubs
+			'New England Patriots', 'Patriots', 'Lobsters', 'New England Revolution','Boston Breakers','Boston Cannons',#teams and clubs
+			'New England Riptide','Boston Aztec','Boston Massacre','Boston Blazers','Boston Militia','Boston Thirteens',#teams and clubs
+			'Jim Baker','Steve Buckley','Gerry Callahan','Michael Gee','Karen Guregian','George Edward Kimball','George E. Kimball',#Oped writers
+			'Kevin Mannix','Tony Massarotti', 'Amalie Benjamin','Gordon Edes','Chris Gasper','Jackie MacMullan','Bob Ryan','Dan Shaughnessy',#Oped writers
+			'Fluto Shinzawa','Marc J. Spears','Steve Addazio',#Oped writers
+			'Gillette Stadium','Foxborough','Fenway','TD Garden','Ferncroft Country Club','Dilboy Stadium','Harvard Stadium','Martin Softball Field',
+			'Amesbury Sports Park','Aleppo Shrine Auditorium',#venues
+			'ACC football','MLB','NHL','/NFL/',' NFL ','WTT','MLS','NWSL','MLL','NPF','WPSL','WFTDA','NLL','WFA','AMNRL',#Leagues and Conferences
+			'World Series','AL Pennant','Stanley Cup','NBA','Super Bowl','AFC','US Open','U.S. Open','Superliga','Steinfeld','Cowles','WPSL','Championship','Premiership'#championship
+			'Red Auerbach', 'Dana Barros', 'Bob Bigelow', 'Larry Bird', 'Walter Brown', 'Bob Cousy', 'Dave Cowens',
+			'Bill Curley', 'Kevin Garnett', 'John Havlicek', 'Tom Heinsohn', 'Ron Lee', 'Reggie Lewis', 'Kevin McHale', 'Don Nelson',#sports people boston
+			'Shaquille O\'Neal', 'Robert Parish', 'Paul Pierce', 'Doc Rivers', 'Rajon Rondo', 'Bill Russell', 'Josh Beckett',
+			'Wade Boggs', 'Roger Clemens', 'Joe Cronin', 'Bobby Doerr', 'Jacoby Ellsbury', 'Carlton Fisk', 'Nomar Garciaparra',
+			'Mike Lowell', 'Jim Rice', 'Pedro Martinez', 'Tommy McCarthy', 'Lou Merloni', 'David Ortiz', 'Dustin Pedroia',
+			'Johnny Pesky', 'Manny Ramírez', 'Curt Schilling', 'Jason Varitek', 'Tim Wakefield', 'George Wood', 'Ted Williams',
+			'Carl Yastrzemski', 'Cy Young', 'Bruce Armstrong', 'Tom Brady', 'Bill Belichick', 'Drew Bledsoe', 'Troy Brown',
+			'Tedy Bruschi', 'Doug Flutie', 'Rob Gronkowski', 'John Hannah', 'Robert Kraft', 'Randy Moss', 'Jim Plunkett',
+			'Matt Ryan', 'Richard Seymour', 'Andre Tippett', 'Adam Vinatieri', 'Wes Welker', 'Tony Amonte', 'Patrice Bergeron',
+			'Ray Bourque', 'Frank Brimsek', 'Zdeno Chara', 'Don Cherry', 'Rick DiPietro', 'Phil Esposito', 'Jim Fahey', 'Hal Gill',
+			'Cam Neely', 'Terry O\'Reilly', 'Bobby Orr', 'Milt Schmidt', 'Eddie Shore', 'Jeremy Roenick', 'Brad Park', 'Mark Recchi', 'Tim Thomas',
+			'Tim Tebow','Michael Phelps','Usain Bolt','Derek Jeter','Peyton Manning','Drew Brees','Gabby Douglas','Aaron Rodgers','LeBron James','David Beckham'#sports people forbes usa all
+			]
+	
+	
+		#feature counter >= 2 works
+		feature_counter = 0
+		for entry in sportslist:
+			if analysetext.lower().find(entry.lower()) >= 0:
+				feature_counter += 1
+
 		#classifier 1
 		#naive bayes
 		_topic = classifier.classify(analysetext)
@@ -176,12 +212,14 @@ for link in links:
 			score = 0.0
 
 		classifier_json = json.dumps({'topic':topic,'score':score,'_topic':_topic,'_score':_score})
-		if topic == "Sports":
+		if topic == "Sports" and feature_counter < 2:
 			sports_score = str(score)
-		elif topic == "None" and _topic == "sports":
+		elif topic == "None" and _topic == "sports" and feature_counter < 2:
 			sports_score = str(_score)
+		elif feature_counter >= 2:
+			sports_score = '1.0'
 		else:
-			sports_score = '0'
+			sports_score = '0.0'
 		link['sports_score'] = sports_score
 		cur.execute("update url_info set topic_blob=%s, sports_score=%s where real_url_hash=%s",(classifier_json,sports_score,link['hash']))
 		conn.commit()
