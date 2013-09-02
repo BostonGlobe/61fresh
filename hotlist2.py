@@ -78,6 +78,7 @@ real_url_hash as hash, domain as source, embedly_blob,sports_score from tweeted_
 left join users using(user_id)
 left join url_info using(real_url_hash) 
 where domain in (select domain from domains where domain_set='boston') 
+and users.home_domain<>source
 group by real_url having age < %s;"""
 
 hashtag_query = """
