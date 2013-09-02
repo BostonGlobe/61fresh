@@ -33,3 +33,10 @@ To start the main ingest and url resolver:
 The database config (and eventually Twitter creds etc.) are read from config.json, unless config-local.json exists. Create that file with values for your dev environment, but don't check it in. If you're using an ssh tunnel, use '127.0.0.1' for the host, not 'localhost', or python will try to use a unix socket.
 
 Any scripts that require python 2.7 or nltk need to be run with the python27 command.
+
+REQUIRED MODULES
+sudo pip install nltk
+sudo pip install simplejson
+
+DEV ENV
+sudo ln -s /usr/bin/python /usr/bin/python27

@@ -24,11 +24,13 @@ import time
 parser = optparse.OptionParser()
 parser.add_option('-a', '--age', help='max age of urls in hours. default value is 12',default='12')
 parser.add_option('-p', '--popularity_weight', help='multiplier for popularity - higher values will give greater emphasis to popular articles over fresh articles. default is 100',default='100')
+parser.add_option('-i', '--ignore_age', help='ignore recency & just return a straight popularity rank for the time period, default is false',default=False)
 parser.add_option('-n', '--no_tweeters', help="don't return array of tweeters with each url - saves file size. default is False (tweeters will be returned).",default=False)
 parser.add_option('-m', '--min', help="minimize file size. includes only title, url, age, source, first_tweeted, hotness",default=False)
 parser.add_option('-r', '--num_results', help="number of results to return, default value is 50.",default=50)
 parser.add_option('-t', '--hashtag', help="filter by the given hashtag, not domain list, default is false",default=False)
 parser.add_option('-o', '--no_s3', help="don't upload to s3",default=False)
+parser.add_option('-c', '--no_classify', help="don't run sports classifier",default=False)
 
 (opts, args) = parser.parse_args()
 
@@ -45,10 +47,11 @@ parser.add_option('-o', '--no_s3', help="don't upload to s3",default=False)
 #popularity_weight=100
 
 # for multi-day queries, don't consider recency, just a popularity rank
-if int(opts.age)>72:
-	ignore_age=True 
-else:
-	ignore_age=False
+if not opts.ignore_age:
+	if int(opts.age)>72:
+		opts.ignore_age=True 
+	else:
+		opts.ignore_age=False
 
 try:
 	with open('config-local.json') as fh:
@@ -69,15 +72,16 @@ conn = MySQLdb.connect(
 cur = conn.cursor()
 
 cur.execute("SET time_zone='+0:00'")
-non_hashtag_query = """select real_url as url, count(distinct user_id) as total_tweets, 
+non_hashtag_query = """select real_url as url, users.home_domain home_domain,count(distinct user_id) as total_tweets, 
 MIN(created_at) as first_tweeted, TIMESTAMPDIFF(HOUR,MIN(created_at),NOW()) as age, 
-real_url_hash as hash, domain as source, embedly_blob,sports_score from tweeted_urls 
+real_url_hash as hash, domain as source, embedly_blob,sports_score from tweeted_urls
+left join users using(user_id)
 left join url_info using(real_url_hash) 
 where domain in (select domain from domains where domain_set='boston') 
 group by real_url having age < %s;"""
 
 hashtag_query = """
-select real_url as url,count(distinct tweeted_urls.user_id) as total_tweets, MIN(tweeted_urls.created_at) as first_tweeted, 
+select real_url as url,'home_domain' home_domain,count(distinct tweeted_urls.user_id) as total_tweets, MIN(tweeted_urls.created_at) as first_tweeted, 
 	TIMESTAMPDIFF(HOUR,MIN(tweeted_urls.created_at),NOW()) as age, real_url_hash as hash, domain as source, embedly_blob, sports_score 
 from tweeted_urls left join url_info using(real_url_hash) 
 	left join tweeted_hashtags using (tweet_id) 
@@ -117,12 +121,12 @@ for row in cur:
 	age_factor = float(age * age)
 	row['popularity_factor'] = popularity_factor
 	row['age_factor'] = age_factor
-	if ignore_age:
+	if opts.ignore_age:
 		row['hotness'] = popularity_factor
 	else:
 		row['hotness'] = popularity_factor / age_factor
-		
-	links.append(row)
+	if row['home_domain']!=row['source']:
+		links.append(row)
 
 links.sort(key=lambda x: x['hotness'],reverse=True)
 
@@ -147,7 +151,7 @@ while len(all_to_get_from_embedly) > 0:
 def getLinksCorrelation(a,b):
 	return sum([a['keywords'].get(x,0)*b['keywords'].get(x,0) for x in a['keywords'].keys()])
 
-if not opts.min:
+if not opts.min and not opts.no_classify:
 	calais = Calais("***REMOVED***", submitter="python-calais classify")
 	with open('savedclassifier.pickle','rb') as pkfile:
 		classifier = pickle.load(pkfile)
@@ -155,7 +159,7 @@ if not opts.min:
 for link in links:
 	embedly = json.loads(link['embedly_blob'])
 
-	if not opts.min and link['sports_score'] is None:
+	if (not opts.min and not opts.no_classify) and link['sports_score'] is None:
 		analysetext = ' '.join([embedly.get(x,'') for x in ['title', 'description', 'url'] if embedly.get(x,'') is not None])
 		analysetext.encode("utf8")
 		analysetext = analysetext.encode("utf8")
@@ -256,7 +260,7 @@ out = {	'generated_at': datetime.datetime.utcnow().isoformat(),
 		'popularity_weight':opts.popularity_weight,
 		'diagnostics':True,
 		'correlation': correlation_matrix,
-		'ignore_age':ignore_age,
+		'ignore_age':opts.ignore_age,
 		'articles':links[:int(opts.num_results)]}
 # print json.dumps(out,indent=1)
 

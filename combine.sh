@@ -2,15 +2,15 @@ pushd .
 cd ~/condor
 rm -rf data
 mkdir data
-python27 hotlist2.py $1 --num_results=40 > data/articles_12.json
+python27 hotlist2.py $1 $2 $3 --num_results=40 > data/articles_12.json
 mv data/articles_12.json data/articles.json
 
 mkdir data/hashtags
-python27 hotlist2.py $1 --hashtag=bospoli	--min --no_tweeters --num_results=5 > data/hashtags/bospoli.json
-python27 hotlist2.py $1 --hashtag=mapoli 		--min --no_tweeters --num_results=5 > data/hashtags/mapoli.json
-python27 hotlist2.py $1 --hashtag=bosmayor 	--min --no_tweeters --num_results=5 > data/hashtags/bosmayor.json
-python27 hotlist2.py $1 --hashtag=redsox 		--min	--no_tweeters --num_results=5 > data/hashtags/redsox.json
-python27 hotlist2.py $1 --hashtag=patriots 	--min --no_tweeters --num_results=5 > data/hashtags/patriots.json
+python27 hotlist2.py $1 $2 $3  --hashtag=bospoli	--min --no_tweeters --num_results=5 > data/hashtags/bospoli.json
+python27 hotlist2.py $1 $2 $3  --hashtag=mapoli 		--min --no_tweeters --num_results=5 > data/hashtags/mapoli.json
+python27 hotlist2.py $1 $2 $3  --hashtag=bosmayor 	--min --no_tweeters --num_results=5 > data/hashtags/bosmayor.json
+python27 hotlist2.py $1 $2 $3  --hashtag=redsox 		--min	--no_tweeters --num_results=5 > data/hashtags/redsox.json
+python27 hotlist2.py $1 $2 $3  --hashtag=patriots 	--min --no_tweeters --num_results=5 > data/hashtags/patriots.json
 
 mkdir data/leaders
 python27 hotlist2.py --min --no_tweeters --num_results=10 --age=168 > data/leaders/week.json
