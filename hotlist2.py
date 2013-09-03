@@ -113,19 +113,36 @@ cur.execute(query)
 #		multiplier = 1.05-frac_age
 #	row['hotness'] = multiplier * row['total_tweets']
 
-for row in cur:
-	row['age']+=1
-	age = row['age']
-	popularity_factor = float((row['total_tweets']-2)*int(opts.popularity_weight))
-	age_factor = float(age * age)
-	row['popularity_factor'] = popularity_factor
-	row['age_factor'] = age_factor
-	if opts.ignore_age:
-		row['hotness'] = popularity_factor
+links = cur.fetchall()
+
+for link in links:
+	link['tweeters'] = []
+	if not opts.no_tweeters and not opts.min:
+		link['weighted_tweets'] = 0
+		cur.execute("select screen_name, name, followers_count, profile_image_url, text, tweet_id, tweeted_urls.created_at as created_at, retweeted_tweet_id, home_domain from users join tweeted_urls using(user_id) join tweets using(tweet_id) where real_url_hash = %s group by tweeted_urls.user_id order by followers_count desc",(link['hash']))
+		for row in cur:
+			if row['home_domain'] != link['source']:
+				link['weighted_tweets'] += 1
+			del row['home_domain']
+			if row['retweeted_tweet_id'] is None:
+				del row['retweeted_tweet_id']
+#			row['home_domain'] = row['home_domain'] == link['source']
+			row['tweet_id'] = str(row['tweet_id'])
+			row['created_at'] = row['created_at'].isoformat()
+			link['tweeters'].append(row)
 	else:
-		row['hotness'] = popularity_factor / age_factor
-#	if row['home_domain']!=row['source']:
-	links.append(row)
+		link['weighted_tweets'] = link['total_tweets']
+
+	link['age']+=1
+	age = link['age']
+	popularity_factor = float((link['weighted_tweets']-2)*int(opts.popularity_weight))
+	age_factor = float(age * age)
+	link['popularity_factor'] = popularity_factor
+	link['age_factor'] = age_factor
+	if opts.ignore_age:
+		link['hotness'] = popularity_factor
+	else:
+		link['hotness'] = popularity_factor / age_factor
 
 links.sort(key=lambda x: x['hotness'],reverse=True)
 
@@ -239,16 +256,6 @@ for link in links:
 			if img['width'] > 300:
 				link['image_url'] = img['url']
 				break
-	link['tweeters'] = []
-	if not opts.no_tweeters and not opts.min:
-		cur.execute("select screen_name, name, followers_count, profile_image_url, text, tweet_id, tweeted_urls.created_at as created_at, retweeted_tweet_id from users join tweeted_urls using(user_id) join tweets using(tweet_id) where real_url_hash = %s group by tweeted_urls.user_id order by followers_count desc",(link['hash']))
-		for row in cur:
-			if row['retweeted_tweet_id'] is None:
-				del row['retweeted_tweet_id']
-#			row['home_domain'] = row['home_domain'] == link['source']
-			row['tweet_id'] = str(row['tweet_id'])
-			row['created_at'] = row['created_at'].isoformat()
-			link['tweeters'].append(row)
 	del link['hash']
 
 #if not opts.min: correlation_matrix = [[getLinksCorrelation(x,y) for x in links] for y in links]
