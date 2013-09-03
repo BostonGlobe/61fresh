@@ -72,17 +72,15 @@ conn = MySQLdb.connect(
 cur = conn.cursor()
 
 cur.execute("SET time_zone='+0:00'")
-non_hashtag_query = """select real_url as url, users.home_domain home_domain,count(distinct user_id) as total_tweets, 
+non_hashtag_query = """select real_url as url,count(distinct user_id) as total_tweets, 
 MIN(created_at) as first_tweeted, TIMESTAMPDIFF(HOUR,MIN(created_at),NOW()) as age, 
 real_url_hash as hash, domain as source, embedly_blob,sports_score from tweeted_urls
-left join users using(user_id)
 left join url_info using(real_url_hash) 
 where domain in (select domain from domains where domain_set='boston') 
-and users.home_domain<>source
 group by real_url having age < %s;"""
 
 hashtag_query = """
-select real_url as url,'home_domain' home_domain,count(distinct tweeted_urls.user_id) as total_tweets, MIN(tweeted_urls.created_at) as first_tweeted, 
+select real_url as url,count(distinct tweeted_urls.user_id) as total_tweets, MIN(tweeted_urls.created_at) as first_tweeted, 
 	TIMESTAMPDIFF(HOUR,MIN(tweeted_urls.created_at),NOW()) as age, real_url_hash as hash, domain as source, embedly_blob, sports_score 
 from tweeted_urls left join url_info using(real_url_hash) 
 	left join tweeted_hashtags using (tweet_id) 
@@ -126,8 +124,8 @@ for row in cur:
 		row['hotness'] = popularity_factor
 	else:
 		row['hotness'] = popularity_factor / age_factor
-	if row['home_domain']!=row['source']:
-		links.append(row)
+#	if row['home_domain']!=row['source']:
+	links.append(row)
 
 links.sort(key=lambda x: x['hotness'],reverse=True)
 
@@ -243,11 +241,11 @@ for link in links:
 				break
 	link['tweeters'] = []
 	if not opts.no_tweeters and not opts.min:
-		cur.execute("select screen_name, name, followers_count, profile_image_url, home_domain, text, tweet_id, tweeted_urls.created_at as created_at, retweeted_tweet_id from users join tweeted_urls using(user_id) join tweets using(tweet_id) where real_url_hash = %s group by tweeted_urls.user_id order by followers_count desc",(link['hash']))
+		cur.execute("select screen_name, name, followers_count, profile_image_url, text, tweet_id, tweeted_urls.created_at as created_at, retweeted_tweet_id from users join tweeted_urls using(user_id) join tweets using(tweet_id) where real_url_hash = %s group by tweeted_urls.user_id order by followers_count desc",(link['hash']))
 		for row in cur:
 			if row['retweeted_tweet_id'] is None:
 				del row['retweeted_tweet_id']
-			row['home_domain'] = row['home_domain'] == link['source']
+#			row['home_domain'] = row['home_domain'] == link['source']
 			row['tweet_id'] = str(row['tweet_id'])
 			row['created_at'] = row['created_at'].isoformat()
 			link['tweeters'].append(row)
