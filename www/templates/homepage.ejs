@@ -145,7 +145,7 @@
 				<div  class='article_hotness_label'>boston<br>tweets</div>
 			</div>
 			<%if (article.image_url) {%>
-			<div class='article_image_container'><img class='article_image' src='<%=article.image_url%>'/></div>
+			<div class='article_image_container' ><img onload='$(this).show();$(this).parent().show()' class='article_image' src='<%=article.image_url%>'/></div>
 			<%}%>
 			<div class='article_header'>
 				<div class='article_source'><a href='http://<%=article.source%>'><%=article.source%></a></div>
