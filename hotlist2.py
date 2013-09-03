@@ -113,7 +113,7 @@ cur.execute(query)
 #		multiplier = 1.05-frac_age
 #	row['hotness'] = multiplier * row['total_tweets']
 
-links = cur.fetchall()
+links = list(cur.fetchall())
 
 for link in links:
 	link['tweeters'] = []
