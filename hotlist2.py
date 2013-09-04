@@ -173,11 +173,11 @@ for link in links:
 	else:
 		links_hash[real_url] = link
 
-# links = links_hash.values()
+links = links_hash.values()
 
-# links.sort(key=lambda x: x['hotness'],reverse=True)
+links.sort(key=lambda x: x['hotness'],reverse=True)
 
-# links = links[:int(opts.num_results)]
+links = links[:int(opts.num_results)]
 
 def getLinksCorrelation(a,b):
 	return sum([a['keywords'].get(x,0)*b['keywords'].get(x,0) for x in a['keywords'].keys()])
