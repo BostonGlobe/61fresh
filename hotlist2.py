@@ -102,16 +102,18 @@ links = []
 
 cur.execute(query)
 
-#for row in cur:
-#	frac_age = float(row['age'])/24.0
-#	if (frac_age)
-#	if row['age'] < 4:
-#		multiplier = 4-(3*frac_age) 
-#	elif row['age'] < 12:
-#		multiplier = 1.05-frac_age
-#	else:
-#		multiplier = 1.05-frac_age
-#	row['hotness'] = multiplier * row['total_tweets']
+
+def calculateHotness(link):
+	age = link['age']
+	popularity_factor = float((link['weighted_tweets']-2)*int(opts.popularity_weight))
+	age_factor = float(age * age)
+	link['popularity_factor'] = popularity_factor
+	link['age_factor'] = age_factor
+	if opts.ignore_age:
+		link['hotness'] = popularity_factor
+	else:
+		link['hotness'] = popularity_factor / age_factor
+
 
 links = list(cur.fetchall())
 
@@ -123,7 +125,6 @@ for link in links:
 		for row in cur:
 			if row['home_domain'] != link['source']:
 				link['weighted_tweets'] += 1
-			del row['home_domain']
 			if row['retweeted_tweet_id'] is None:
 				del row['retweeted_tweet_id']
 #			row['home_domain'] = row['home_domain'] == link['source']
@@ -132,21 +133,13 @@ for link in links:
 			link['tweeters'].append(row)
 	else:
 		link['weighted_tweets'] = link['total_tweets']
-
 	link['age']+=1
-	age = link['age']
-	popularity_factor = float((link['weighted_tweets']-2)*int(opts.popularity_weight))
-	age_factor = float(age * age)
-	link['popularity_factor'] = popularity_factor
-	link['age_factor'] = age_factor
-	if opts.ignore_age:
-		link['hotness'] = popularity_factor
-	else:
-		link['hotness'] = popularity_factor / age_factor
+	calculateHotness(link)
+
 
 links.sort(key=lambda x: x['hotness'],reverse=True)
 
-links = links[:int(opts.num_results)]
+links = links[:2*int(opts.num_results)]
 
 all_to_get_from_embedly = [x for x in links if x['embedly_blob'] is None]
 
@@ -163,6 +156,28 @@ while len(all_to_get_from_embedly) > 0:
 				target['embedly_blob'] = embedly_blob
 				break
 	conn.commit()
+
+links_hash = {}
+for link in links:
+	embedly = json.loads(link['embedly_blob'])
+	real_url = embedly['url']
+	link['url'] = real_url
+	if real_url in links_hash:
+		links_hash[real_url]['age'] = max(links_hash[real_url]['age'],link['age'])
+		links_hash[real_url]['first_tweeted'] = min(links_hash[real_url]['first_tweeted'],link['first_tweeted'])
+		links_hash[real_url]['total_tweets'] = links_hash[real_url]['total_tweets']+link['total_tweets']
+		links_hash[real_url]['weighted_tweets'] = links_hash[real_url]['weighted_tweets']+link['weighted_tweets']
+		calculateHotness(links_hash[real_url])
+		links_hash[real_url]['tweeters'].extend(link['tweeters'])
+		links_hash[real_url]['tweeters'].sort(key=lambda x: x['followers_count'],reverse=True)
+	else:
+		links_hash[real_url] = link
+
+# links = links_hash.values()
+
+# links.sort(key=lambda x: x['hotness'],reverse=True)
+
+# links = links[:int(opts.num_results)]
 
 def getLinksCorrelation(a,b):
 	return sum([a['keywords'].get(x,0)*b['keywords'].get(x,0) for x in a['keywords'].keys()])
