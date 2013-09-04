@@ -34,17 +34,6 @@ parser.add_option('-c', '--no_classify', help="don't run sports classifier",defa
 
 (opts, args) = parser.parse_args()
 
-#print "age: %s" % opts.age
-#print "popularity_weight: %s" % opts.popularity_weight
-#print "no_tweeters: %s" % opts.no_tweeters
-
-#exit(0)
-#if len(sys.argv)>1:
-#	age_in_hours = int(sys.argv[1])
-#else:
-#	age_in_hours = 12
-
-#popularity_weight=100
 
 # for multi-day queries, don't consider recency, just a popularity rank
 if not opts.ignore_age:
@@ -260,8 +249,6 @@ for link in links:
 		cur.execute("update url_info set topic_blob=%s, sports_score=%s where real_url_hash=%s",(classifier_json,sports_score,link['hash']))
 		conn.commit()
 
-#	if not opts.min: 
-#		link['keywords'] = {kw['name']:kw['score'] for kw in embedly['keywords']}
 	del link['embedly_blob']
 	link['first_tweeted'] = link['first_tweeted'].isoformat()
 	link['title'] = embedly['title']
@@ -273,17 +260,13 @@ for link in links:
 				break
 	del link['hash']
 
-#if not opts.min: correlation_matrix = [[getLinksCorrelation(x,y) for x in links] for y in links]
-#else: correlation_matrix = []
 correlation_matrix = []
 out = {	'generated_at': datetime.datetime.utcnow().isoformat(),
 		'age_in_hours':opts.age,
 		'popularity_weight':opts.popularity_weight,
 		'diagnostics':True,
-		'correlation': correlation_matrix,
 		'ignore_age':opts.ignore_age,
 		'articles':links[:int(opts.num_results)]}
-# print json.dumps(out,indent=1)
 
 _json = json.dumps(out)
 print _json
