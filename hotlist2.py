@@ -3,6 +3,7 @@
 
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
+from bs4 import BeautifulSoup
 import datetime
 import json
 import MySQLdb
@@ -138,6 +139,17 @@ while len(all_to_get_from_embedly) > 0:
 	embedly_list = json.load(urllib2.urlopen("http://api.embed.ly/1/extract?key=***REMOVED***&urls=" + ','.join([quote(x['url']) for x in to_get_from_embedly])))
 
 	for (link,embedly) in zip(to_get_from_embedly,embedly_list):
+		if link['source'] == "bostonherald.com" and embedly['description'] is None: # Never let it be said that we are not gracious to our competitors and their goofy markup
+			try:
+				soup = BeautifulSoup(urllib2.urlopen(embedly['url']))
+				for foo in soup.find_all("div",class_="field-item"):
+					ps = foo.find_all("p")
+					if len(ps) > 0:
+						embedly['description'] = ps[0].string
+						break
+			except:
+				pass
+
 		embedly_blob = json.dumps(embedly)
 		cur.execute("insert into url_info (real_url_hash,embedly_blob) values (%s,%s) on duplicate key update embedly_blob = %s",(link['hash'],embedly_blob,embedly_blob))
 		for target in links:
