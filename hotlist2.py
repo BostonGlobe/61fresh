@@ -3,6 +3,7 @@
 
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
+from bs4 import BeautifulSoup
 import datetime
 import json
 import MySQLdb
@@ -34,17 +35,6 @@ parser.add_option('-c', '--no_classify', help="don't run sports classifier",defa
 
 (opts, args) = parser.parse_args()
 
-#print "age: %s" % opts.age
-#print "popularity_weight: %s" % opts.popularity_weight
-#print "no_tweeters: %s" % opts.no_tweeters
-
-#exit(0)
-#if len(sys.argv)>1:
-#	age_in_hours = int(sys.argv[1])
-#else:
-#	age_in_hours = 12
-
-#popularity_weight=100
 
 # for multi-day queries, don't consider recency, just a popularity rank
 if not opts.ignore_age:
@@ -102,34 +92,46 @@ links = []
 
 cur.execute(query)
 
-#for row in cur:
-#	frac_age = float(row['age'])/24.0
-#	if (frac_age)
-#	if row['age'] < 4:
-#		multiplier = 4-(3*frac_age) 
-#	elif row['age'] < 12:
-#		multiplier = 1.05-frac_age
-#	else:
-#		multiplier = 1.05-frac_age
-#	row['hotness'] = multiplier * row['total_tweets']
 
-for row in cur:
-	row['age']+=1
-	age = row['age']
-	popularity_factor = float((row['total_tweets']-2)*int(opts.popularity_weight))
+def calculateHotness(link):
+	age = link['age']
+	popularity_factor = float((link['weighted_tweets']-2)*int(opts.popularity_weight))
 	age_factor = float(age * age)
-	row['popularity_factor'] = popularity_factor
-	row['age_factor'] = age_factor
+	link['popularity_factor'] = popularity_factor
+	link['age_factor'] = age_factor
 	if opts.ignore_age:
-		row['hotness'] = popularity_factor
+		link['hotness'] = popularity_factor
 	else:
-		row['hotness'] = popularity_factor / age_factor
-#	if row['home_domain']!=row['source']:
-	links.append(row)
+		link['hotness'] = popularity_factor / age_factor
+
+
+links = list(cur.fetchall())
+
+for link in links:
+	link['tweeters'] = []
+	if not opts.no_tweeters and not opts.min:
+		link['weighted_tweets'] = 0
+		cur.execute("select screen_name, name, followers_count, profile_image_url, text, tweet_id, tweeted_urls.created_at as created_at, retweeted_tweet_id, home_domain, home_domain_percent from users join tweeted_urls using(user_id) join tweets using(tweet_id) where real_url_hash = %s group by tweeted_urls.user_id order by followers_count desc",(link['hash']))
+		for row in cur:
+			if row['home_domain'] == link['source']:
+				link['weighted_tweets'] += 1-row['home_domain_percent']/100.0
+			else:
+				link['weighted_tweets'] += 1
+			if row['retweeted_tweet_id'] is None:
+				del row['retweeted_tweet_id']
+#			row['home_domain'] = row['home_domain'] == link['source']
+			row['tweet_id'] = str(row['tweet_id'])
+			row['created_at'] = row['created_at'].isoformat()
+			link['tweeters'].append(row)
+	else:
+		link['weighted_tweets'] = link['total_tweets']
+	link['age']+=1
+	calculateHotness(link)
+
 
 links.sort(key=lambda x: x['hotness'],reverse=True)
 
-links = links[:int(opts.num_results)]
+links = links[:2*int(opts.num_results)]
 
 all_to_get_from_embedly = [x for x in links if x['embedly_blob'] is None]
 
@@ -139,6 +141,17 @@ while len(all_to_get_from_embedly) > 0:
 	embedly_list = json.load(urllib2.urlopen("http://api.embed.ly/1/extract?key=***REMOVED***&urls=" + ','.join([quote(x['url']) for x in to_get_from_embedly])))
 
 	for (link,embedly) in zip(to_get_from_embedly,embedly_list):
+		if link['source'] == "bostonherald.com" and embedly['description'] is None: # Never let it be said that we are not gracious to our competitors and their goofy markup
+			try:
+				soup = BeautifulSoup(urllib2.urlopen(embedly['url']))
+				for foo in soup.find_all("div",class_="field-item"):
+					ps = foo.find_all("p")
+					if len(ps) > 0:
+						embedly['description'] = ps[0].string
+						break
+			except:
+				pass
+
 		embedly_blob = json.dumps(embedly)
 		cur.execute("insert into url_info (real_url_hash,embedly_blob) values (%s,%s) on duplicate key update embedly_blob = %s",(link['hash'],embedly_blob,embedly_blob))
 		for target in links:
@@ -146,6 +159,28 @@ while len(all_to_get_from_embedly) > 0:
 				target['embedly_blob'] = embedly_blob
 				break
 	conn.commit()
+
+links_hash = {}
+for link in links:
+	embedly = json.loads(link['embedly_blob'])
+	real_url = embedly['url']
+	link['url'] = real_url
+	if real_url in links_hash:
+		links_hash[real_url]['age'] = max(links_hash[real_url]['age'],link['age'])
+		links_hash[real_url]['first_tweeted'] = min(links_hash[real_url]['first_tweeted'],link['first_tweeted'])
+		links_hash[real_url]['total_tweets'] = links_hash[real_url]['total_tweets']+link['total_tweets']
+		links_hash[real_url]['weighted_tweets'] = links_hash[real_url]['weighted_tweets']+link['weighted_tweets']
+		calculateHotness(links_hash[real_url])
+		links_hash[real_url]['tweeters'].extend(link['tweeters'])
+		links_hash[real_url]['tweeters'].sort(key=lambda x: x['followers_count'],reverse=True)
+	else:
+		links_hash[real_url] = link
+
+links = links_hash.values()
+
+links.sort(key=lambda x: x['hotness'],reverse=True)
+
+links = links[:int(opts.num_results)]
 
 def getLinksCorrelation(a,b):
 	return sum([a['keywords'].get(x,0)*b['keywords'].get(x,0) for x in a['keywords'].keys()])
@@ -228,8 +263,6 @@ for link in links:
 		cur.execute("update url_info set topic_blob=%s, sports_score=%s where real_url_hash=%s",(classifier_json,sports_score,link['hash']))
 		conn.commit()
 
-#	if not opts.min: 
-#		link['keywords'] = {kw['name']:kw['score'] for kw in embedly['keywords']}
 	del link['embedly_blob']
 	link['first_tweeted'] = link['first_tweeted'].isoformat()
 	link['title'] = embedly['title']
@@ -239,29 +272,15 @@ for link in links:
 			if img['width'] > 300:
 				link['image_url'] = img['url']
 				break
-	link['tweeters'] = []
-	if not opts.no_tweeters and not opts.min:
-		cur.execute("select screen_name, name, followers_count, profile_image_url, text, tweet_id, tweeted_urls.created_at as created_at, retweeted_tweet_id from users join tweeted_urls using(user_id) join tweets using(tweet_id) where real_url_hash = %s group by tweeted_urls.user_id order by followers_count desc",(link['hash']))
-		for row in cur:
-			if row['retweeted_tweet_id'] is None:
-				del row['retweeted_tweet_id']
-#			row['home_domain'] = row['home_domain'] == link['source']
-			row['tweet_id'] = str(row['tweet_id'])
-			row['created_at'] = row['created_at'].isoformat()
-			link['tweeters'].append(row)
 	del link['hash']
 
-#if not opts.min: correlation_matrix = [[getLinksCorrelation(x,y) for x in links] for y in links]
-#else: correlation_matrix = []
 correlation_matrix = []
 out = {	'generated_at': datetime.datetime.utcnow().isoformat(),
 		'age_in_hours':opts.age,
 		'popularity_weight':opts.popularity_weight,
 		'diagnostics':True,
-		'correlation': correlation_matrix,
 		'ignore_age':opts.ignore_age,
 		'articles':links[:int(opts.num_results)]}
-# print json.dumps(out,indent=1)
 
 _json = json.dumps(out)
 print _json
