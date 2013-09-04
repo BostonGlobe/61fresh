@@ -35,7 +35,7 @@ for row in cur:
 
 for uid in users:
 	u = users[uid]
-	if (u['total'] > 20) and (float(u['domain_count'])/float(u['total'])) >= 0.9:
-		if u['domain'] not in ['twitter.com','instagram.com']:
-			cur.execute("update users set home_domain = %s where user_id = %s", (u['domain'],uid))
+	if (u['total'] > 20) and u['domain'] not in ['twitter.com','instagram.com','facebook.com','youtube.com','vine.co']:
+		pct = 100*u['domain_count']/u['total']
+		cur.execute("update users set home_domain = %s, home_domain_percent = %s where user_id = %s", (u['domain'], pct, uid))
 conn.commit()

@@ -111,9 +111,11 @@ for link in links:
 	link['tweeters'] = []
 	if not opts.no_tweeters and not opts.min:
 		link['weighted_tweets'] = 0
-		cur.execute("select screen_name, name, followers_count, profile_image_url, text, tweet_id, tweeted_urls.created_at as created_at, retweeted_tweet_id, home_domain from users join tweeted_urls using(user_id) join tweets using(tweet_id) where real_url_hash = %s group by tweeted_urls.user_id order by followers_count desc",(link['hash']))
+		cur.execute("select screen_name, name, followers_count, profile_image_url, text, tweet_id, tweeted_urls.created_at as created_at, retweeted_tweet_id, home_domain, home_domain_percent from users join tweeted_urls using(user_id) join tweets using(tweet_id) where real_url_hash = %s group by tweeted_urls.user_id order by followers_count desc",(link['hash']))
 		for row in cur:
-			if row['home_domain'] != link['source']:
+			if row['home_domain'] == link['source']:
+				link['weighted_tweets'] += 1-row['home_domain_percent']/100.0
+			else:
 				link['weighted_tweets'] += 1
 			if row['retweeted_tweet_id'] is None:
 				del row['retweeted_tweet_id']
