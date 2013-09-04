@@ -134,6 +134,7 @@ HomepageController = function()
 		if (!this.set) this.set=this.DEFAULT_SET
 		this.log("rendering homepage page with set "+this.set)
 		set_url = "json/"+this.set+".json"
+		this.log(set_url)
 		$.ajax({
 			url: set_url,
 			dataType: 'json',

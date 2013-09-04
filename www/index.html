@@ -21,7 +21,15 @@
   <body>
 
     <div class="container">
-		<div id='index'></div>
+		<div id='index'>
+			<div class='header'>
+				<div class='logo'>61FRESH</div>
+				<div class="tagline">
+					Boston news, as tweeted by Bostonians. Updated every 10 minutes.
+				</div>
+			</div>
+			<div id='loading'>loading ...</div>
+		</div>
 
     </div><!-- /.container -->
     <script src="http://code.jquery.com/jquery.js"></script>
@@ -31,10 +39,10 @@
     <script src="http://embeddedjavascript.googlecode.com/files/ejs_0.9_alpha_1_production.js"></script>
     <script src="piggyback/piggyback.js"></script>
     <script src="controllers/application_controller.js"></script>
-    <script src="controllers/index_controller.js"></script>
+    <script src="controllers/homepage_controller.js"></script>
 	<script>
 		jQuery(document).ready(function() {
-			new IndexController().log("ready");
+			new HomepageController().start();
 		})
 	</script>
 	<script>
