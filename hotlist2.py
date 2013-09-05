@@ -13,6 +13,8 @@ import urllib2
 import sys
 import optparse
 import nltk
+import gensim
+import re
 
 sys.path.append('./classifier')
 from calais import Calais
@@ -274,25 +276,40 @@ for link in links:
 				break
 	del link['hash']
 
-correlation_matrix = []
+docs = [' '.join([x for x in [link['title'], link['description']] if x is not None]) for link in links]
+
+with open('stoplist.json') as fh:
+	stoplist = json.load(fh)
+
+texts = [[word for word in re.split('\W+',document.lower()) if word not in stoplist and len(word) > 1] for document in docs]
+
+all_tokens = sum(texts, [])
+tokens_once = set(word for word in set(all_tokens) if all_tokens.count(word) == 1)
+texts = [[word for word in text if word not in tokens_once] for text in texts]
+
+dictionary = gensim.corpora.Dictionary(texts)
+lsi = gensim.models.LsiModel(corpus=[dictionary.doc2bow(text) for text in texts], id2word=dictionary, num_topics=50)
+
+index = gensim.similarities.MatrixSimilarity(lsi[[dictionary.doc2bow(text) for text in texts]])
+
+ids = set(range(len(texts)))
+clusters = []
+while len(ids) > 0:
+    text = texts[ids.pop()]
+    cluster_ids = [x[0] for x in enumerate(index[lsi[dictionary.doc2bow(text)]]) if x[1]>0.4]
+    cluster_links = [links[x] for x in cluster_ids]
+    cluster_links.sort(key=lambda x: x['hotness'],reverse=True)
+    clusters.append(cluster_links)
+    ids.difference_update(cluster_ids)
+
+
 out = {	'generated_at': datetime.datetime.utcnow().isoformat(),
 		'age_in_hours':opts.age,
 		'popularity_weight':opts.popularity_weight,
 		'diagnostics':True,
 		'ignore_age':opts.ignore_age,
-		'articles':links[:int(opts.num_results)]}
+		'articles':links,
+		'clusters':clusters}
 
 _json = json.dumps(out)
 print _json
-#if not opts.no_s3:
-#	s3_conn = S3Connection('***REMOVED***', '***REMOVED***')
-#	k = Key(s3_conn.get_bucket('condor.globe.com'))
-#	if opts.hashtag:
-#		k.key = 'json/hashtags/'+opts.hashtag+'.json'
-#	else:
-#		k.key = "json/articles_%s.json" % opts.age
-
-#	k.set_contents_from_string(_json)
-#	k.set_acl('public-read')
-#	k.set_contents_from_string(_json)
-#	k.set_acl('public-read')
