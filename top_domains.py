@@ -59,11 +59,11 @@ out = {	'generated_at': datetime.datetime.utcnow().isoformat(),
 
 _json = json.dumps(out)
 print _json
-s3_conn = S3Connection('***REMOVED***', '***REMOVED***')
-k = Key(s3_conn.get_bucket('condor.globe.com'))
-k.key = 'json/leaders/top_domains.json'
+#s3_conn = S3Connection('***REMOVED***', '***REMOVED***')
+#k = Key(s3_conn.get_bucket('condor.globe.com'))
+#k.key = 'json/leaders/top_domains.json'
 
-k.set_contents_from_string(_json)
-k.set_acl('public-read')
-k.set_contents_from_string(_json)
-k.set_acl('public-read')
+#k.set_contents_from_string(_json)
+#k.set_acl('public-read')
+#k.set_contents_from_string(_json)
+#k.set_acl('public-read')

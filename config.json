@@ -5,5 +5,12 @@
 		"user": "condor",
 		"password": "globelab",
 		"database": "condor"
+	},
+	"aws-s3" : {
+		"iam-user": "production_user",
+		"iam-user-group": "production_users",
+		"access-key-id": "***REMOVED***",
+		"secret-access-key": "***REMOVED***",
+		"bucket-name": "61fresh.com"
 	}
 }

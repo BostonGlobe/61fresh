@@ -16,6 +16,14 @@ directory = sys.argv[1]
 out = {}
 import os, os.path
 
+try:
+	with open('config-local.json') as fh:
+		config = json.load(fh)
+except IOError:
+	with open('config.json') as fh:
+		config = json.load(fh)
+
+
 parser = optparse.OptionParser()
 parser.add_option('-a', '--age', help='max age of urls in hours. default value is 12',default='12')
 parser.add_option('-p', '--popularity_weight', help='multiplier for popularity - higher values will give greater emphasis to popular articles over fresh articles. default is 100',default='100')
@@ -31,8 +39,8 @@ parser.add_option('-c', '--no_classify', help="don't run sports classifier",defa
 
 
 def upload_to_s3(key,s): 
-	s3_conn = S3Connection('***REMOVED***', '***REMOVED***')
-	k = Key(s3_conn.get_bucket('condor.globe.com'))
+	s3_conn = S3Connection(config['aws-s3']['access-key-id'],config['aws-s3']['secret-access-key']) 
+	k = Key(s3_conn.get_bucket(config['aws-s3']['bucket-name']))
 	k.key = key
 #	print "key %s" % k.key
 	k.set_contents_from_string(s)

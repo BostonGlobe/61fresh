@@ -284,15 +284,15 @@ out = {	'generated_at': datetime.datetime.utcnow().isoformat(),
 
 _json = json.dumps(out)
 print _json
-if not opts.no_s3:
-	s3_conn = S3Connection('***REMOVED***', '***REMOVED***')
-	k = Key(s3_conn.get_bucket('condor.globe.com'))
-	if opts.hashtag:
-		k.key = 'json/hashtags/'+opts.hashtag+'.json'
-	else:
-		k.key = "json/articles_%s.json" % opts.age
+#if not opts.no_s3:
+#	s3_conn = S3Connection('***REMOVED***', '***REMOVED***')
+#	k = Key(s3_conn.get_bucket('condor.globe.com'))
+#	if opts.hashtag:
+#		k.key = 'json/hashtags/'+opts.hashtag+'.json'
+#	else:
+#		k.key = "json/articles_%s.json" % opts.age
 
-	k.set_contents_from_string(_json)
-	k.set_acl('public-read')
-	k.set_contents_from_string(_json)
-	k.set_acl('public-read')
+#	k.set_contents_from_string(_json)
+#	k.set_acl('public-read')
+#	k.set_contents_from_string(_json)
+#	k.set_acl('public-read')
