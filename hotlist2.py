@@ -276,7 +276,7 @@ for link in links:
 				break
 	del link['hash']
 
-docs = [' '.join([x for x in [link['title'], link['description']] if x is not None]) for link in links]
+docs = [' '.join([x for x in [link.get('title',None), link.get('description',None)] if x is not None]) for link in links]
 
 with open('stoplist.json') as fh:
 	stoplist = json.load(fh)
