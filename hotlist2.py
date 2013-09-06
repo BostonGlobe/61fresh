@@ -34,6 +34,7 @@ parser.add_option('-r', '--num_results', help="number of results to return, defa
 parser.add_option('-t', '--hashtag', help="filter by the given hashtag, not domain list, default is false",default=False)
 parser.add_option('-o', '--no_s3', help="don't upload to s3",default=False)
 parser.add_option('-c', '--no_classify', help="don't run sports classifier",default=False)
+parser.add_option('-g', '--group_clusters', help="return clusters: groups of atricles about the same topic",default=False)
 
 (opts, args) = parser.parse_args()
 
@@ -276,40 +277,41 @@ for link in links:
 				break
 	del link['hash']
 
-docs = [' '.join([x for x in [link.get('title',None), link.get('description',None)] if x is not None]) for link in links]
-
-with open('stoplist.json') as fh:
-	stoplist = json.load(fh)
-
-texts = [[word for word in re.split('\W+',document.lower()) if word not in stoplist and len(word) > 1] for document in docs]
-
-all_tokens = sum(texts, [])
-tokens_once = set(word for word in set(all_tokens) if all_tokens.count(word) == 1)
-texts = [[word for word in text if word not in tokens_once] for text in texts]
-
-dictionary = gensim.corpora.Dictionary(texts)
-lsi = gensim.models.LsiModel(corpus=[dictionary.doc2bow(text) for text in texts], id2word=dictionary, num_topics=50)
-
-index = gensim.similarities.MatrixSimilarity(lsi[[dictionary.doc2bow(text) for text in texts]])
-
-ids = set(range(len(texts)))
-clusters = []
-while len(ids) > 0:
-    text = texts[ids.pop()]
-    cluster_ids = [x[0] for x in enumerate(index[lsi[dictionary.doc2bow(text)]]) if x[1]>0.4]
-    cluster_links = [links[x] for x in cluster_ids]
-    cluster_links.sort(key=lambda x: x['hotness'],reverse=True)
-    clusters.append(cluster_links)
-    ids.difference_update(cluster_ids)
-
-
 out = {	'generated_at': datetime.datetime.utcnow().isoformat(),
 		'age_in_hours':opts.age,
 		'popularity_weight':opts.popularity_weight,
 		'diagnostics':True,
 		'ignore_age':opts.ignore_age,
-		'articles':links,
-		'clusters':clusters}
+		'articles':links}
+
+if (not opts.min and opts.group_clusters):
+	docs = [' '.join([x for x in [link.get('title',None), link.get('description',None)] if x is not None]) for link in links]
+
+	with open('stoplist.json') as fh:
+		stoplist = json.load(fh)
+
+	texts = [[word for word in re.split('\W+',document.lower()) if word not in stoplist and len(word) > 1] for document in docs]
+
+	all_tokens = sum(texts, [])
+	tokens_once = set(word for word in set(all_tokens) if all_tokens.count(word) == 1)
+	texts = [[word for word in text if word not in tokens_once] for text in texts]
+
+	dictionary = gensim.corpora.Dictionary(texts)
+	lsi = gensim.models.LsiModel(corpus=[dictionary.doc2bow(text) for text in texts], id2word=dictionary, num_topics=50)
+
+	index = gensim.similarities.MatrixSimilarity(lsi[[dictionary.doc2bow(text) for text in texts]])
+
+	ids = set(range(len(texts)))
+	clusters = []
+	while len(ids) > 0:
+	    text = texts[ids.pop()]
+	    cluster_ids = [x[0] for x in enumerate(index[lsi[dictionary.doc2bow(text)]]) if x[1]>0.4]
+	    cluster_links = [links[x] for x in cluster_ids]
+	    cluster_links.sort(key=lambda x: x['hotness'],reverse=True)
+	    clusters.append(cluster_links)
+	    ids.difference_update(cluster_ids)
+	out['clusters'] = clusters
+
 
 _json = json.dumps(out)
 print _json

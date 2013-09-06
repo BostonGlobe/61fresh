@@ -2,7 +2,7 @@ pushd .
 cd ~/condor
 rm -rf data
 mkdir data
-python27 hotlist2.py $1 $2 $3 --num_results=40 > data/articles_12.json
+python27 hotlist2.py $1 $2 $3 --group_clusters --num_results=40 > data/articles_12.json
 mv data/articles_12.json data/articles.json
 
 mkdir data/hashtags
