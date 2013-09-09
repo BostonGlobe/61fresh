@@ -317,7 +317,7 @@ if (not opts.min and opts.group_clusters):
 	    cluster_links.sort(key=lambda x: x['hotness'],reverse=True)
 	    clusters.append(cluster_links)
 	    ids.difference_update(cluster_ids)
-	out['clusters'] = clusterslinks[:int(opts.num_results)]
+	out['clusters'] = clusters[:int(opts.num_results)]
 
 
 _json = json.dumps(out)
