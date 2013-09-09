@@ -19,7 +19,7 @@ To install me on amazon linux, here are the steps:
     sudo pip-2.7 install boto MySQL-python numpy pyyaml nltk simplejson beautifulsoup4 gensim
     (note: gensim will install scipy, which takes forever to build on an ec2 micro. Said build
     will probably also run out of memory if the box is doing anything else at the time. On the mac,
-    it looks like scipy's only dependency is gfortram, which is available through homebrew.)
+    it looks like scipy's only dependency is gfortran, which is available through homebrew.)
 
     put the private key in ~/.ssh/id_rsa (with proper permissions)
 

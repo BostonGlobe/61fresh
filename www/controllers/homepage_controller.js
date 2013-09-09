@@ -47,60 +47,67 @@ HomepageController = function()
 		// loop through & process articles
 		num_articles = 0
 		iter =0
-		_.each(this.json.articles.articles,function(article){
-			this.log(iter)
-			iter+=1
-			if (article.url=='Error') 
-			{
-				article.deleted=true;
-				return;
-			}
-			this.log("muted:"+this.sports_muted+"/article.sports_score:"+article.sports_score+"/that.SPORTS_THRESHOLD:"+that.SPORTS_THRESHOLD)
-			if (that.sports_muted && article.sports_score>that.SPORTS_THRESHOLD) 
-			{
-				article.deleted=true
-				return;
-			}
-			num_articles+=1
-			if (num_articles>that.MAX_ARTICLES) 
-			{
-				article.deleted = true;
-				return;
-			}
-			this.log(":"+num_articles+":"+that.MAX_ARTICLES)
+		cluster_index = -1;
+		_.each(this.json.clusters.articles,function(cluster){
+			cluster_index+=1
+			this.log("++++ cluster "+cluster_index)
+			article_order_within_cluster=-1
+			_.each(cluster,function(article,i){
+				this.log(iter)
+				iter+=1
+				if (article.url=='Error') 
+				{
+					article.deleted=true;
+					return;
+				}
+				if (that.sports_muted && article.sports_score>that.SPORTS_THRESHOLD) 
+				{
+					article.deleted=true
+					return;
+				}
+				num_articles+=1
+				if (num_articles>that.MAX_ARTICLES) 
+				{
+					article.deleted = true;
+					return;
+				}
+				this.log(":"+num_articles+":"+that.MAX_ARTICLES)
 			
-			// find earliest tweet, make it the 'author' tweet
-			article.first_tweeter=article.tweeters[0]
-			if (!article.first_tweeter) 
-			{
-				article.deleted=true
-				return
-			}
-			_.each(article.tweeters,function(tweet,i){
-				if (new Date(tweet.created_at).getTime()<new Date(article.first_tweeter.created_at).getTime()) article.first_tweeter = tweet
-			})
-			// find and combine duplicate articles
-			if (titles[article.title]) // found a dupe
-			{
-				if (article.source!=titles[article.title].source) titles[article.title].source +=", "+article.source
-				article_to_use = titles[article.title]
-				_.each(article.tweeters,function(tweeter){
-					article_to_use.tweeters.push(tweeter)
+				article.order_within_cluster=i
+
+				// find earliest tweet, make it the 'author' tweet
+				article.first_tweeter=article.tweeters[0]
+				if (!article.first_tweeter) 
+				{
+					article.deleted=true
+					return
+				}
+				_.each(article.tweeters,function(tweet,i){
+					if (new Date(tweet.created_at).getTime()<new Date(article.first_tweeter.created_at).getTime()) article.first_tweeter = tweet
 				})
-				article.deleted=true
-				return; 
-			}
-			titles[article.title]=article;
+				// find and combine duplicate articles
+				if (titles[article.title]) // found a dupe
+				{
+					if (article.source!=titles[article.title].source) titles[article.title].source +=", "+article.source
+					article_to_use = titles[article.title]
+					_.each(article.tweeters,function(tweeter){
+						article_to_use.tweeters.push(tweeter)
+					})
+					article.deleted=true
+					return; 
+				}
+				titles[article.title]=article;
 
-			// replace headline with text of tweet by user with most followers
-			article.tweet_title = article.first_tweeter.text
-			article.tweet_title = article.tweet_title.replace (/http[^\s]+/g,"")
-			article.tweet_title_screen_name = article.first_tweeter.screen_name
-			article.profile_image_url = article.first_tweeter.profile_image_url
+				// replace headline with text of tweet by user with most followers
+				article.tweet_title = article.first_tweeter.text
+				article.tweet_title = article.tweet_title.replace (/http[^\s]+/g,"")
+				article.tweet_title_screen_name = article.first_tweeter.screen_name
+				article.profile_image_url = article.first_tweeter.profile_image_url
 
-			// mark new articles as new
-			if ((new Date().getTime()-new Date(article.first_tweeted).getTime())<60*60*1000) article.is_new=true // 1 hour
-			else article.is_new=false
+				// mark new articles as new
+				if ((new Date().getTime()-new Date(article.first_tweeted).getTime())<60*60*1000) article.is_new=true // 1 hour
+				else article.is_new=false
+			})
 		})
 		this.render("index",'homepage')
 		

@@ -8,7 +8,7 @@
 			</div>
 		<%}%>
 	</div>
-	<div class='logo'>61FRESH</div>
+	<div class='logo'><img style='width:100px' src='images/logo.jpg'></div>
 	<div class="tagline">
 		Boston news, as tweeted by Bostonians. Updated every 10 minutes.
 	</div>
@@ -100,7 +100,7 @@
 	<div id='main'>
 		<%_.each(json.articles.articles,function(article){%>
 			<%if (article.deleted) return%>
-		<div class='article <%=article.is_sports ? "sports": ""%>'>
+		<div class='article <%=article.order_within_cluster>0 ? "main_cluster_article": "subsidiary_cluster_article"%><%=article.is_sports ? "sports": ""%>'>
 			<div>
 			<%if (diag && json.articles.diagnostics) {%>
 				<div class='diagnostics_row'>
