@@ -5,4 +5,4 @@
 #*/15 * * * * python condor/hashtag.py mbta
 #*/16 * * * * python condor/hashtag.py redsox
 #*/10 * * * * python condor/hotlist2.py 100
-*/10 * * * * ./condor/combine.sh
+*/6 * * * * ./condor/combine.sh
