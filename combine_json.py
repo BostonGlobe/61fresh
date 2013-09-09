@@ -16,8 +16,16 @@ directory = sys.argv[1]
 out = {}
 import os, os.path
 
+CONDOR_ENV = os.environ['CONDOR_ENV']
+CONDOR_HOME = env = os.environ['CONDOR_HOME']
+
+if not CONDOR_ENV:
+	print "you must set the CONDOR_ENV bash variable (production, test, etc)"
+if not CONDOR_HOME:
+	condor_home="~/condor"
+
 try:
-	with open('config-local.json') as fh:
+	with open("%s/config/config-%s.json" % (CONDOR_HOME,CONDOR_ENV)) as fh:
 		config = json.load(fh)
 except IOError:
 	with open('config.json') as fh:

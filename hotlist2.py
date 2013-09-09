@@ -15,6 +15,22 @@ import optparse
 import nltk
 import gensim
 import re
+import os
+
+CONDOR_ENV = os.environ['CONDOR_ENV']
+CONDOR_HOME = env = os.environ['CONDOR_HOME']
+
+if not CONDOR_ENV:
+	print "you must set the CONDOR_ENV bash variable (production, test, etc)"
+if not CONDOR_HOME:
+	condor_home="~/condor"
+
+try:
+	with open("%s/config/config-%s.json" % (CONDOR_HOME,CONDOR_ENV)) as fh:
+		config = json.load(fh)
+except IOError:
+	with open('config.json') as fh:
+		config = json.load(fh)
 
 sys.path.append('./classifier')
 from calais import Calais
@@ -22,7 +38,6 @@ from nclassifier import Classifier
 import codecs
 import pickle
 import time
-
 
 parser = optparse.OptionParser()
 parser.add_option('-a', '--age', help='max age of urls in hours. default value is 12',default='12')
@@ -46,12 +61,7 @@ if not opts.ignore_age:
 	else:
 		opts.ignore_age=False
 
-try:
-	with open('config-local.json') as fh:
-		config = json.load(fh)
-except IOError:
-	with open('config.json') as fh:
-		config = json.load(fh)
+
 
 conn = MySQLdb.connect(
 	host=config['mysql']['host'],

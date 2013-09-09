@@ -48,7 +48,7 @@ HomepageController = function()
 		num_articles = 0
 		iter =0
 		cluster_index = -1;
-		_.each(this.json.clusters.articles,function(cluster){
+		_.each(this.json.articles.clusters,function(cluster){
 			cluster_index+=1
 			this.log("++++ cluster "+cluster_index)
 			article_order_within_cluster=-1

@@ -67,6 +67,10 @@ a:active { text-decoration: none; }
 	margin-bottom:0.5em;
 }
 
+.cluster
+{
+}
+
 .article
 {
 	padding:1em;
@@ -82,8 +86,17 @@ a:active { text-decoration: none; }
 
 .subsidiary_cluster_article
 {
-	border:2px solid red;
+margin-left:50px;
 }
+
+@media only screen and (max-width: 400px) {
+	.subsidiary_cluster_article
+	{
+		margin-left:30px;
+	}
+}
+
+
 
 .header
 {
