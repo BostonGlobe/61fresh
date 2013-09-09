@@ -145,7 +145,7 @@ for link in links:
 
 links.sort(key=lambda x: x['hotness'],reverse=True)
 
-links = links[:2*int(opts.num_results)]
+links = links[:3*int(opts.num_results)]
 
 all_to_get_from_embedly = [x for x in links if x['embedly_blob'] is None]
 
@@ -194,10 +194,6 @@ links = links_hash.values()
 
 links.sort(key=lambda x: x['hotness'],reverse=True)
 
-links = links[:int(opts.num_results)]
-
-def getLinksCorrelation(a,b):
-	return sum([a['keywords'].get(x,0)*b['keywords'].get(x,0) for x in a['keywords'].keys()])
 
 if not opts.min and not opts.no_classify:
 	calais = Calais("***REMOVED***", submitter="python-calais classify")
@@ -293,7 +289,7 @@ out = {	'generated_at': datetime.datetime.utcnow().isoformat(),
 		'popularity_weight':opts.popularity_weight,
 		'diagnostics':True,
 		'ignore_age':opts.ignore_age,
-		'articles':links}
+		'articles':links[:int(opts.num_results)]}
 
 if (not opts.min and opts.group_clusters):
 	docs = [' '.join([x for x in [link.get('title',None), link.get('description',None)] if x is not None]) for link in links]
@@ -321,7 +317,7 @@ if (not opts.min and opts.group_clusters):
 	    cluster_links.sort(key=lambda x: x['hotness'],reverse=True)
 	    clusters.append(cluster_links)
 	    ids.difference_update(cluster_ids)
-	out['clusters'] = clusters
+	out['clusters'] = clusterslinks[:int(opts.num_results)]
 
 
 _json = json.dumps(out)
