@@ -1,4 +1,4 @@
-set bucket_name = s3://`python bucket_name.py`
+set bucket_name = "s3://`python bucket_name.py`"
 echo "commiting code, pushing back end to production, pushing front end to bucket `python bucket_name.py`"
 pushd .
 git commit -am "$1"
