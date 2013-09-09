@@ -1,3 +1,6 @@
+bucket_name="s3://$(python bucket_name.py)"
+echo "Using environment $CONDOR_ENV; uploading to bucket $bucket_name"
+
 pushd .
 cd ~/condor
 rm -rf data

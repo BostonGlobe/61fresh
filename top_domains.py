@@ -10,6 +10,7 @@ from urllib import quote
 import urllib2
 import sys
 import optparse
+import os
 
 parser = optparse.OptionParser()
 parser.add_option('-a', '--age', help='max age of urls in day. default value is 7',default='7')

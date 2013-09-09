@@ -11,6 +11,7 @@ import urllib2
 import sys
 import re
 import optparse
+import os
 
 directory = sys.argv[1]
 out = {}
