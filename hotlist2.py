@@ -26,6 +26,7 @@ import time
 
 parser = optparse.OptionParser()
 parser.add_option('-a', '--age', help='max age of urls in hours. default value is 12',default='12')
+parser.add_option('-d', '--days_ago', help='Set this to look at 61fresh as it would have appeared x days ago. Default is zero.',default='0')
 parser.add_option('-p', '--popularity_weight', help='multiplier for popularity - higher values will give greater emphasis to popular articles over fresh articles. default is 100',default='100')
 parser.add_option('-i', '--ignore_age', help='ignore recency & just return a straight popularity rank for the time period, default is false',default=False)
 parser.add_option('-n', '--no_tweeters', help="don't return array of tweeters with each url - saves file size. default is False (tweeters will be returned).",default=False)
@@ -66,34 +67,34 @@ cur = conn.cursor()
 
 cur.execute("SET time_zone='+0:00'")
 non_hashtag_query = """select real_url as url,count(distinct user_id) as total_tweets, 
-MIN(created_at) as first_tweeted, TIMESTAMPDIFF(HOUR,MIN(created_at),NOW()) as age, 
+MIN(created_at) as first_tweeted, TIMESTAMPDIFF(HOUR,MIN(created_at),DATE_SUB(NOW(),INTERVAL %s DAY)) as age, 
 real_url_hash as hash, domain as source, embedly_blob,sports_score from tweeted_urls
 left join url_info using(real_url_hash) 
 where domain in (select domain from domains where domain_set='boston') 
+and created_at < DATE_SUB(NOW(),INTERVAL %s DAY)
 group by real_url having age < %s;"""
 
 hashtag_query = """
 select real_url as url,count(distinct tweeted_urls.user_id) as total_tweets, MIN(tweeted_urls.created_at) as first_tweeted, 
-	TIMESTAMPDIFF(HOUR,MIN(tweeted_urls.created_at),NOW()) as age, real_url_hash as hash, domain as source, embedly_blob, sports_score 
+	TIMESTAMPDIFF(HOUR,MIN(tweeted_urls.created_at),DATE_SUB(NOW(),INTERVAL %s DAY)) as age, real_url_hash as hash, domain as source, embedly_blob, sports_score 
 from tweeted_urls left join url_info using(real_url_hash) 
 	left join tweeted_hashtags using (tweet_id) 
-where hashtag='%s'  
+where hashtag=%s  
 	and real_url is not null 
 	and real_url <> 'error'
-	and tweeted_urls.created_at>adddate(now(),interval -24 hour)
+	and tweeted_urls.created_at > DATE_SUB(NOW(),INTERVAL (%s+2) DAY)
+	and tweeted_urls.created_at < DATE_SUB(NOW(),INTERVAL %s DAY)
 group by real_url 
 having age < 24
 order by total_tweets desc;
 """
 query = ""
 if (opts.hashtag):
-	query = hashtag_query % opts.hashtag
+	cur.execute(hashtag_query,(opts.days_ago,opts.hashtag,opts.days_ago,opts.days_ago))
 else:
-	query = non_hashtag_query % opts.age
+	cur.execute(non_hashtag_query,(opts.days_ago,opts.days_ago,opts.age))
 
 links = []
-
-cur.execute(query)
 
 
 def calculateHotness(link):
