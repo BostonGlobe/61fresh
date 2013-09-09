@@ -16,7 +16,7 @@ try:
 	with open("%s/config/config-%s.json" % (CONDOR_HOME,CONDOR_ENV)) as fh:
 		config = json.load(fh)
 except IOError:
-	with open('config.json') as fh:
+	with open('%s/config/config.json' % (CONDOR_HOME,)) as fh:
 		config = json.load(fh)
 
 print config['aws-s3']['bucket-name']

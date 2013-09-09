@@ -31,7 +31,7 @@ try:
 	with open("%s/config/config-%s.json" % (CONDOR_HOME,CONDOR_ENV)) as fh:
 		config = json.load(fh)
 except IOError:
-	with open('config.json') as fh:
+	with open('config/config.json') as fh:
 		config = json.load(fh)
 
 
