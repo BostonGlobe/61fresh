@@ -99,7 +99,6 @@
 	</div>
 	<div id='main'>
 		<%_.each(json.articles.clusters,function(cluster){%>
-			<div class='cluster'>
 			<%_.each(cluster,function(article,i){%>
 				<%if (article.deleted) return%>
 				<div class='article <%=article.order_within_cluster==0 ? "main_cluster_article": "subsidiary_cluster_article"%><%=article.is_sports ? "sports": ""%>'>
@@ -189,7 +188,6 @@
 					</div>
 				</div> <!-- article -->
 		<%})%>
-		</div> <!-- cluster-->
 	<%})%>
 	</div> <!-- main -->
 	<div style='clear:right'>
