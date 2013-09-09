@@ -1,7 +1,3 @@
-CONDOR_ENV=prod
-CONDOR_HOME=~/condor
-export CONDOR_ENV CONDOR_HOME
-
 bucket_name="s3://$(python $CONDOR_HOME/bucket_name.py)"
 echo "Using environment $CONDOR_ENV; uploading to bucket $bucket_name"
 
