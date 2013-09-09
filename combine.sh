@@ -2,7 +2,7 @@ bucket_name="s3://$(python bucket_name.py)"
 echo "Using environment $CONDOR_ENV; uploading to bucket $bucket_name"
 
 pushd .
-cd ~/condor
+cd $CONDOR_HOME
 rm -rf data
 mkdir data
 python27 hotlist2.py $1 $2 $3 --group_clusters 1 --num_results=40 > data/articles_12.json
@@ -23,7 +23,7 @@ python top_domains.py --age=1 --num_results=25 > data/domain_leaders/domains_1.j
 
 rm -rf www/json
 mkdir www/json
-python combine_json.py $1 $2 $3 data > www/json/data.json
+python combine_json.py data $1 $2 $3 > www/json/data.json
 cp data/leaders/week.json data/articles_168.json
 cp -r data/* www/json
 popd

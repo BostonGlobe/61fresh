@@ -8,7 +8,7 @@ var config;
 try {
 	config = require(__dirname + '/config-local.json');
 } catch (e) {
-	config = require(__dirname + '/config.json')
+	config = require(__dirname + '/config/config.json')
 }
 
 var mysql      = require('mysql');
