@@ -21,7 +21,6 @@ ApplicationController = function()
 				t+=":"
 				t+=data.inspect();
 			}
-			console.log(t)
 		}
 	}
 

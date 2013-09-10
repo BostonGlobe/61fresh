@@ -3,12 +3,13 @@ function PiggyBack()
 {
 	debug=true
 	
-	this.render = function(id,template)
+	this.render = function(id,template,post_load)
 	{
 		if (template==null) template=id
 		this.log("rendering template <"+template+"> into id <" + id + "> ... ")
 		fragment = new EJS({url: 'templates/'+template+'.ejs'}).render(this)		// render page fragment
 		$("#"+id).html(fragment)
+		if (post_load) post_load();
 	}
 	
 	this.set_cookie = function(name,value,days) 

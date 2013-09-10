@@ -28,7 +28,6 @@ HomepageController = function()
 				url:set_url,
 				dataType: 'json',
 				success: function(json){
-					this.log("in handler:" + context.rail_set.set_name)
 					this.rail_set = context.rail_set
 					this.json = json
 					this.render(that.rail_set.set_name,"rail_set")
@@ -40,7 +39,6 @@ HomepageController = function()
 	
 	this.handle_combined_json = function(json)
 	{
-		this.log('handle_combined_json')
 		this.json = json
 		titles = {}
 		that=this
@@ -50,10 +48,8 @@ HomepageController = function()
 		cluster_index = -1;
 		_.each(this.json.articles.clusters,function(cluster){
 			cluster_index+=1
-			this.log("++++ cluster "+cluster_index)
 			article_order_within_cluster=-1
 			_.each(cluster,function(article,i){
-				this.log(iter)
 				iter+=1
 				if (article.url=='Error') 
 				{
@@ -109,7 +105,9 @@ HomepageController = function()
 				else article.is_new=false
 			})
 		})
-		this.render("index",'homepage')
+		this.render("index",'homepage',function(){
+//			that.render('insights')
+		})
 		
 		// do DOM stuff
 		this.get_cookie("sports_mute")=='true' ? $("#sports_mute").prop('checked',true) : $("#sports_mute").prop('checked',false)
@@ -117,6 +115,12 @@ HomepageController = function()
 		$('#sports_mute').click(function(e) {
 				that.mute_sports($(this).is(':checked'))
 		});		
+		$('.article').hover(function () {
+		    $(this).find(".hover").show()
+		  },
+		  function () {
+		    $(this).find(".hover").hide()
+		  })
 	}
 	
 	this.mute_sports = function(mute)
@@ -141,7 +145,6 @@ HomepageController = function()
 		if (!this.set) this.set=this.DEFAULT_SET
 		this.log("rendering homepage page with set "+this.set)
 		set_url = "json/"+this.set+".json"
-		this.log(set_url)
 		$.ajax({
 			url: set_url,
 			dataType: 'json',

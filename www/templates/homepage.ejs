@@ -1,3 +1,4 @@
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 <div class='header'>
 	<div class="diagnostics_header">
 	<input id='sports_mute' type="checkbox" value="1"> mute sports 
@@ -71,6 +72,9 @@
 				</div>
 			</div>
 			<%})%>
+			<div id='insights'>
+			
+			</div>
 		
 	<%_.each(json.hashtags,function(hashtag){%>
 		<div class='rail_set'>
@@ -155,6 +159,13 @@
 								by <a href='http://www.twitter.com/<%=article.first_tweeter.screen_name%>'>@<%=article.first_tweeter.screen_name%></a>
 							<%}%>
 							</div>
+							<span class='twitter_intents hover'>
+								<!--<a href="https://twitter.com/marstall" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow</a>-->
+								<a href="https://twitter.com/intent/tweet?in_reply_to=<%=article.first_tweeter.tweet_id%>"><img src='images/twitter_reply.png'> Reply</a>
+								&nbsp;<a href="https://twitter.com/intent/retweet?tweet_id=<%=article.first_tweeter.tweet_id%>"><img src='images/twitter_retweet.png'> Retweet</a>
+								&nbsp;<a href="https://twitter.com/intent/favorite?tweet_id=<%=article.first_tweeter.tweet_id%>"><img src='images/twitter_favorite.png'> Favorite</a>
+							</span>
+							
 						<%if (article.is_new) {%>
 							<div class='article_is_new'>new!</div>
 						<%}%>
@@ -173,11 +184,17 @@
 					<%if (article.tweeters && article.tweeters.length>0) {%>
 						<div class='article_tweeters'>
 							Tweeted by 
-							<%_.each(article.tweeters,function(tweeter){%>
+							<%_.each(article.tweeters,function(tweeter,index){%>
 								<div class='article_tweeter'>
 									<div class='article_tweeter_screen_name'>
-									<a title="<%=moment(new Date(tweeter.created_at)).fromNow()%>: <%=tweeter.text%>" href='http://www.twitter.com/<%=tweeter.screen_name%>/statuses/<%=tweeter.tweet_id%>'><%=tweeter.name%></a>
-									</div> (<%=""+tweeter.followers_count%>)
+									<%if (index>0){%>
+										<%=" "%>
+									<%}%>
+									<a title="<%=moment(new Date(tweeter.created_at)).fromNow()%>: <%=tweeter.text%>" 
+										href='http://www.twitter.com/<%=tweeter.screen_name%>/statuses/<%=tweeter.tweet_id%>'>
+										@<%=tweeter.screen_name%>
+									</a>
+									</div> 
 								</div>
 							<%})%>
 							<%if (article.total_tweets>article.tweeters.length) {%>
