@@ -190,7 +190,7 @@
 									<%if (index>0){%>
 										<%=" "%>
 									<%}%>
-									<a title="<%=moment(new Date(tweeter.created_at)).fromNow()%>: <%=tweeter.text%>" 
+									<a title="<%=moment(new Date(tweeter.created_at)).fromNow()%>: <%=tweeter.text%> (weight: <%=tweeter.tweet_weight%>)" 
 										href='http://www.twitter.com/<%=tweeter.screen_name%>/statuses/<%=tweeter.tweet_id%>'>
 										@<%=tweeter.screen_name%>
 									</a>

@@ -127,10 +127,17 @@ for link in links:
 		link['weighted_tweets'] = 0
 		cur.execute("select screen_name, name, followers_count, profile_image_url, text, tweet_id, tweeted_urls.created_at as created_at, retweeted_tweet_id, home_domain, home_domain_percent from users join tweeted_urls using(user_id) join tweets using(tweet_id) where real_url_hash = %s group by tweeted_urls.user_id order by followers_count desc",(link['hash']))
 		for row in cur:
-			if row['home_domain'] == link['source']:
-				link['weighted_tweets'] += 1-row['home_domain_percent']/100.0
+			#if row['home_domain'] == link['source']:
+			if row['home_domain_percent']:
+				home_domain_factor = row['home_domain_percent']*3
+				if home_domain_factor>100:
+					home_domain_factor=100
+				tweet_weight = 1-home_domain_factor/100.0
+				row['tweet_weight']=tweet_weight
+				link['weighted_tweets'] += tweet_weight
 			else:
 				link['weighted_tweets'] += 1
+				row['tweet_weight']=1
 			if row['retweeted_tweet_id'] is None:
 				del row['retweeted_tweet_id']
 #			row['home_domain'] = row['home_domain'] == link['source']
