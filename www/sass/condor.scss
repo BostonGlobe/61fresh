@@ -45,6 +45,10 @@ a:active { text-decoration: none; }
 	{
 		width:100%;
 	}
+	.container
+	{
+		margin:40px;
+	}
 }
 
 .sports
@@ -115,6 +119,12 @@ margin-left:50px;
 	font-weight:bold;
 	color:green;
 }
+
+.logo a:link { text-decoration: none; color: green; }
+.logo a:visited { text-decoration: none; color: green; }
+.logo a:hover { text-decoration: none; }
+.logo a:active { text-decoration: none; }
+
 .tagline
 {
 	
