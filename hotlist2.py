@@ -106,18 +106,23 @@ else:
 
 links = []
 
+def hotnessKernel(tweets,age):
+	popularity_factor = float((tweets-2)*int(opts.popularity_weight))
+	age_factor = float(age * age)
+	if opts.ignore_age:
+		hotness = popularity_factor
+	else:
+		hotness = popularity_factor / age_factor
+	return {'hotness':hotness,'age_factor':age_factor,'popularity_factor':popularity_factor}
+
 
 def calculateHotness(link):
-	age = link['age']
-	popularity_factor = float((link['weighted_tweets']-2)*int(opts.popularity_weight))
-	age_factor = float(age * age)
-	link['popularity_factor'] = popularity_factor
-	link['age_factor'] = age_factor
-	if opts.ignore_age:
-		link['hotness'] = popularity_factor
-	else:
-		link['hotness'] = popularity_factor / age_factor
+	link.update(hotnessKernel(link['weighted_tweets'],link['age']))
 
+def clusterHotness(cluster):
+	age = max([link['age'] for link in cluster])
+	tweets = sum([link['weighted_tweets'] for link in cluster])
+	return hotnessKernel(tweets,age)['hotness']
 
 links = list(cur.fetchall())
 
@@ -322,8 +327,12 @@ if (not opts.min and opts.group_clusters):
 	    cluster_ids = [x[0] for x in enumerate(index[lsi[dictionary.doc2bow(text)]]) if x[1]>0.4]
 	    cluster_links = [links[x] for x in cluster_ids]
 	    cluster_links.sort(key=lambda x: x['hotness'],reverse=True)
-	    clusters.append(cluster_links)
+	    if len(cluster_links)> 0:
+	    	clusters.append(cluster_links)
 	    ids.difference_update(cluster_ids)
+
+	clusters.sort(key=clusterHotness,reverse=True)
+
 	out['clusters'] = clusters[:int(opts.num_results)]
 
 
