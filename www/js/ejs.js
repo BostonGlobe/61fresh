@@ -161,14 +161,51 @@ EJS.Scanner = function(source, left, right) {
 	this.lines = 0;
 };
 
+
+EJS.Scanner.debug = function(name,value)
+{
+	debug = $("#debug")
+	that = this
+	debug.click(function(e){
+		that.clear_debug();
+	})
+	debug.show();
+	if (!debug) 
+	{
+		this.log("Debug div not found.")
+		return;
+	}
+	debug.append("<div>");
+	debug.append(name);
+	if (value) debug.append(": "+value);
+	debug.append("</div>")
+}
+
 EJS.Scanner.to_text = function(input){
-	if(input == null || input === undefined)
-        return '';
-    if(input instanceof Date)
-		return input.toDateString();
-	if(input.toString) 
-        return input.toString();
-	return '';
+	try
+	{
+		if(input == null || input === undefined)
+	        return '';
+	    if(input instanceof Date)
+			{
+				return input.toDateString();
+			}
+		if(input.toString) 
+		{
+	     s = input.toString();
+			return s;
+		}
+		return '';
+	}
+	catch(err)
+	{
+		s = "ERROR: "+err.message
+		s += "(input:"+input+")"
+		if (err.line) s+=" (line #"+err.line+")"
+		if (err.stack) s+="<br>STACKTRACE:<div style='margin-left:10px'>"+err.stack+"</div>"
+		this.debug(s)
+	}
+	
 };
 
 EJS.Scanner.prototype = {
