@@ -134,10 +134,9 @@ margin-left:50px;
 {
 	color:red;
 	font-family:monospace;
-	background-color:black;
-	color:#0f0;
+	color:#999;
+	border-top:4px solid #eee;
 	font-size:10px;
-	@include border-radius(10px); 
 	padding:10px;
 	display:none;
 	margin:5px;
