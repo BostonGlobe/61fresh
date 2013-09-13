@@ -42,6 +42,8 @@ HomepageController = function()
 		try
 		{
 			this.debug("handle_combined_json")
+			this.debug("# of articles in json",this.json.articles.clusters.length)
+			
 			this.json = json
 			titles = {}
 			that=this
