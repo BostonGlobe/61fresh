@@ -110,6 +110,7 @@ HomepageController = function()
 					else article.is_new=false
 				})
 			})
+			this.debug('rendering homepage.ejs')
 			this.render("index",'homepage',function(){
 	//			that.render('insights')
 			})
