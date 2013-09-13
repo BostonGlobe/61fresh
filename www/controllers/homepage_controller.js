@@ -127,11 +127,12 @@ HomepageController = function()
 			  })
 			// track outbound links
 			this.debug("json handled with # of articles",this.json.articles.clusters.length)
-			
 	  }
 		catch(err)
 		{
 			s = "ERROR: "+err.message
+			if (err.line) s+=" (line #"+err.line+")"
+			if (err.stack) s+="<br>STACKTRACE:<div style='margin-left:10px'>"+err.stack+"</div>"
 			this.log(s)
 			this.debug(s)
 		}
