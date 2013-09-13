@@ -20,8 +20,9 @@
   </head>
 
   <body>
-
+	
     <div class="container">
+	<div id='debug'></div>
 		<div id='index'>
 			<div class='header'>
 				<div class='logo'><!--img style='width:100px' src='images/logo.jpg'--><a href='http://61fresh.com'>61FRESH</a></div>
@@ -44,7 +45,7 @@
 	<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
 	<script>
 		jQuery(document).ready(function() {
-			new HomepageController().start();
+			controller = new HomepageController().start();
 		})
 	</script>
 	<script>

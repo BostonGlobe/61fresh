@@ -334,7 +334,7 @@ if (not opts.min and opts.group_clusters):
 	clusters.sort(key=clusterHotness,reverse=True)
 
 	out['clusters'] = clusters[:int(opts.num_results)]
-
+	del out['articles']
 
 _json = json.dumps(out)
 print _json
