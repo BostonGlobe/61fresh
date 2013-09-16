@@ -155,7 +155,7 @@ a:active {
 #debug {
   color: red;
   font-family: monospace;
-  color: #999;
+  color: #fff;
   font-size: 10px;
   padding: 10px;
   display: none;
