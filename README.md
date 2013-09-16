@@ -21,6 +21,12 @@ To install me on amazon linux, here are the steps:
     will probably also run out of memory if the box is doing anything else at the time. On the mac,
     it looks like scipy's only dependency is gfortran, which is available through homebrew.)
 
+    (Maybe look for the current/up-to-date version of phantomjs?)
+    wget https://phantomjs.googlecode.com/files/phantomjs-1.9.2-linux-x86_64.tar.bz2
+    tar -jxvf phantomjs-1.9.2-linux-x86_64.tar.bz2
+    sudo mv phantomjs-1.9.2-linux-x86_64/bin/phantomjs /usr/local/bin
+    rm -rf phantomjs-*
+
     put the private key in ~/.ssh/id_rsa (with proper permissions)
 
     git clone git@github.com:globelab/condor.git
