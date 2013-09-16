@@ -162,8 +162,8 @@ HomepageController = function()
 		var d = this.add_hours(new Date(dt),step);
    	var day = d.getDate();
     var month = d.getMonth() + 1; //Months are zero based
-    if (day.length==1) curr_date="0"+curr_date
-    if (month.length==1) curr_date="0"+curr_month
+    if ((""+day).length==1) day="0"+day
+    if ((""+month).length==1) month="0"+month
 		var year = d.getFullYear();
 		formatted_date=""+year+month+day
 		day_part = hash[Math.floor(d.getHours()/6)];
