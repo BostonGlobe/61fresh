@@ -89,6 +89,21 @@ function PiggyBack()
 		}
 	}
 	
+	this.add_hours=function(dt,num_hours)
+	{
+		return new Date(dt.getTime() + num_hours*60*60*1000);
+	}
+
+	this.add_minutes=function(dt,num_minutes)
+	{
+		return new Date(dt.getTime() + num_minutes*60*1000);
+	}
+
+	this.add_days=function(dt,num_days)
+	{
+		return new Date(dt.getTime() + num_days*24*60*60*1000);
+	}
+	
 	this.debug = function(name,value)
 	{
 		debug = $("#debug")

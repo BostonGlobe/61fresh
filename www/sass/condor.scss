@@ -130,17 +130,45 @@ margin-left:50px;
 	
 }
 
+.navigation
+{
+	margin-right:20px;
+	margin-top:10px;
+}
+
+.navigation_element
+{
+	font-size:20px;
+	font-weight:bold;
+	background-color:$light_background_color;
+	padding:6px;
+}
+
+.navigation_back
+{
+	float:left;
+}
+
+.navigation_forward
+{
+	float:right;
+}
+
 #debug
 {
 	color:red;
 	font-family:monospace;
 	color:#999;
-	border-top:4px solid #eee;
 	font-size:10px;
 	padding:10px;
 	display:none;
 	margin:5px;
 	margin-top:120px;
+}
+
+#debug:hover
+{
+	color:#999;
 }
 
 .about_link

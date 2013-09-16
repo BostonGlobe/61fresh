@@ -1,8 +1,22 @@
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 <div class='header'>
 	<div class="diagnostics_header">
+		<div style='width:200px'>
+			<!--script>
+			  (function() {
+			    var cx = '000895056751001184715:bzees6htzwk';
+			    var gcse = document.createElement('script');
+			    gcse.type = 'text/javascript';
+			    gcse.async = true;
+			    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+			        '//www.google.com/cse/cse.js?cx=' + cx;
+			    var s = document.getElementsByTagName('script')[0];
+			    s.parentNode.insertBefore(gcse, s);
+			  })();
+			</script-->
+			</div>
 	<input id='sports_mute' type="checkbox" value="1"> mute sports 
-		
+		<gcse:search></gcse:search>
 		<%if (diag && json.articles.diagnostics) {%>
 			<div>
 				popularity weight: <%=json.articles.popularity_weight%>
@@ -203,6 +217,15 @@
 				</div> <!-- article -->
 		<%})%>
 	<%})%>
+	<div class='navigation'>
+		<div class='navigation_element navigation_back'>
+			<a title='rewind to see this list as it appeared 6 hours earlier in time' href='<%=archive_url(json.articles.generated_at,-1)%>'>&lt;&lt;older articles</a>
+		</div>
+		<div class='navigation_element navigation_forward'>
+			<a title='fast forward to see this list as it appeared 6 hours later in time' href='<%=archive_url(json.articles.generated_at,1)%>'>newer articles&gt;&gt;</a>
+		</div>
+		<div style='clear:both'>
+	</div>
 	</div> <!-- main -->
 	<div style='clear:right'>
 	</div>

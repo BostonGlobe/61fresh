@@ -48,13 +48,13 @@ parser.add_option('-c', '--no_classify', help="don't run sports classifier",defa
 (opts, args) = parser.parse_args()
 
 
-def upload_to_s3(key,s): 
-	s3_conn = S3Connection(config['aws-s3']['access-key-id'],config['aws-s3']['secret-access-key']) 
-	k = Key(s3_conn.get_bucket(config['aws-s3']['bucket-name']))
-	k.key = key
+#def upload_to_s3(key,s): 
+#	s3_conn = S3Connection(config['aws-s3']['access-key-id'],config['aws-s3']['secret-access-key']) 
+#	k = Key(s3_conn.get_bucket(config['aws-s3']['bucket-name']))
+#	k.key = key
 #	print "key %s" % k.key
-	k.set_contents_from_string(s)
-	k.set_acl('public-read')
+#	k.set_contents_from_string(s)
+#	k.set_acl('public-read')
 
 
 
@@ -67,19 +67,19 @@ for root, _, files in os.walk(directory):
 		if len(elems)==3:
 			# ex: json_stage/articles.json
 			out[elems[1]]=json.loads(text)
-			upload_to_s3('json/'+elems[1]+'.json',text)
+#			upload_to_s3('json/'+elems[1]+'.json',text)
 			
 		if len(elems)==4:
 			# ex: json_stage/hashtags/articles.json
 			if elems[1] not in out:
 				out[elems[1]]=[]
-			upload_to_s3('json/'+elems[1]+'/'+elems[2]+'.json',text)
+#			upload_to_s3('json/'+elems[1]+'/'+elems[2]+'.json',text)
 			_json = json.loads(text)
 			out[elems[1]].append({'name':elems[2],'data':_json})
 
 json_out = json.dumps(out,indent=1)
 
-if not opts.no_s3:
-	upload_to_s3('json/'+directory+'.json',json_out)
+#if not opts.no_s3:
+#	upload_to_s3('json/'+directory+'.json',json_out)
 print json_out
 

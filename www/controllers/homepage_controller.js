@@ -132,6 +132,13 @@ HomepageController = function()
 			  })
 			// track outbound links
 			if (status!='error') this.debug("json handled with # of articles",this.json.articles.clusters.length)
+			
+			// hack to remove 'forward' button on homepage
+			if (document.location.href.indexOf("index.html")==-1)
+			{
+				$(".navigation_forward").hide()
+			}
+			
 	  }
 		catch(err)
 		{
@@ -141,6 +148,26 @@ HomepageController = function()
 			this.log(s)
 			this.debug(s)
 		}
+	}
+	
+	this.archive_url = function(dt,step)
+	{
+		step=step*6
+		hash = {
+				0:'night',
+				1:'morning',
+				2:'afternoon',
+				3:'evening'
+				}
+		var d = this.add_hours(new Date(dt),step);
+   	var day = d.getDate();
+    var month = d.getMonth() + 1; //Months are zero based
+    if (day.length==1) curr_date="0"+curr_date
+    if (month.length==1) curr_date="0"+curr_month
+		var year = d.getFullYear();
+		formatted_date=""+year+month+day
+		day_part = hash[Math.floor(d.getHours()/6)];
+		return "/"+formatted_date+"/"+day_part+"/index.html"
 	}
 	
 	this.mute_sports = function(mute)
