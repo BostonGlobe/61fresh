@@ -2,7 +2,7 @@
 # - deploy json/data.json to s3 bucket specified in bucket specificied in $CONDOR_HOME/config-$CONDOR_ENV.json
 # - also deploy code to appropriate archive directory
 
-bucket_name="s3://$(python bucket_name.py)"
+bucket_name="s3://$(python $CONDOR_HOME/bucket_name.py)"
 echo "using CONDOR_ENV $CONDOR_ENV, pushing json/data.json to bucket $bucket_name"
 
 pushd .

@@ -5,9 +5,10 @@
 pushd . >/dev/null
 cd $CONDOR_HOME >/dev/null
 
-bucket_name="s3://$(python bucket_name.py)"
+bucket_name="s3://$(python $CONDOR_HOME/bucket_name.py)"
 day_part_name=`$CONDOR_HOME/bin/day_part_name.sh`
 formatted_date=`date +"%Y%m%d"`
+
 
 echo "using CONDOR_ENV $CONDOR_ENV, pushing code to buckets $bucket_name, $bucket_name/$formatted_date/$day_part_name"
 
@@ -36,13 +37,9 @@ formatted_date=`date +"%Y%m%d"`
 echo "deploying to archive ..."
 s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type controllers css about.html js piggyback templates images $bucket_name/$formatted_date/$day_part_name/
 
-gzip static.html
 s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type --add-header "Content-Encoding: gzip" static.html.gz $bucket_name/$formatted_date/$day_part_name/index.html
 
-
-gunzip static.html.gz
-
-
+rm static.html.gz
 
 
 popd >/dev/null
