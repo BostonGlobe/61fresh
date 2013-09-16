@@ -1,0 +1,130 @@
+/* line 1, ../sass/insights.scss */
+.smb_widget {
+  width: 300px;
+  text-align: left;
+  position: relative;
+  padding: 0px 0px 5px;
+  background-color: #ebf4fb;
+  color: #2851a2;
+  border: 1px solid #b7cdff;
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 100%;
+}
+
+/* line 13, ../sass/insights.scss */
+.smb_widget .disclaimer {
+  border: 1px solid #b7cdff;
+  width: 90%;
+  margin: 10px auto 0px;
+  text-align: center;
+}
+
+/* line 19, ../sass/insights.scss */
+.smb_widget .disclaimer p {
+  margin: 2px 0px;
+  font-size: 9px;
+  color: #333;
+}
+
+/* line 24, ../sass/insights.scss */
+.smb_widget a {
+  border: none;
+}
+
+/* line 27, ../sass/insights.scss */
+.smb_widget a img {
+  border: none;
+}
+
+/* line 30, ../sass/insights.scss */
+.smb_widget img {
+  margin: 10px 0px 0px 10px;
+}
+
+/* line 33, ../sass/insights.scss */
+.smb_widget h1, .smb_widget h2, .smb_widget h3, .smb_widget h4, .smb_widget h5, .smb_widget h6 {
+  color: #666666;
+  margin: 0px 0px 3px;
+  padding: 0px;
+  text-transform: uppercase;
+  font-size: .8em;
+  font-weight: bold;
+  letter-spacing: 0.02em;
+}
+
+/* line 42, ../sass/insights.scss */
+.smb_widget h1 a, .smb_widget h2 a, .smb_widget h3 a, .smb_widget h4 a, .smb_widget h5 a, .smb_widget h6 a {
+  color: #666666;
+  text-decoration: none;
+}
+
+/* line 46, ../sass/insights.scss */
+.smb_widget ul {
+  margin: 2px 10px;
+  padding: 1px 0px 0px;
+  background-color: #fff;
+  padding-bottom: 10px;
+  border-top: 1px solid #B7CDFF;
+}
+
+/* line 53, ../sass/insights.scss */
+.smb_widget ul li {
+  background-color: #fff;
+  list-style: none;
+  margin: 3px 10px -10px;
+  margin-right: 11px;
+  padding-bottom: 5px;
+  border-bottom: 1px dotted #2851a2;
+}
+
+/* line 61, ../sass/insights.scss */
+.smb_widget ul li p {
+  margin: 0px;
+  padding: 0px;
+  line-height: 125%;
+  font-size: 0.9em;
+}
+
+/* line 67, ../sass/insights.scss */
+.smb_widget ul li p a {
+  color: #2851a2;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 0.9em;
+}
+
+/* line 73, ../sass/insights.scss */
+.smb_widget ul li p a:hover, .smb_widget ul li p a:visited {
+  color: #002878;
+  border-bottom: 1px dotted #002878;
+}
+
+/* line 77, ../sass/insights.scss */
+.smb_widget > p {
+  font-size: .7em;
+  text-align: right;
+  margin-right: 10px;
+  text-transform: uppercase;
+}
+
+/* line 83, ../sass/insights.scss */
+.smb_widget > p a:hover, .smb_widget > p a:visited {
+  color: #002878;
+  border-bottom: 1px dotted #002878;
+}
+
+/* line 87, ../sass/insights.scss */
+.smb_widget > p a {
+  color: #2851a2;
+  text-decoration: none;
+}
+
+/* line 91, ../sass/insights.scss */
+.smb_widget > p a img {
+  padding: 0;
+  margin: 0px;
+  display: inline-block;
+  margin-bottom: 2px;
+  margin-left: 5px;
+}
