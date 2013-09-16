@@ -88,6 +88,32 @@ function PiggyBack()
 			console.log(t)
 		}
 	}
+	
+	this.debug = function(name,value)
+	{
+		debug = $("#debug")
+		that = this
+		debug.click(function(e){
+			that.clear_debug();
+		})
+		debug.show();
+		if (!debug) 
+		{
+			this.log("Debug div not found.")
+			return;
+		}
+		debug.append("<div>");
+		debug.append(name);
+		if (value) debug.append(": "+value);
+		debug.append("</div>")
+	}
+	
+	this.clear_debug = function()
+	{
+		debug = $("#debug")
+		debug.hide();
+		if (debug) debug.html("")
+	}
 
 	this.query_param = function(key)
 	{
