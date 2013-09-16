@@ -1,5 +1,5 @@
 bucket_name="s3://$(python $CONDOR_HOME/bucket_name.py)"
-echo "packaging data into $CONDOR_HOME/www/json ..."
+echo "packaging data into  $CONDOR_HOME/data_staging and $CONDOR_HOME/www/json ..."
 
 pushd . > /dev/null
 cd $CONDOR_HOME > /dev/null

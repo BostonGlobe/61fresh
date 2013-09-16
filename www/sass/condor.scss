@@ -22,6 +22,15 @@ body {
 	
 }
 
+
+@media only screen and (max-width: 400px) {
+	body
+	{
+		padding-top:10px;
+		margin-left:0px;
+	}
+}
+
 a:link { text-decoration: none; color: $dark_link_color; }
 a:visited { text-decoration: none; color: $dark_link_color; }
 a:hover { text-decoration: none; }
@@ -44,6 +53,7 @@ a:active { text-decoration: none; }
 	#main
 	{
 		width:100%;
+		padding-top:0px;
 	}
 	.container
 	{
@@ -109,9 +119,36 @@ margin-left:50px;
 
 .header
 {
-	margin-bottom:2em;
+	margin-bottom:36px;
 	padding:1em;
 }
+
+@media only screen and (max-width: 400px) {
+	.header
+	{
+		padding:0px;
+	}
+}
+
+.mute_sports
+{
+	color:$diagnostics_color;
+	font-style:italic;
+	float:right;
+	padding:0.25em;
+}
+
+@media only screen and (max-width: 400px) {
+	.header
+	{
+		margin-left:8px;
+	}
+	
+	.mute_sports
+	{
+	}
+}
+
 
 .logo
 {
@@ -203,7 +240,7 @@ margin-left:50px;
 	color:$light_text_color;
 }
 
-.article:nth-child(even) { background: $light_background_color; }
+.article:nth-child(odd) { background: $light_background_color; }
 
 .article_hotness
 {

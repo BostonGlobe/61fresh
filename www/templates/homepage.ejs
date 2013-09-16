@@ -1,34 +1,21 @@
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 <div class='header'>
 	<div class="diagnostics_header">
-		<div style='width:200px'>
-			<!--script>
-			  (function() {
-			    var cx = '000895056751001184715:bzees6htzwk';
-			    var gcse = document.createElement('script');
-			    gcse.type = 'text/javascript';
-			    gcse.async = true;
-			    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
-			        '//www.google.com/cse/cse.js?cx=' + cx;
-			    var s = document.getElementsByTagName('script')[0];
-			    s.parentNode.insertBefore(gcse, s);
-			  })();
-			</script-->
-			</div>
-	<input id='sports_mute' type="checkbox" value="1"> mute sports 
-		<gcse:search></gcse:search>
 		<%if (diag && json.articles.diagnostics) {%>
 			<div>
 				popularity weight: <%=json.articles.popularity_weight%>
 			</div>
 		<%}%>
 	</div>
-	<div class='logo'><!--img style='width:100px' src='images/logo.jpg'--><a href='http://61fresh.com'>61FRESH</a></div>
+	<div class='logo'><a href='http://61fresh.com'>61FRESH</a></div>
 	<div class="tagline">
 		Boston news, as tweeted by Bostonians. Updated every 10 minutes. <span class='about_link'><a href='about.html'>more &raquo;</a></span>
 	</div>
 	<div class='last_updated'>
 		last updated <%=moment(Date.parse(json.articles.generated_at)).fromNow()%>
+	</div>
+	<div class='mute_sports'>
+		<input id='sports_mute' type="checkbox" value="1"> mute sports 
 	</div>
 </div>
 <div>
