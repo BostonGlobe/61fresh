@@ -1,4 +1,4 @@
-hour=`date +%k`
+hour=`TZ=America/New_York date +%k`
 day_part=$((hour/6))
 
 if [ $day_part -eq 0 ]; then
