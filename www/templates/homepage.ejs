@@ -9,7 +9,7 @@
 	</div>
 	<div class='logo'><a href='http://61fresh.com'>61FRESH</a></div>
 	<div class="tagline">
-		Boston news, as tweeted by Bostonians. Updated every 10 minutes. <span class='about_link'><a href='about.html'>more &raquo;</a></span>
+		Boston news, as tweeted by Bostonians. Updated every 10 minutes. <span class='about_link'><a href='about.html'>learn more &raquo;</a></span>
 	</div>
 	<div class='last_updated'>
 		last updated <%=moment(Date.parse(json.articles.generated_at)).fromNow()%>
@@ -100,6 +100,13 @@
 		
 	</div>
 	<div id='main'>
+		<div class='main_header'>
+			<div>latest boston news</div>
+			<div class='main_header_subhead'>
+				ranked by number of local tweets linking to story; stories reach the top by being new and buzzy - or slightly older and very buzzy
+				<div class='main_header_hint'><a href='about.html'>learn&nbsp;more&nbsp;&raquo;</a></div>
+			</div>
+			</div>
 		<%_.each(json.articles.clusters,function(cluster){%>
 			<%_.each(cluster,function(article,i){%>
 				<%if (article.deleted) return%>
@@ -163,7 +170,6 @@
 								&nbsp;<a href="https://twitter.com/intent/retweet?tweet_id=<%=article.first_tweeter.tweet_id%>"><img src='images/twitter_retweet.png'> Retweet</a>
 								&nbsp;<a href="https://twitter.com/intent/favorite?tweet_id=<%=article.first_tweeter.tweet_id%>"><img src='images/twitter_favorite.png'> Favorite</a>
 							</span>
-							
 						<%if (article.is_new) {%>
 							<div class='article_is_new'>new!</div>
 						<%}%>
@@ -181,7 +187,7 @@
 					<%=article.description%></div>
 					<%if (article.tweeters && article.tweeters.length>0) {%>
 						<div class='article_tweeters'>
-							Tweeted by 
+							Tweeted by <%=article.tweeters.length%> local people:
 							<%_.each(article.tweeters,function(tweeter,index){%>
 								<div class='article_tweeter'>
 									<div class='article_tweeter_screen_name'>
