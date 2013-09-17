@@ -12,7 +12,7 @@
 		Boston news, ranked by local twitter buzz. Updated every 10 minutes. <span class='about_link'><a href='about.html'>learn more &raquo;</a></span>
 	</div>
 	<div class='last_updated'>
-		last updated <%=moment(Date.parse(json.articles.generated_at)).fromNow()%>
+		last updated <%=format_date(json.articles.generated_at)%>
 	</div>
 	<div class='mute_sports'>
 		<input id='sports_mute' type="checkbox" value="1"> mute sports 
@@ -34,7 +34,7 @@
 							<div class='rail_set_article_image_container'><img class='rail_set_article_image' src='<%=article.image_url%>'/></div>
 							<%}%>
 							<div class='rail_set_article_header'>
-							<%=moment(new Date(article.first_tweeted)).fromNow()%> on <a href='http://<%=article.source%>'><%=article.source%></a>
+							<%=format_date(article.first_tweeted)%> on <a href='http://<%=article.source%>'><%=article.source%></a>
 							</div>
 							<div class='rail_set_article_link'>
 								<a href='<%=article.url%>'><%=article.title%></a> 
@@ -83,7 +83,7 @@
 					<div>
 						<div class='rail_set_article'>
 							<div class='rail_set_article_header'>
-								<%=moment(new Date(article.first_tweeted)).fromNow()%> on <a href='http://<%=article.source%>'><%=article.source%></a>
+								<%=format_date(article.first_tweeted)%> on <a href='http://<%=article.source%>'><%=article.source%></a>
 							</div>
 							<div class='rail_set_article_link'>
 								<a href='<%=article.url%>'><%=article.title%></a> 
@@ -159,7 +159,7 @@
 					<%}%>
 					<div class='article_header'>
 						<div class='article_source'><a href='http://<%=article.source%>'><%=article.source%></a></div>
-						<!--<div class='article_total_tweets'><%=article.total_tweets%> boston tweets</div>--><div class='article_found_at'>article, first tweeted <%=moment(Date.parse(article.first_tweeted)).fromNow()%>
+						<!--<div class='article_total_tweets'><%=article.total_tweets%> boston tweets</div>--><div class='article_found_at'>article, first tweeted <%=format_date(article.first_tweeted)%>
 							<%if (article.first_tweeter) {%>
 								by <a href='http://www.twitter.com/<%=article.first_tweeter.screen_name%>'>@<%=article.first_tweeter.screen_name%></a>
 							<%}%>
@@ -195,7 +195,7 @@
 									<%if (index>0){%>
 										<%=" "%>
 									<%}%>
-									<a title="<%=moment(new Date(tweeter.created_at)).fromNow()%>: <%=tweeter.text%> (weight: <%=tweeter.tweet_weight%>)" 
+									<a title="<%=format_date(tweeter.created_at)%>: <%=tweeter.text%> (weight: <%=tweeter.tweet_weight%>)" 
 										href='http://www.twitter.com/<%=tweeter.screen_name%>/statuses/<%=tweeter.tweet_id%>'>
 										@<%=tweeter.screen_name%>
 									</a>

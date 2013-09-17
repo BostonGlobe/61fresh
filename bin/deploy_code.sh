@@ -13,7 +13,7 @@ formatted_date=`date +"%Y%m%d"`
 echo "using CONDOR_ENV $CONDOR_ENV, pushing code to buckets $bucket_name, $bucket_name/$formatted_date/$day_part_name"
 
 echo "rendering pages with phantomjs ..."
-phantomjs render_static_page.js www/index.html>www/static.html
+phantomjs render_static_page.js "www/index.html?absdate">www/static.html
 
 echo "deploying to production root ..."
 cd www > /dev/null

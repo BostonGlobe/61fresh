@@ -184,6 +184,15 @@ HomepageController = function()
 //		})
 	}
 
+	this.format_date = function(iso_string) {
+		var moment_date = moment(iso_string);
+		if (window.location.search === "?absdate") {
+			return moment_date.format('MMMM Do, h:mm a');
+		} else {
+			return moment_date.fromNow();
+		}
+	}
+
 	this.start = function()
 	{
 		this.debug("homepage_controller start")
