@@ -31,8 +31,6 @@ s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --gu
 # ex: 61fresh.com/20130916/afternoon.html 
 # copy static to index.html too, so that we will see the final file uploaded for that day in the root.
 # ex: 61fresh.com/20130916/index.html 
-day_part_name=`$CONDOR_HOME/bin/day_part_name.sh`
-formatted_date=`date +"%Y%m%d"`
 
 echo "deploying to archive ..."
 s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type controllers css about.html js piggyback templates images $bucket_name/$formatted_date/$day_part_name/

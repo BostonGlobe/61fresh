@@ -3,11 +3,17 @@
 # - also deploy code to appropriate archive directory
 
 bucket_name="s3://$(python $CONDOR_HOME/bucket_name.py)"
-echo "using CONDOR_ENV $CONDOR_ENV, pushing json/data.json to bucket $bucket_name"
+day_part_name=`$CONDOR_HOME/bin/day_part_name.sh`
+formatted_date=`TZ=America/New_York date +"%Y%m%d"`
+
+echo "using CONDOR_ENV $CONDOR_ENV, pushing data.json to buckets $bucket_name/json, $bucket_name/$formatted_date/$day_part_name/json"
 
 pushd .
 cd $CONDOR_HOME
 
+echo "deploying to production root ..."
 s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type data_staging/data.json $bucket_name/json/data.json
 
+echo "deploying to archive ..."
+s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type data_staging/data.json $bucket_name/$formatted_date/$day_part_name/json/data.json
 popd
