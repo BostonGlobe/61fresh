@@ -4,6 +4,11 @@ To install me on amazon linux, here are the steps:
 
     sudo yum install -y git gcc-c++ openssl-devel make python-botocore MySQL-python python27 python27-devel mysql blas-devel lapack-devel
 
+    cd /etc/yum.repos.d
+    sudo wget http://s3tools.org/repo/RHEL_6/s3tools.repo
+    cd
+    sudo yum install -y s3cmd
+
     wget http://nodejs.org/dist/node-latest.tar.gz
     tar -zxvf node-latest.tar.gz
     cd node-v*
