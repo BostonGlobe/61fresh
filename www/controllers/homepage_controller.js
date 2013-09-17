@@ -41,6 +41,7 @@ HomepageController = function()
 	{
 		try
 		{
+			$('body').show()
 			this.debug("handle_combined_json")
 			
 			this.json = json
@@ -112,9 +113,9 @@ HomepageController = function()
 						else article.is_new=false
 					})
 				})
-				this.debug('rendering homepage.ejs')
+//				this.debug('rendering homepage.ejs')
 				this.render("index",'homepage',function(){
-		//			that.render('insights')
+					that.render('insights')
 				})
 			}
 			// do DOM stuff
@@ -140,6 +141,7 @@ HomepageController = function()
 				$(".navigation_forward").hide()
 			}
 			
+			// twitter follow button magic
 	  }
 		catch(err)
 		{

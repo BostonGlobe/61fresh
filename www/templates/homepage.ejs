@@ -1,4 +1,3 @@
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 <div class='header'>
 	<div class="diagnostics_header">
 		<%if (diag && json.articles.diagnostics) {%>
@@ -8,15 +7,14 @@
 		<%}%>
 	</div>
 	<div id='twitter_follow_button'>
-		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-		<a href="https://twitter.com/61fresh" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @61fresh</a>
+		<!--<a href="https://twitter.com/61fresh" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @61fresh</a>-->
 	</div>
 	<div class='logo'><a href='http://61fresh.com'>61FRESH</a></div>
 	<div class="tagline">
 		Boston news, ranked by local twitter buzz. Updated every 10 minutes. <span class='about_link'><a href='about.html'>learn more &raquo;</a></span>
 	</div>
 	<div class='last_updated'>
-		last updated <%=format_date(json.articles.generated_at)%>
+		last updated <%=moment(Date.parse(json.articles.generated_at)).fromNow()%>
 	</div>
 	<div style='clear:right'></div>
 	<div class='mute_sports'>
