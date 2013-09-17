@@ -147,7 +147,7 @@ for link in links:
 				del row['retweeted_tweet_id']
 #			row['home_domain'] = row['home_domain'] == link['source']
 			row['tweet_id'] = str(row['tweet_id'])
-			row['created_at'] = row['created_at'].isoformat()
+			row['created_at'] = row['created_at'].isoformat() + "Z"
 			link['tweeters'].append(row)
 	else:
 		link['weighted_tweets'] = link['total_tweets']
@@ -286,7 +286,7 @@ for link in links:
 		conn.commit()
 
 	del link['embedly_blob']
-	link['first_tweeted'] = link['first_tweeted'].isoformat()
+	link['first_tweeted'] = link['first_tweeted'].isoformat() + "Z"
 	link['title'] = embedly['title']
 	if not opts.min: link['description'] = embedly['description']
 	if not opts.min:
@@ -296,7 +296,7 @@ for link in links:
 				break
 	del link['hash']
 
-out = {	'generated_at': datetime.datetime.utcnow().isoformat(),
+out = {	'generated_at': datetime.datetime.utcnow().isoformat() + "Z",
 		'age_in_hours':opts.age,
 		'popularity_weight':opts.popularity_weight,
 		'diagnostics':True,
