@@ -7,7 +7,7 @@ cd $CONDOR_HOME >/dev/null
 
 bucket_name="s3://$(python $CONDOR_HOME/bucket_name.py)"
 day_part_name=`$CONDOR_HOME/bin/day_part_name.sh`
-formatted_date=`date +"%Y%m%d"`
+formatted_date=`TZ=America/New_York date +"%Y%m%d"`
 
 
 echo "using CONDOR_ENV $CONDOR_ENV, pushing code to buckets $bucket_name, $bucket_name/$formatted_date/$day_part_name"
