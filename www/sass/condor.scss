@@ -271,7 +271,7 @@ margin-left:50px;
 	color:$light_text_color;
 }
 
-.article:nth-child(odd) { background: $light_background_color; }
+.article:nth-child(even) { background: $light_background_color; }
 
 .article_hotness
 {

@@ -257,7 +257,7 @@ a:active {
 }
 
 /* line 274, ../sass/condor.scss */
-.article:nth-child(odd) {
+.article:nth-child(even) {
   background: whitesmoke;
 }
 
