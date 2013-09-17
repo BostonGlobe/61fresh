@@ -125,10 +125,11 @@ HomepageController = function()
 			});		
 			$('.article').hover(function () {
 			    $(this).find(".hover").show()
-			    $(this).find(".hover").show()
+			    $(this).find(".article_is_new").hide()
 			  },
 			  function () {
 			    $(this).find(".hover").hide()
+			    $(this).find(".article_is_new").show()
 			  })
 			// track outbound links
 			if (status!='error') this.debug("json handled with # of articles",this.json.articles.clusters.length)
