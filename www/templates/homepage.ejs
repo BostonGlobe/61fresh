@@ -101,12 +101,12 @@
 	</div>
 	<div id='main'>
 		<div class='main_header'>
-			<div>latest boston news</div>
 			<div class='main_header_subhead'>
-				ranked by number of local tweets linking to story; stories reach the top by being new and buzzy - or slightly older and very buzzy
+				stories ranked by number of recent, local tweets linking:
 				<div class='main_header_hint'><a href='about.html'>learn&nbsp;more&nbsp;&raquo;</a></div>
 			</div>
-			</div>
+			<div >latest boston news</div>
+		</div>
 		<%_.each(json.articles.clusters,function(cluster){%>
 			<%_.each(cluster,function(article,i){%>
 				<%if (article.deleted) return%>

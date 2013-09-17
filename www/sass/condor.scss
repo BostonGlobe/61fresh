@@ -93,6 +93,14 @@ a:active { text-decoration: none; }
 	margin-bottom:0.5em;
 }
 
+@media only screen and (max-width: 400px) {
+	.article
+	{
+		#border-bottom:3px solid $light_border_color;
+	}
+}
+
+
 .main_cluster_article
 {
 	
@@ -113,6 +121,21 @@ margin-left:50px;
 	{
 		margin-left:30px;
 	}
+	
+	.subsidiary_cluster_article .article_description
+	{
+		display:none;
+	}
+	.subsidiary_cluster_article .article_image
+	{
+		display:none;
+	}
+	
+	.subsidiary_cluster_article .article_tweeters
+	{
+		display:none;
+	}
+	
 }
 
 
@@ -440,8 +463,22 @@ margin-left:50px;
 	background-color:$light_background_color;
 }
 
+@media only screen and (max-width: 500px) {
+	.main_header
+	{
+		margin-left:2px;
+		margin-right:2px;
+	}
+	.main_header_subhead
+	{
+		display:none;
+	}
+}
+
 .main_header_subhead
 {
+	margin-top:4px;
+	float:right;
 	color:$light_text_color;
 	font-size:10px;
 }
