@@ -63,7 +63,7 @@ for row in cur:
 	links.append(row)
 
 
-out = {	'generated_at': datetime.datetime.utcnow().isoformat(),
+out = {	'generated_at': datetime.datetime.utcnow().isoformat() + "Z",
 		'age_in_days':opts.age,
 		'domains':links}
 
