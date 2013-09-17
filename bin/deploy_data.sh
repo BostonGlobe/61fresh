@@ -19,4 +19,5 @@ s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --gu
 
 echo "deploying to archive ..."
 s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type --add-header "Content-Encoding: gzip" data.json.gz $bucket_name/$formatted_date/$day_part_name/json/data.json
+rm data.json.gz
 popd
