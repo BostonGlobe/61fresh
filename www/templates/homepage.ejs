@@ -157,16 +157,16 @@
 								by <a href='http://www.twitter.com/<%=article.first_tweeter.screen_name%>'>@<%=article.first_tweeter.screen_name%></a>
 							<%}%>
 							</div>
+							<%if (article.is_new) {%>
+								<div class='article_is_new'>new!</div>
+							<%}%>
 							<span class='twitter_intents hover'>
 								<!--<a href="https://twitter.com/marstall" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow</a>-->
 								<a href="https://twitter.com/intent/tweet?in_reply_to=<%=article.first_tweeter.tweet_id%>"><img src='images/twitter_reply.png'> Reply</a>
 								&nbsp;<a href="https://twitter.com/intent/retweet?tweet_id=<%=article.first_tweeter.tweet_id%>"><img src='images/twitter_retweet.png'> Retweet</a>
 								&nbsp;<a href="https://twitter.com/intent/favorite?tweet_id=<%=article.first_tweeter.tweet_id%>"><img src='images/twitter_favorite.png'> Favorite</a>
 							</span>
-							
-						<%if (article.is_new) {%>
-							<div class='article_is_new'>new!</div>
-						<%}%>
+						
 					</div>
 					<div class='article_title'>
 					<div class='article_profile_image_url'><a href='http://www.twitter.com/<%=article.tweet_title_screen_name%>'>
