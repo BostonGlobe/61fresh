@@ -6,6 +6,10 @@
 			</div>
 		<%}%>
 	</div>
+	<div id='twitter_follow_button'>
+		<a href="https://twitter.com/61fresh" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @61fresh</a>
+	</div>
+	
 	<div class='logo'><a href='http://61fresh.com'>61FRESH</a></div>
 	<div class="tagline">
 		Boston news, ranked by local twitter buzz. Updated every 10 minutes. <span class='about_link'><a href='about.html'>learn more &raquo;</a></span>
@@ -21,7 +25,6 @@
 </div>
 <div>
 	<div id='right_rail'>
-	
 	<%_.each(json.leaders,function(leader){%>
 		<div class='rail_set'>
 			<div class='rail_set_header'>most-tweeted stories last <%=leader.data.age_in_hours/24%> days</div>
