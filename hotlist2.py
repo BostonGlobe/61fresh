@@ -164,27 +164,31 @@ all_to_get_from_embedly = [x for x in links if x['embedly_blob'] is None]
 while len(all_to_get_from_embedly) > 0:
 	to_get_from_embedly = all_to_get_from_embedly[:10]
 	all_to_get_from_embedly = all_to_get_from_embedly[10:]
-	embedly_list = json.load(urllib2.urlopen("http://api.embed.ly/1/extract?key=***REMOVED***&urls=" + ','.join([quote(x['url']) for x in to_get_from_embedly])))
+	try:
+		embedly_list = json.load(urllib2.urlopen("http://api.embed.ly/1/extract?key=***REMOVED***&urls=" + ','.join([quote(x['url']) for x in to_get_from_embedly])))
+		for (link,embedly) in zip(to_get_from_embedly,embedly_list):
+			if link['source'] == "bostonherald.com" and embedly['description'] is None: # Never let it be said that we are not gracious to our competitors and their goofy markup
+				try:
+					soup = BeautifulSoup(urllib2.urlopen(embedly['url']))
+					for foo in soup.find_all("div",class_="field-item"):
+						ps = foo.find_all("p")
+						if len(ps) > 0:
+							embedly['description'] = ps[0].string
+							break
+				except:
+					pass
 
-	for (link,embedly) in zip(to_get_from_embedly,embedly_list):
-		if link['source'] == "bostonherald.com" and embedly['description'] is None: # Never let it be said that we are not gracious to our competitors and their goofy markup
-			try:
-				soup = BeautifulSoup(urllib2.urlopen(embedly['url']))
-				for foo in soup.find_all("div",class_="field-item"):
-					ps = foo.find_all("p")
-					if len(ps) > 0:
-						embedly['description'] = ps[0].string
-						break
-			except:
-				pass
+			embedly_blob = json.dumps(embedly)
+			cur.execute("insert into url_info (real_url_hash,embedly_blob) values (%s,%s) on duplicate key update embedly_blob = %s",(link['hash'],embedly_blob,embedly_blob))
+			for target in links:
+				if target['hash'] == link['hash']:
+					target['embedly_blob'] = embedly_blob
+					break
+		conn.commit()
+	except:
+		dead_hashes = [x['hash'] for x in to_get_from_embedly]
+		links = [x for x in links if x['hash'] not in dead_hashes]
 
-		embedly_blob = json.dumps(embedly)
-		cur.execute("insert into url_info (real_url_hash,embedly_blob) values (%s,%s) on duplicate key update embedly_blob = %s",(link['hash'],embedly_blob,embedly_blob))
-		for target in links:
-			if target['hash'] == link['hash']:
-				target['embedly_blob'] = embedly_blob
-				break
-	conn.commit()
 
 links_hash = {}
 for link in links:
