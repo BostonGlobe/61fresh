@@ -164,7 +164,7 @@ a:active {
 /* line 193, ../sass/condor.scss */
 .logo {
   font-size: 30px;
-  font-weight: bold;
+  font-weight: 700;
   color: green;
 }
 
@@ -348,7 +348,7 @@ a:active {
 .article_title {
   display: inline;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 /* line 351, ../sass/condor.scss */
