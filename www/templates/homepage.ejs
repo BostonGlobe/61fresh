@@ -74,7 +74,9 @@
 				</div>
 			</div>
 			<%})%>
-	<iframe src='http://cache.boston.com/images/ads/testpages/tan/newshp_insight_shell_100312.html' frameborder=0 scrolling=no width=320 height=240></iframe>
+		<div class='rail_set_ad'>
+		<iframe class='rail_set_ad' src='http://cache.boston.com/images/ads/testpages/tan/newshp_insight_shell_100312.html' frameborder=0 scrolling=no width=320 height=300></iframe>
+		</div>
 	<%_.each(json.hashtags,function(hashtag){%>
 		<div class='rail_set'>
 		<div class='rail_set_header'>#<%=hashtag.name%></div>
@@ -191,6 +193,7 @@
 						<div class='article_tweeters'>
 							Tweeted by <%=article.tweeters.length%> local people:
 							<%_.each(article.tweeters,function(tweeter,index){%>
+								<%if (index>40) return %>
 								<div class='article_tweeter'>
 									<div class='article_tweeter_screen_name'>
 									<%if (index>0){%>
@@ -203,8 +206,8 @@
 									</div> 
 								</div>
 							<%})%>
-							<%if (article.total_tweets>article.tweeters.length) {%>
-								&nbsp;and <%=article.total_tweets-article.tweeters.length%> others
+							<%if (article.total_tweets>30) {%>
+								&nbsp;and <%=article.total_tweets-40%> others
 							<%}%>
 						</div>
 					<%}%>

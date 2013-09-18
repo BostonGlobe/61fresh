@@ -67,7 +67,13 @@ a:active {
   vertical-align: top;
 }
 
-/* line 75, ../sass/condor.scss */
+@media only screen and (max-width: 500px) {
+  /* line 76, ../sass/condor.scss */
+  #right_rail {
+    display: none;
+  }
+}
+/* line 83, ../sass/condor.scss */
 .index_header {
   font-size: 24px;
   font-weight: bold;
@@ -76,7 +82,7 @@ a:active {
   margin-bottom: 0.5em;
 }
 
-/* line 88, ../sass/condor.scss */
+/* line 96, ../sass/condor.scss */
 .article {
   padding: 16px;
   padding-top: 2px;
@@ -86,61 +92,61 @@ a:active {
 }
 
 @media only screen and (max-width: 400px) {
-  /* line 99, ../sass/condor.scss */
+  /* line 107, ../sass/condor.scss */
   .article {
     #border-bottom: 3px solid #d5d5d5;
   }
 }
-/* line 111, ../sass/condor.scss */
+/* line 119, ../sass/condor.scss */
 .subsidiary_cluster_article {
   margin-left: 50px;
 }
 
-/* line 116, ../sass/condor.scss */
+/* line 124, ../sass/condor.scss */
 .subsidiary_cluster_article .article_title {
   font-size: 16px;
 }
 
 @media only screen and (max-width: 400px) {
-  /* line 122, ../sass/condor.scss */
+  /* line 130, ../sass/condor.scss */
   .subsidiary_cluster_article {
     margin-left: 30px;
   }
 
-  /* line 127, ../sass/condor.scss */
+  /* line 135, ../sass/condor.scss */
   .subsidiary_cluster_article .article_description {
     display: none;
   }
 
-  /* line 131, ../sass/condor.scss */
+  /* line 139, ../sass/condor.scss */
   .subsidiary_cluster_article .article_image {
     display: none;
   }
 
-  /* line 136, ../sass/condor.scss */
+  /* line 144, ../sass/condor.scss */
   .subsidiary_cluster_article .article_tweeters {
     display: none;
   }
 }
-/* line 145, ../sass/condor.scss */
+/* line 153, ../sass/condor.scss */
 .header {
   margin-bottom: 36px;
   padding: 1em;
 }
 
 @media only screen and (max-width: 400px) {
-  /* line 152, ../sass/condor.scss */
+  /* line 160, ../sass/condor.scss */
   .header {
     padding: 0px;
   }
 }
-/* line 158, ../sass/condor.scss */
+/* line 166, ../sass/condor.scss */
 #twitter_follow_button {
   float: right;
   padding-top: 7px;
 }
 
-/* line 164, ../sass/condor.scss */
+/* line 172, ../sass/condor.scss */
 .mute_sports {
   color: purple;
   font-style: italic;
@@ -150,47 +156,47 @@ a:active {
 }
 
 @media only screen and (max-width: 400px) {
-  /* line 174, ../sass/condor.scss */
+  /* line 182, ../sass/condor.scss */
   .header {
     margin-left: 8px;
   }
 }
-/* line 185, ../sass/condor.scss */
+/* line 193, ../sass/condor.scss */
 .logo {
   font-size: 30px;
   font-weight: bold;
   color: green;
 }
 
-/* line 191, ../sass/condor.scss */
+/* line 199, ../sass/condor.scss */
 .logo a:link {
   text-decoration: none;
   color: green;
 }
 
-/* line 192, ../sass/condor.scss */
+/* line 200, ../sass/condor.scss */
 .logo a:visited {
   text-decoration: none;
   color: green;
 }
 
-/* line 193, ../sass/condor.scss */
+/* line 201, ../sass/condor.scss */
 .logo a:hover {
   text-decoration: none;
 }
 
-/* line 194, ../sass/condor.scss */
+/* line 202, ../sass/condor.scss */
 .logo a:active {
   text-decoration: none;
 }
 
-/* line 202, ../sass/condor.scss */
+/* line 210, ../sass/condor.scss */
 .navigation {
   margin-right: 20px;
   margin-top: 10px;
 }
 
-/* line 208, ../sass/condor.scss */
+/* line 216, ../sass/condor.scss */
 .navigation_element {
   font-size: 20px;
   font-weight: bold;
@@ -198,17 +204,17 @@ a:active {
   padding: 6px;
 }
 
-/* line 216, ../sass/condor.scss */
+/* line 224, ../sass/condor.scss */
 .navigation_back {
   float: left;
 }
 
-/* line 221, ../sass/condor.scss */
+/* line 229, ../sass/condor.scss */
 .navigation_forward {
   float: right;
 }
 
-/* line 226, ../sass/condor.scss */
+/* line 234, ../sass/condor.scss */
 #debug {
   color: red;
   font-family: monospace;
@@ -220,17 +226,17 @@ a:active {
   margin-top: 120px;
 }
 
-/* line 238, ../sass/condor.scss */
+/* line 246, ../sass/condor.scss */
 #debug:hover {
   color: #999;
 }
 
-/* line 243, ../sass/condor.scss */
+/* line 251, ../sass/condor.scss */
 .about_link {
   display: inline;
 }
 
-/* line 248, ../sass/condor.scss */
+/* line 256, ../sass/condor.scss */
 .diagnostics_header {
   color: purple;
   font-style: italic;
@@ -238,7 +244,7 @@ a:active {
   padding: 0.25em;
 }
 
-/* line 256, ../sass/condor.scss */
+/* line 264, ../sass/condor.scss */
 .diagnostics_row {
   border: 2px solid #eeeeee;
   color: purple;
@@ -249,19 +255,19 @@ a:active {
   left: 5px;
 }
 
-/* line 268, ../sass/condor.scss */
+/* line 276, ../sass/condor.scss */
 .last_updated {
   font-style: italic;
   font-size: 10px;
   color: #777777;
 }
 
-/* line 274, ../sass/condor.scss */
+/* line 282, ../sass/condor.scss */
 .article:nth-child(even) {
   background: whitesmoke;
 }
 
-/* line 277, ../sass/condor.scss */
+/* line 285, ../sass/condor.scss */
 .article_hotness {
   display: none;
   float: left;
@@ -276,97 +282,97 @@ a:active {
   font-size: 30px;
 }
 
-/* line 292, ../sass/condor.scss */
+/* line 300, ../sass/condor.scss */
 .article_hotness_label {
   font-size: 10px;
 }
 
-/* line 297, ../sass/condor.scss */
+/* line 305, ../sass/condor.scss */
 .article_num_tweets {
   display: none;
 }
 
-/* line 301, ../sass/condor.scss */
+/* line 309, ../sass/condor.scss */
 .article_header a:link {
   text-decoration: none;
   color: green;
 }
 
-/* line 302, ../sass/condor.scss */
+/* line 310, ../sass/condor.scss */
 .article_header a:visited {
   text-decoration: none;
   color: green;
 }
 
-/* line 303, ../sass/condor.scss */
+/* line 311, ../sass/condor.scss */
 .article_header a:hover {
   text-decoration: none;
 }
 
-/* line 304, ../sass/condor.scss */
+/* line 312, ../sass/condor.scss */
 .article_header a:active {
   text-decoration: underline;
 }
 
-/* line 307, ../sass/condor.scss */
+/* line 315, ../sass/condor.scss */
 .article_header {
   color: #777777;
   text-transform: lowercase;
   font-size: 12px;
 }
 
-/* line 314, ../sass/condor.scss */
+/* line 322, ../sass/condor.scss */
 .article_is_new {
   color: red;
   font-weight: bold;
   display: inline;
 }
 
-/* line 321, ../sass/condor.scss */
+/* line 329, ../sass/condor.scss */
 .article_total_tweets {
   display: inline;
 }
 
-/* line 326, ../sass/condor.scss */
+/* line 334, ../sass/condor.scss */
 .article_source {
   display: inline;
   font-weight: bold;
 }
 
-/* line 331, ../sass/condor.scss */
+/* line 339, ../sass/condor.scss */
 .article_found_at {
   display: inline;
 }
 
-/* line 336, ../sass/condor.scss */
+/* line 344, ../sass/condor.scss */
 .article_title {
   display: inline;
   font-size: 18px;
   font-weight: bold;
 }
 
-/* line 343, ../sass/condor.scss */
+/* line 351, ../sass/condor.scss */
 .twitter_intents {
   position: absolute;
 }
 
-/* line 348, ../sass/condor.scss */
+/* line 356, ../sass/condor.scss */
 .hover {
   display: none;
 }
 
-/* line 353, ../sass/condor.scss */
+/* line 361, ../sass/condor.scss */
 .article_title_screen_name {
   font-size: 8px;
   display: none;
 }
 
-/* line 358, ../sass/condor.scss */
+/* line 366, ../sass/condor.scss */
 .article_title_screen_name:before {
   content: "@";
 }
 
-/* line 363, ../sass/condor.scss */
+/* line 371, ../sass/condor.scss */
 .article_profile_image_url {
   float: left;
   padding: 4px;
@@ -375,29 +381,29 @@ a:active {
 }
 
 @media only screen and (max-width: 400px) {
-  /* line 372, ../sass/condor.scss */
+  /* line 380, ../sass/condor.scss */
   .article_profile_image_url {
     display: none;
   }
 }
-/* line 378, ../sass/condor.scss */
+/* line 386, ../sass/condor.scss */
 .article_description {
   font-size: 12px;
   display: block;
 }
 
-/* line 384, ../sass/condor.scss */
+/* line 392, ../sass/condor.scss */
 .article_description_title {
   font-style: italic;
   display: inline;
 }
 
-/* line 389, ../sass/condor.scss */
+/* line 397, ../sass/condor.scss */
 .article_description_title:after {
   content: "";
 }
 
-/* line 394, ../sass/condor.scss */
+/* line 402, ../sass/condor.scss */
 .article_image_container {
   padding: 1em;
   float: right;
@@ -410,52 +416,52 @@ a:active {
 }
 
 @media only screen and (max-width: 400px) {
-  /* line 407, ../sass/condor.scss */
+  /* line 415, ../sass/condor.scss */
   .article_image_container {
     width: 100%;
     height: 100%;
   }
 }
-/* line 415, ../sass/condor.scss */
+/* line 423, ../sass/condor.scss */
 .article_image {
   width: 100%;
   display: none;
 }
 
-/* line 421, ../sass/condor.scss */
+/* line 429, ../sass/condor.scss */
 .article_tweeter_image {
   height: 15px;
   vertical-align: -2px;
 }
 
-/* line 427, ../sass/condor.scss */
+/* line 435, ../sass/condor.scss */
 .article_tweeter_tweet {
   display: inline;
 }
 
-/* line 431, ../sass/condor.scss */
+/* line 439, ../sass/condor.scss */
 .article_tweeter_tweet:before {
   content: "&laquo;";
 }
 
-/* line 435, ../sass/condor.scss */
+/* line 443, ../sass/condor.scss */
 .article_tweeter_tweet:after {
   content: "&raquo;";
 }
 
-/* line 440, ../sass/condor.scss */
+/* line 448, ../sass/condor.scss */
 .article_tweeter_image_container {
   display: none;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
 }
 
-/* line 447, ../sass/condor.scss */
+/* line 455, ../sass/condor.scss */
 .article_tweeter_screen_name {
   display: inline;
 }
 
-/* line 452, ../sass/condor.scss */
+/* line 460, ../sass/condor.scss */
 .article_tweeters {
   display: block;
   font-size: 12px;
@@ -463,12 +469,12 @@ a:active {
   margin-top: 6px;
 }
 
-/* line 460, ../sass/condor.scss */
+/* line 468, ../sass/condor.scss */
 .article_tweeter {
   display: inline;
 }
 
-/* line 465, ../sass/condor.scss */
+/* line 473, ../sass/condor.scss */
 .main_header {
   display: none;
   padding: 4px;
@@ -478,18 +484,18 @@ a:active {
 }
 
 @media only screen and (max-width: 500px) {
-  /* line 476, ../sass/condor.scss */
+  /* line 484, ../sass/condor.scss */
   .main_header {
     margin-left: 2px;
     margin-right: 2px;
   }
 
-  /* line 481, ../sass/condor.scss */
+  /* line 489, ../sass/condor.scss */
   .main_header_subhead {
     display: none;
   }
 }
-/* line 487, ../sass/condor.scss */
+/* line 495, ../sass/condor.scss */
 .main_header_subhead {
   margin-top: 4px;
   float: right;
@@ -497,18 +503,24 @@ a:active {
   font-size: 10px;
 }
 
-/* line 495, ../sass/condor.scss */
+/* line 503, ../sass/condor.scss */
 .main_header_hint {
   display: inline;
 }
 
-/* line 502, ../sass/condor.scss */
+@media only screen and (max-width: 400px) {
+  /* line 511, ../sass/condor.scss */
+  .rail_set_ad {
+    display: none;
+  }
+}
+/* line 516, ../sass/condor.scss */
 .rail_set_header {
   padding: 2px;
   background-color: whitesmoke;
 }
 
-/* line 509, ../sass/condor.scss */
+/* line 523, ../sass/condor.scss */
 .rail_set_domain {
   border-top: 1px solid whitesmoke;
   margin: 2px;
@@ -516,7 +528,7 @@ a:active {
   white-space: nowrap;
 }
 
-/* line 517, ../sass/condor.scss */
+/* line 531, ../sass/condor.scss */
 .count_bubble {
   background-color: whitesmoke;
   border: 1px solid #d5d5d5;
@@ -531,19 +543,19 @@ a:active {
   width: 12px;
 }
 
-/* line 528, ../sass/condor.scss */
+/* line 542, ../sass/condor.scss */
 .rail_set_domain_num_users {
   margin-right: 4px;
 }
 
-/* line 533, ../sass/condor.scss */
+/* line 547, ../sass/condor.scss */
 .rail_set_domain_num_users_container {
   display: inline;
   width: 24px;
   white-space: nowrap;
 }
 
-/* line 540, ../sass/condor.scss */
+/* line 554, ../sass/condor.scss */
 .rail_set {
   padding: 4px;
   padding-top: 0px;
@@ -551,17 +563,17 @@ a:active {
 }
 
 @media only screen and (max-width: 500px) {
-  /* line 548, ../sass/condor.scss */
+  /* line 562, ../sass/condor.scss */
   .rail_set {
     display: none;
   }
 }
-/* line 555, ../sass/condor.scss */
+/* line 569, ../sass/condor.scss */
 .rail_set_header {
   font-size: 14px;
 }
 
-/* line 564, ../sass/condor.scss */
+/* line 578, ../sass/condor.scss */
 .rail_set_domain_num_users {
   background-color: whitesmoke;
   border: 1px solid #d5d5d5;
@@ -576,46 +588,46 @@ a:active {
   width: 12px;
 }
 
-/* line 576, ../sass/condor.scss */
+/* line 590, ../sass/condor.scss */
 .rail_set_article {
   margin-bottom: 4px;
   padding: 2px;
 }
 
-/* line 581, ../sass/condor.scss */
+/* line 595, ../sass/condor.scss */
 .rail_set_article:nth-child(even) {
   background: whitesmoke;
 }
 
-/* line 584, ../sass/condor.scss */
+/* line 598, ../sass/condor.scss */
 .rail_set_article_header {
   font-size: 10px;
   color: #777777;
 }
 
-/* line 589, ../sass/condor.scss */
+/* line 603, ../sass/condor.scss */
 .rail_set_article_header a:link {
   text-decoration: none;
   color: green;
 }
 
-/* line 590, ../sass/condor.scss */
+/* line 604, ../sass/condor.scss */
 .rail_set_article_header a:visited {
   text-decoration: none;
   color: green;
 }
 
-/* line 591, ../sass/condor.scss */
+/* line 605, ../sass/condor.scss */
 .rail_set_article_header a:hover {
   text-decoration: underline;
 }
 
-/* line 592, ../sass/condor.scss */
+/* line 606, ../sass/condor.scss */
 .rail_set_article_header a:active {
   text-decoration: underline;
 }
 
-/* line 600, ../sass/condor.scss */
+/* line 614, ../sass/condor.scss */
 .rail_set_article_image_container {
   padding-right: 1px;
   -webkit-border-radius: 5px;
@@ -625,7 +637,7 @@ a:active {
   border-radius: 5px;
 }
 
-/* line 606, ../sass/condor.scss */
+/* line 620, ../sass/condor.scss */
 .rail_set_article_image {
   width: 220px;
 }

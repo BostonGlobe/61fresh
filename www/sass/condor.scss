@@ -71,6 +71,14 @@ a:active { text-decoration: none; }
 	vertical-align:top;
 }
 
+@media only screen and (max-width: 500px) {
+	#right_rail
+	{
+		display:none;
+	}
+}
+
+
 .index_header
 {
 	font-size:24px;
@@ -498,6 +506,12 @@ margin-left:50px;
 
 
 
+@media only screen and (max-width: 400px) {
+	.rail_set_ad
+	{
+		display:none;
+	}
+}
 .rail_set_header
 {
 	padding:2px;
