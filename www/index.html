@@ -35,12 +35,11 @@
     <script src="piggyback/piggyback.js"></script>
     <script src="controllers/application_controller.js"></script>
     <script src="controllers/homepage_controller.js"></script>
-	<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>  
 
 	<script>
-		// jQuery(document).ready(function() {
+		 jQuery(document).ready(function() {
 			controller = new HomepageController().start();
-		// })
+		 })
 	</script>
 	</head>
 
@@ -52,6 +51,9 @@
 				<div class='logo'><!--img style='width:100px' src='images/logo.jpg'--><a href='http://61fresh.com'>61FRESH</a></div>
 				<div class="tagline">
 					Boston news, as tweeted by Bostonians. Updated every 10 minutes. <span class='about_link'><a href='about.html'>more &raquo;</a></span>
+				</div>
+				<div id='twitter_follow_button'>
+					<a href="https://twitter.com/61fresh" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @61fresh</a>
 				</div>
 			</div>
 			<div id='loading'>loading ...</div>

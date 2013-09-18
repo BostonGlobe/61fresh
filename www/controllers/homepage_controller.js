@@ -113,11 +113,14 @@ HomepageController = function()
 						else article.is_new=false
 					})
 				})
+				
+				
 //				this.debug('rendering homepage.ejs')
 				this.render("index",'homepage',function(){
-					that.render('insights')
+//					that.render('insights')
 				})
 			}
+
 			// do DOM stuff
 			this.get_cookie("sports_mute")=='true' ? $("#sports_mute").prop('checked',true) : $("#sports_mute").prop('checked',false)
 			that=this
@@ -141,7 +144,10 @@ HomepageController = function()
 				$(".navigation_forward").hide()
 			}
 			
-			// twitter follow button magic
+			// inject twitter stuff
+				$("body").attr("data-twttr-rendered","") // hack to make twitter think it hasn't already done this at the time of static generation
+				$.getScript("js/twitter_widgets.js")
+			
 	  }
 		catch(err)
 		{
