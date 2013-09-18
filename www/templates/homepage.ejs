@@ -202,7 +202,7 @@
 									<%if (index>0){%>
 										<%=" "%>
 									<%}%>
-									<a title="<%=format_date(tweeter.created_at)%>: <%=tweeter.text%> (weight: <%=tweeter.tweet_weight%>)" 
+									<a title="<%=format_date(tweeter.created_at)%>: <%=tweeter.text%> " 
 										href='http://www.twitter.com/<%=tweeter.screen_name%>/statuses/<%=tweeter.tweet_id%>'>
 										@<%=tweeter.screen_name%>
 									</a>
@@ -220,10 +220,10 @@
 	<%})%>
 	<div class='navigation'>
 		<div class='navigation_element navigation_back'>
-			<a title='rewind to see this list as it appeared 6 hours earlier in time' href='<%=archive_url(json.articles.generated_at,-2)%>'>&lt;&lt;older articles</a>
+			<a title='rewind to see this list as it appeared 12 hours earlier in time' href='<%=archive_url(json.articles.generated_at,-2)%>'>&lt;&lt;older articles</a>
 		</div>
 		<div class='navigation_element navigation_forward'>
-			<a title='fast forward to see this list as it appeared 6 hours later in time' href='<%=archive_url(json.articles.generated_at,2)%>'>newer articles&gt;&gt;</a>
+			<a title='fast forward to see this list as it appeared 12 hours later in time' href='<%=archive_url(json.articles.generated_at,2)%>'>newer articles&gt;&gt;</a>
 		</div>
 		<div style='clear:both'>
 	</div>
