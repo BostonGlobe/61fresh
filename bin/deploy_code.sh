@@ -16,14 +16,22 @@ echo "rendering pages with phantomjs ..."
 phantomjs render_static_page.js "www/index.html?absdate">www/static_archive.html
 phantomjs render_static_page.js "www/index.html">www/static.html
 
+rm -r www_gzip_staging
+cp -r www www_gzip_staging
+
+function strip_gz { for i in "$@"; do j=`echo $i | sed "s/\.gz//"`; mv "$i" "$j"; done }
+export -f strip_gz
+gzip -r www_gzip_staging
+find www_gzip_staging -name "*.gz" -exec bash -c "strip_gz {}" \;
+
+
 echo "deploying to production root ..."
-cd www > /dev/null
+cd www_gzip_staging > /dev/null
 # deploy to production root
-s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type controllers css feed.html about.html homepage.html js piggyback templates images $bucket_name
+s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type --add-header "Content-Encoding: gzip" controllers css feed.html about.html homepage.html js piggyback templates images $bucket_name
 
 #deploy gzipped static index page to production
-gzip static.html
-s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type --add-header "Content-Encoding: gzip" static.html.gz $bucket_name/index.html
+s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type --add-header "Content-Encoding: gzip" static.html $bucket_name/index.html
 
 
 # deploy to archive folder
@@ -34,13 +42,11 @@ s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --gu
 # ex: 61fresh.com/20130916/index.html 
 
 echo "deploying to archive ..."
-gzip static_archive.html
-s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type controllers css about.html js piggyback templates images $bucket_name/$formatted_date/$day_part_name/
+s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type --add-header "Content-Encoding: gzip" controllers css about.html js piggyback templates images $bucket_name/$formatted_date/$day_part_name/
 
-s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type --add-header "Content-Encoding: gzip" static_archive.html.gz $bucket_name/$formatted_date/$day_part_name/index.html
+s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type --add-header "Content-Encoding: gzip" static_archive.html $bucket_name/$formatted_date/$day_part_name/index.html
 
-rm static.html.gz
-rm static_archive.html.gz
-
+cd $CONDOR_HOME >/dev/null
+rm -r www_gzip_staging
 
 popd >/dev/null
