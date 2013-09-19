@@ -77,6 +77,8 @@ for root, _, files in os.walk(directory):
 			_json = json.loads(text)
 			out[elems[1]].append({'name':elems[2],'data':_json})
 
+out['generated_at'] = datetime.datetime.utcnow().isoformat() + "Z"
+
 json_out = json.dumps(out,indent=1)
 
 #if not opts.no_s3:
