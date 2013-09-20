@@ -28,7 +28,7 @@ find www_gzip_staging -name "*.gz" -exec bash -c "strip_gz {}" \;
 echo "deploying to production root ..."
 cd www_gzip_staging > /dev/null
 # deploy to production root
-s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type --add-header "Content-Encoding: gzip" controllers css feed.html about.html homepage.html js piggyback templates images $bucket_name
+s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type --add-header "Content-Encoding: gzip" controllers css feed.html about.html homepage.html js piggyback templates images favicon.ico $bucket_name
 
 #deploy gzipped static index page to production
 s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type --add-header "Content-Encoding: gzip" static.html $bucket_name/index.html
