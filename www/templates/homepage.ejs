@@ -114,7 +114,7 @@
 			<div >latest boston news</div>
 		</div>
 		<%_.each(json.articles.clusters,function(cluster){%>
-			<%_.each(cluster,function(article,i){%>
+			<% article= cluster[0]%>
 				<%if (article.deleted) return%>
 				<div class='article <%=article.order_within_cluster==0 ? "main_cluster_article": "subsidiary_cluster_article"%><%=article.is_sports ? "sports": ""%>'>
 					<div>
@@ -192,6 +192,14 @@
 						<div class='article_description_title'><%=article.title%> &#8230;</div>
 	
 					<%=article.description%></div>
+					<%if (_.size(cluster)>1) {%>
+					<div class='article_subsidiary_articles'>
+						Also reported by: 
+						<%_.each(_.rest(cluster,1),function(article){%>
+								<a title='<%=article.title%>' href='<%=article.url%>'><%=article.source%></a>
+						<%})%>
+					</div>
+					<%}%>
 					<%if (article.tweeters && article.tweeters.length>0) {%>
 						<div class='article_tweeters'>
 							Tweeted by <%=article.tweeters.length%> local people:
@@ -217,7 +225,6 @@
 					</div>
 				</div> <!-- article -->
 		<%})%>
-	<%})%>
 	<div class='navigation'>
 		<div class='navigation_element navigation_back'>
 			<a title='rewind to see this list as it appeared 12 hours earlier in time' href='<%=archive_url(json.articles.generated_at,-2)%>'>&lt;&lt;older articles</a>
