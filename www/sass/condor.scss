@@ -49,6 +49,14 @@ a:active { text-decoration: none; }
 	padding:20px;
 }
 
+.copyright_notice
+{
+	text-align:right;
+	font-size:8px;
+	font-color:$light_color;
+	margin-top:6px;
+}
+
 .footer_right
 {
 	float:right;
