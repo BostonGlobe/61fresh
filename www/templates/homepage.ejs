@@ -114,6 +114,7 @@
 			<div >latest boston news</div>
 		</div>
 		<%_.each(json.articles.clusters,function(cluster){%>
+			<%if (cluster.deleted) return%>
 			<% article= cluster[0]%>
 				<%if (article.deleted) return%>
 				<div class='article <%=article.order_within_cluster==0 ? "main_cluster_article": "subsidiary_cluster_article"%><%=article.is_sports ? "sports": ""%>'>
@@ -192,17 +193,11 @@
 						<div class='article_description_title'><%=article.title%> &#8230;</div>
 	
 					<%=article.description%></div>
-					<%if (_.size(cluster)>1) {%>
-					<div class='article_subsidiary_articles'>
-						Also reported by: 
-						<%_.each(_.rest(cluster,1),function(article){%>
-								<a title='<%=article.title%>' href='<%=article.url%>'><%=article.source%></a>
-						<%})%>
-					</div>
-					<%}%>
 					<%if (article.tweeters && article.tweeters.length>0) {%>
 						<div class='article_tweeters'>
-							Tweeted by <%=article.tweeters.length%> local people:
+							<div class='article_tweeters_header'>
+								Tweeted by <%=article.tweeters.length%> local people:
+							</div>
 							<%_.each(article.tweeters,function(tweeter,index){%>
 								<%if (index>40) return %>
 								<div class='article_tweeter'>
@@ -221,6 +216,20 @@
 								&nbsp;and <%=article.total_tweets-40%> others
 							<%}%>
 						</div>
+					<%}%>
+					<%if (_.size(cluster)>1) {%>
+					<div class='article_subsidiary_articles'>
+					<div class='article_subsidary_articles_header'>Other coverage:</div>
+						<%_.each(_.rest(cluster,1),function(article,i){%>
+								<%if (i>0){%>
+									&hellip;
+								<%}%>
+								<div class='article_subsidiary_article'>
+									<span class='article_subsidiary_article_paragraph_symbol'>&para;</span> <a href='http://<%=article.url%>'><%=article.title%></a>
+									(<div class='subsidiary_article_source'><%=article.source%></div>) 
+								</div>
+						<%})%>
+					</div>
 					<%}%>
 					</div>
 				</div> <!-- article -->

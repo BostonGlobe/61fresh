@@ -2,7 +2,7 @@ HomepageController = function()
 {
 
 	this.SPORTS_THRESHOLD = 0.95
-	this.MAX_ARTICLES = 20
+	this.MAX_CLUSTERS = 20
 	
 	this.rail_sets={'sets':
 		[
@@ -57,6 +57,11 @@ HomepageController = function()
 				_.each(this.json.articles.clusters,function(cluster){
 					cluster_index+=1
 					article_order_within_cluster=-1
+					if (cluster_index>=that.MAX_CLUSTERS) 
+					{
+						cluster.deleted=true
+						return;
+					}
 					_.each(cluster,function(article,i){
 						iter+=1
 						if (article.url=='Error') 
@@ -70,11 +75,6 @@ HomepageController = function()
 							return;
 						}
 						num_articles+=1
-						if (num_articles>that.MAX_ARTICLES) 
-						{
-							article.deleted = true;
-							return;
-						}
 						this.log(":"+num_articles+":"+that.MAX_ARTICLES)
 			
 						article.order_within_cluster=i
