@@ -9,7 +9,7 @@ var T = new Twit({
   , access_token_secret:  '***REMOVED***'
 });
 
-var data = require(__dirname + '/data_staging/data.json');
+var data = require(__dirname + '/www/json/data.json');
 
 var article = data.articles.clusters[0][0];
 
