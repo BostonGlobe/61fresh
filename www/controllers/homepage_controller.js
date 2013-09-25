@@ -122,11 +122,15 @@ HomepageController = function()
 			}
 
 			// do DOM stuff
-			this.get_cookie("sports_mute")=='true' ? $("#sports_mute").prop('checked',true) : $("#sports_mute").prop('checked',false)
 			that=this
+
+			//sports mute button
+			this.get_cookie("sports_mute")=='true' ? $("#sports_mute").prop('checked',true) : $("#sports_mute").prop('checked',false)
 			$('#sports_mute').click(function(e) {
 					that.mute_sports($(this).is(':checked'))
 			});		
+			
+			// show/hide twitter sharing links
 			$('.article').hover(function () {
 			    $(this).find(".hover").show()
 			    $(this).find(".article_is_new").hide()
@@ -135,7 +139,8 @@ HomepageController = function()
 			    $(this).find(".hover").hide()
 			    $(this).find(".article_is_new").show()
 			  })
-			// track outbound links
+
+			// debug statement
 			if (status!='error') this.debug("json handled with # of articles",this.json.articles.clusters.length)
 			
 			// hack to remove 'forward' button on homepage
@@ -144,10 +149,12 @@ HomepageController = function()
 				$(".navigation_forward").hide()
 			}
 			
-			// inject twitter stuff
-				$("body").attr("data-twttr-rendered","") // hack to make twitter think it hasn't already done this at the time of static generation
-				$.getScript("js/twitter_widgets.js")
-			
+			$("body").attr("data-twttr-rendered","") // hack to make twitter think it hasn't already done this at the time of static generation
+			$.getScript("js/twitter_widgets.js")
+			$(".outbound_link").on('click', function() {
+					link = $(this).attr('href')
+				  ga('send', 'event', 'outbound_link', 'click', link);
+			});
 	  }
 		catch(err)
 		{
