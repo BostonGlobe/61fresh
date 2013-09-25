@@ -126,6 +126,8 @@ def clusterHotness(cluster):
 
 links = list(cur.fetchall())
 
+links = [x for x in links if "bostinno.streetwise.co/channels/" not in x['url']]
+
 for link in links:
 	link['tweeters'] = []
 	if not opts.no_tweeters and not opts.min:
