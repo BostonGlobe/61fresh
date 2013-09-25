@@ -3,6 +3,10 @@
 import json
 import MySQLdb
 import MySQLdb.cursors
+import os
+
+CONDOR_ENV = os.environ['CONDOR_ENV']
+CONDOR_HOME = env = os.environ['CONDOR_HOME']
 
 if not CONDOR_ENV:
 	print "you must set the CONDOR_ENV bash variable (production, test, etc)"
