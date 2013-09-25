@@ -4,6 +4,13 @@ import json
 import MySQLdb
 import MySQLdb.cursors
 
+
+import os, os.path
+
+CONDOR_ENV = os.environ['CONDOR_ENV']
+CONDOR_HOME = env = os.environ['CONDOR_HOME']
+
+
 if not CONDOR_ENV:
 	print "you must set the CONDOR_ENV bash variable (production, test, etc)"
 if not CONDOR_HOME:
@@ -42,10 +49,12 @@ cur.execute(query)
 users = {}
 # for each user, get top domains.
 for row in cur:
-	query2= """select users.user_id user_id,users.screen_name screen_name, domain,count(*) num from tweeted_urls,users
+	query2= """select users.user_id user_id,users.screen_name screen_name, tweeted_urls.domain,count(*) num from tweeted_urls,users,domains
 	where tweeted_urls.user_id = users.user_id
 	and users.screen_name='%s'
-	group by domain order by num asc;
+	and tweeted_urls.domain=domains.domain
+	and domains.domain_set='boston'
+	group by tweeted_urls.domain order by num asc;
 	""" % row['screen_name']
 	cur2=conn.cursor()
 	cur2.execute(query2)
@@ -67,8 +76,9 @@ print "----"
 for uid in users:
 	u = users[uid]
 	print "%s \t %s \t %s \t %s" % (u['screen_name'],u['total'],u['domain_count'],u['domain'])
-	if (u['total'] > 20) and (float(u['domain_count'])/float(u['total'])) >= 0.5:
+	pct = 100*u['domain_count']/u['total']
+	if (u['total'] > 20) and (float(u['domain_count'])/float(u['total'])) >= 0.3:
 		if u['domain'] not in ['twitter.com','instagram.com']:
 			print "hit"
-			cur.execute("update users set home_domain = %s where user_id = %s", (u['domain'],uid))
+			cur.execute("update users set home_domain = %s,home_domain_percent= %s where user_id = %s", (u['domain'],pct,uid))
 conn.commit()
