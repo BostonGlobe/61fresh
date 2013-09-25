@@ -5,4 +5,4 @@
 #*/15 * * * * python condor/hashtag.py mbta
 #*/16 * * * * python condor/hashtag.py redsox
 #*/10 * * * * python condor/hotlist2.py 100
-*/10 * * * * /bin/bash -lc "cd ~/condor && ./bin/package_data.sh && ./bin/deploy_data.sh && ./bin/deploy_code.sh"
+*/10 * * * * /bin/bash -lc "cd ~/condor && ./bin/package_data.sh && ./bin/deploy_code.sh"
