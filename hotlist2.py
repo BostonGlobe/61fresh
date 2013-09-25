@@ -157,7 +157,7 @@ for link in links:
 
 links.sort(key=lambda x: x['hotness'],reverse=True)
 
-links = links[:int(opts.num_results)*3/2]
+links = links[:int(opts.num_results)]
 
 all_to_get_from_embedly = [x for x in links if x['embedly_blob'] is None]
 
