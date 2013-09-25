@@ -10,6 +10,10 @@ day_part_name=`$CONDOR_HOME/bin/day_part_name.sh`
 formatted_date=`TZ=America/New_York date +"%Y%m%d"`
 
 
+if [ $(python $CONDOR_HOME/bucket_name.py) = "61fresh.com" ]; then
+	node tweet_lead_story.js
+fi
+
 echo "using CONDOR_ENV $CONDOR_ENV, pushing code to buckets $bucket_name, $bucket_name/$formatted_date/$day_part_name"
 
 echo "rendering pages with phantomjs ..."
@@ -28,7 +32,7 @@ find www_gzip_staging -name "*.gz" -exec bash -c "strip_gz {}" \;
 echo "deploying to production root ..." 
 cd www_gzip_staging > /dev/null
 # deploy to production root
-s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type --add-header "Content-Encoding: gzip" controllers css feed.html about.html homepage.html js piggyback templates images favicon.ico $bucket_name
+s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type --add-header "Content-Encoding: gzip" controllers css feed.html about.html homepage.html js piggyback templates images favicon.ico json $bucket_name
 
 #deploy gzipped static index page to production
 s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type --add-header "Content-Encoding: gzip" static.html $bucket_name/index.html
@@ -42,7 +46,7 @@ s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --gu
 # ex: 61fresh.com/20130916/index.html 
 
 echo "deploying to archive ..."
-s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type --add-header "Content-Encoding: gzip" controllers css about.html js piggyback templates images $bucket_name/$formatted_date/$day_part_name/
+s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type --add-header "Content-Encoding: gzip" controllers css about.html js piggyback templates images json $bucket_name/$formatted_date/$day_part_name/
 
 s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type --add-header "Content-Encoding: gzip" static_archive.html $bucket_name/$formatted_date/$day_part_name/index.html
 

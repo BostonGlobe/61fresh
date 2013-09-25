@@ -21,11 +21,11 @@ python27 hotlist2.py --min --no_tweeters --num_results=10 --age=168 > data_stagi
 mkdir data_staging/domain_leaders
 python top_domains.py --age=1 --num_results=25 > data_staging/domain_leaders/domains_1.json
 
-rm -rf www/json
-mkdir www/json
-python combine_json.py data_staging $1 $2 $3 > data.json
-cp data.json data_staging 
-cp data.json www/json
+# rm -rf www/json
+# mkdir www/json
+python combine_json.py data_staging www/json/data.json
+# cp data.json data_staging 
+# cp data.json www/json
 #cp data_staging/leaders/week.json data_staging/articles_168.json
 #cp -r data/* www/json
 popd > /dev/null

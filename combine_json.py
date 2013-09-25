@@ -14,6 +14,7 @@ import optparse
 import os
 
 directory = sys.argv[1]
+out_file = sys.argv[2]
 out = {}
 import os, os.path
 
@@ -33,19 +34,19 @@ except IOError:
 		config = json.load(fh)
 
 
-parser = optparse.OptionParser()
-parser.add_option('-a', '--age', help='max age of urls in hours. default value is 12',default='12')
-parser.add_option('-d', '--days_ago', help='Placebo, because it gets passed',default='0')
-parser.add_option('-p', '--popularity_weight', help='multiplier for popularity - higher values will give greater emphasis to popular articles over fresh articles. default is 100',default='100')
-parser.add_option('-i', '--ignore_age', help='ignore recency & just return a straight popularity rank for the time period, default is false',default=False)
-parser.add_option('-n', '--no_tweeters', help="don't return array of tweeters with each url - saves file size. default is False (tweeters will be returned).",default=False)
-parser.add_option('-m', '--min', help="minimize file size. includes only title, url, age, source, first_tweeted, hotness",default=False)
-parser.add_option('-r', '--num_results', help="number of results to return, default value is 50.",default=50)
-parser.add_option('-t', '--hashtag', help="filter by the given hashtag, not domain list, default is false",default=False)
-parser.add_option('-o', '--no_s3', help="don't upload to s3",default=False)
-parser.add_option('-c', '--no_classify', help="don't run sports classifier",default=False)
+# parser = optparse.OptionParser()
+# parser.add_option('-a', '--age', help='max age of urls in hours. default value is 12',default='12')
+# parser.add_option('-d', '--days_ago', help='Placebo, because it gets passed',default='0')
+# parser.add_option('-p', '--popularity_weight', help='multiplier for popularity - higher values will give greater emphasis to popular articles over fresh articles. default is 100',default='100')
+# parser.add_option('-i', '--ignore_age', help='ignore recency & just return a straight popularity rank for the time period, default is false',default=False)
+# parser.add_option('-n', '--no_tweeters', help="don't return array of tweeters with each url - saves file size. default is False (tweeters will be returned).",default=False)
+# parser.add_option('-m', '--min', help="minimize file size. includes only title, url, age, source, first_tweeted, hotness",default=False)
+# parser.add_option('-r', '--num_results', help="number of results to return, default value is 50.",default=50)
+# parser.add_option('-t', '--hashtag', help="filter by the given hashtag, not domain list, default is false",default=False)
+# parser.add_option('-o', '--no_s3', help="don't upload to s3",default=False)
+# parser.add_option('-c', '--no_classify', help="don't run sports classifier",default=False)
 
-(opts, args) = parser.parse_args()
+# (opts, args) = parser.parse_args()
 
 
 #def upload_to_s3(key,s): 
@@ -79,9 +80,6 @@ for root, _, files in os.walk(directory):
 
 out['generated_at'] = datetime.datetime.utcnow().isoformat() + "Z"
 
-json_out = json.dumps(out,indent=1)
-
-#if not opts.no_s3:
-#	upload_to_s3('json/'+directory+'.json',json_out)
-print json_out
+with open(out_file,'w') as fh:
+	json.dump(out,fh,indent=1)
 
