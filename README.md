@@ -46,7 +46,7 @@ Don't forget to git pull after you've spun up a new instance.
 
 Further setup not yet baked into an AMI:
     
-    None yet!
+    Add /usr/local/bin to your path in .bash_profile
 
 To start the main ingest and url resolver:
 
