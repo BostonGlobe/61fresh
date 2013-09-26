@@ -149,8 +149,12 @@ HomepageController = function()
 				$(".navigation_forward").hide()
 			}
 			
-			$("body").attr("data-twttr-rendered","") // hack to make twitter think it hasn't already done this at the time of static generation
+			// hack to make twitter think it hasn't already done this at the time of static generation
+			$("body").attr("data-twttr-rendered","") 
 			$.getScript("js/twitter_widgets.js")
+			$.getScript('js/twitter_tweet_button.js')
+			
+			// track clicks on outbound links
 			$(".outbound_link").on('click', function() {
 					link = $(this).attr('href')
 				  ga('send', 'event', 'outbound_link', 'click', link);
