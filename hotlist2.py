@@ -51,6 +51,7 @@ parser.add_option('-t', '--hashtag', help="filter by the given hashtag, not doma
 parser.add_option('-o', '--no_s3', help="don't upload to s3",default=False)
 parser.add_option('-c', '--no_classify', help="don't run sports classifier",default=False)
 parser.add_option('-g', '--group_clusters', help="return clusters: groups of atricles about the same topic",default=False)
+parser.add_option('-s', '--domain_set', help="domain set to use, default is boston",default='boston')
 
 (opts, args) = parser.parse_args()
 
