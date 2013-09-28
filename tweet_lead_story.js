@@ -18,5 +18,5 @@ var tweet_id_to_retweet;
 article.tweeters.forEach(function(tweet,i){
 	if (tweet.created_at===article.first_tweeted) tweet_id_to_retweet = tweet.tweet_id;
 })
-
-T.post('statuses/retweet/:id', {id: tweet_id_to_retweet})
+console.log(tweet_id_to_retweet);
+T.post('statuses/retweet/:id', {id: tweet_id_to_retweet},console.log)
