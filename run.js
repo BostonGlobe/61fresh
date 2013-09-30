@@ -203,6 +203,7 @@ var occ = false;
 var refreshLists = function() {
 	if (occ) {
 		console.log("occ");
+		process.exit;
 		return;
 	}
 	occ=true;
