@@ -67,6 +67,13 @@ var addTweets = function(tweets,memo) {
 					console.log(tweet_rows);
 				}
 			});
+		sql_conn.query("INSERT IGNORE INTO tweets_archive (tweet_id, text, created_at, user_id, retweeted_tweet_id) VALUES ?", [tweet_rows],
+			function (e) {
+				if (e) {
+					console.log(e);
+					console.log(tweet_rows);
+				}
+			});
 		var url_rows = [];
 		var hashtag_rows = [];
 		var mention_rows = [];
