@@ -39,6 +39,7 @@ HomepageController = function()
 	
 	this.handle_combined_json = function(json,status,error)
 	{
+		this.log("handle_combined_json")
 		try
 		{
 			$('body').show()
@@ -81,14 +82,29 @@ HomepageController = function()
 
 						// find earliest tweet, make it the 'author' tweet
 						article.first_tweeter=article.tweeters[0]
+/*						that.log("here!!!")
+						first_found=false
+						_.each(article.tweeters,function(tweeter) {
+							if (first_found) return
+							that.log("account/tweet_weight: "+ tweeter.screen_name+"/"+tweeter.tweet_weight)
+							if (tweeter.tweet_weight>0) 
+							{
+								that.log("not captive, first_tweeter is "+tweeter.screen_name)
+								article.first_tweeter=tweeter
+								first_found=true
+								return false;
+							}
+						})*/
+
 						if (!article.first_tweeter) 
 						{
 							article.deleted=true
 							return
 						}
 						_.each(article.tweeters,function(tweet,i){
-							if (new Date(tweet.created_at).getTime()<new Date(article.first_tweeter.created_at).getTime()) article.first_tweeter = tweet
+						if (new Date(tweet.created_at).getTime()<new Date(article.first_tweeter.created_at).getTime()) article.first_tweeter = tweet
 						})
+
 						// find and combine duplicate articles
 						if (titles[article.title]) // found a dupe
 						{
@@ -104,6 +120,7 @@ HomepageController = function()
 
 						// replace headline with text of tweet by user with most followers
 						article.tweet_title = article.first_tweeter.text
+						if (this.empty(article.tweet_title)) article.tweet_title=article.title
 						article.tweet_title = article.tweet_title.replace (/http[^\s]+/g,"")
 						article.tweet_title_screen_name = article.first_tweeter.screen_name
 						article.profile_image_url = article.first_tweeter.profile_image_url

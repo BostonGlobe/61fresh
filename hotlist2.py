@@ -51,10 +51,13 @@ parser.add_option('-t', '--hashtag', help="filter by the given hashtag, not doma
 parser.add_option('-o', '--no_s3', help="don't upload to s3",default=False)
 parser.add_option('-c', '--no_classify', help="don't run sports classifier",default=False)
 parser.add_option('-g', '--group_clusters', help="return clusters: groups of atricles about the same topic",default=False)
-parser.add_option('-s', '--domain_set', help="domain set to use, default is boston",default='boston')
+parser.add_option('-s', '--domain_group', help="domain set to use, default is boston",default='boston')
+parser.add_option('-s', '--venue_types', help="domain set to use, default is boston",default='boston')
 
 (opts, args) = parser.parse_args()
 
+print "domain set is %s" % opts.domain_group
+print "foghorn is %s" % opts.foghorn
 
 # for multi-day queries, don't consider recency, just a popularity rank
 if not opts.ignore_age:
@@ -81,7 +84,7 @@ non_hashtag_query = """select real_url as url,count(distinct user_id) as total_t
 MIN(created_at) as first_tweeted, TIMESTAMPDIFF(HOUR,MIN(created_at),DATE_SUB(NOW(),INTERVAL %s DAY)) as age, 
 real_url_hash as hash, domain as source, embedly_blob,sports_score from tweeted_urls
 left join url_info using(real_url_hash) 
-where domain in (select domain from domains where domain_set='boston') 
+where domain in (select domain from domains where domain_set=%s) 
 and created_at < DATE_SUB(NOW(),INTERVAL %s DAY)
 group by real_url having age < %s;"""
 
@@ -103,7 +106,7 @@ query = ""
 if (opts.hashtag):
 	cur.execute(hashtag_query,(opts.days_ago,opts.hashtag,opts.days_ago,opts.days_ago))
 else:
-	cur.execute(non_hashtag_query,(opts.days_ago,opts.days_ago,opts.age))
+	cur.execute(non_hashtag_query,(opts.days_ago,opts.domain_group,opts.days_ago,opts.age))
 
 links = []
 

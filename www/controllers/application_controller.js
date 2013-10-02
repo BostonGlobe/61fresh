@@ -11,21 +11,6 @@ ApplicationController = function()
 		})
 		return kvs[key]
 	}
-	this.log = function(s,data)
-	{
-		if (console && debug)
-		{
-			t=s
-			if (data)
-			{
-				t+=":"
-				t+=data.inspect();
-			}
-		}
-	}
-
-	
-	
 }
 
 ApplicationController.prototype = new PiggyBack();

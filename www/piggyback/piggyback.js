@@ -1,7 +1,7 @@
 cb = null
 function PiggyBack()
 {
-	debug=true
+	this.debug=true
 	
 	this.render = function(id,template,post_load)
 	{
@@ -77,7 +77,7 @@ function PiggyBack()
 	
 	this.log = function(s,data)
 	{
-		if (console && debug)
+		if (console && this.debug)
 		{
 			t=s
 			if (data)
