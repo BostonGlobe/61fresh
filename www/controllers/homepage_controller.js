@@ -81,8 +81,8 @@ HomepageController = function()
 						article.order_within_cluster=i
 
 						// find earliest tweet, make it the 'author' tweet
-						article.first_tweeter=article.tweeters[0]
-/*						that.log("here!!!")
+//						article.first_tweeter=article.tweeters[0]
+						that.log("here!!!")
 						first_found=false
 						_.each(article.tweeters,function(tweeter) {
 							if (first_found) return
@@ -94,16 +94,16 @@ HomepageController = function()
 								first_found=true
 								return false;
 							}
-						})*/
+						})
 
 						if (!article.first_tweeter) 
 						{
 							article.deleted=true
 							return
 						}
-						_.each(article.tweeters,function(tweet,i){
-						if (new Date(tweet.created_at).getTime()<new Date(article.first_tweeter.created_at).getTime()) article.first_tweeter = tweet
-						})
+//						_.each(article.tweeters,function(tweet,i){
+//					if (new Date(tweet.created_at).getTime()<new Date(article.first_tweeter.created_at).getTime()) article.first_tweeter = tweet
+//						})
 
 						// find and combine duplicate articles
 						if (titles[article.title]) // found a dupe
