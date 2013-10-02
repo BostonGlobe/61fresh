@@ -120,9 +120,9 @@ HomepageController = function()
 
 						// replace headline with text of tweet by user with most followers
 						article.tweet_title = article.first_tweeter.text
-						if (this.empty(article.tweet_title)) article.tweet_title=article.title
 						article.tweet_title = article.tweet_title.replace (/http[^\s]+/g,"")
 						article.tweet_title_screen_name = article.first_tweeter.screen_name
+						if (this.empty(article.tweet_title)) article.tweet_title=article.title
 						article.profile_image_url = article.first_tweeter.profile_image_url
 
 						// mark new articles as new
