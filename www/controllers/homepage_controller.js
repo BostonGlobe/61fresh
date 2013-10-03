@@ -102,7 +102,7 @@ HomepageController = function()
 							return
 						}
 						_.each(article.tweeters,function(tweet,i){
-						if (new Date(tweet.created_at).getTime()<new Date(article.first_tweeter.created_at).getTime()) article.first_tweeter = tweet
+					if (new Date(tweet.created_at).getTime()<new Date(article.first_tweeter.created_at).getTime()) article.first_tweeter = tweet
 						})
 
 						// find and combine duplicate articles
