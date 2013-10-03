@@ -4,7 +4,7 @@ var crypto = require('crypto');
 
 var config;
 try {
-	config = require(__dirname + '/config-local.json');
+	config = require(__dirname + '/config/config-' + process.env.CONDOR_ENV + '.json');
 } catch (e) {
 	config = require(__dirname + '/config/config.json')
 }
@@ -12,14 +12,11 @@ try {
 var Twit = require('twit')
 
 var T = new Twit({
-    consumer_key:         '***REMOVED***'
-  , consumer_secret:      '***REMOVED***'
-  , access_token:         '***REMOVED***'
-  , access_token_secret:  '***REMOVED***'
+    consumer_key: config.twitter.consumer_key,
+    consumer_secret: config.twitter.consumer_secret,
+    access_token: config.twitter.access_token,
+    access_token_secret: config.twitter.access_token_secret
 });
-
-var my_screen_name = "***REMOVED***";
-
 
 var mysql      = require('mysql');
 var sql_conn = mysql.createConnection({
@@ -172,7 +169,7 @@ var fillLists = function() {
 				console.log("Adding " + r.length + " members to list a" + list_fill_pointer + ".");
 				if (r.length > 0) {
 					var uids = _.pluck(r, 'user_id');
-					var params = {owner_screen_name: my_screen_name, slug: 'a'+list_fill_pointer, user_id: uids};
+					var params = {owner_screen_name: config.twitter.screen_name, slug: 'a'+list_fill_pointer, user_id: uids};
 					T.post('lists/members/create_all', params,
 						function (err,reply) {
 							if (err) {
@@ -228,7 +225,7 @@ var refreshLists = function() {
 			log_line += " which was " + snowflakeToSecondsAgo(current_info.old_since_id) + " seconds behind.";
 		console.log(log_line);
 	}
-	var params = {owner_screen_name: my_screen_name, slug: 'a'+current_info.list_id, count:200};
+	var params = {owner_screen_name: config.twitter.screen_name, slug: 'a'+current_info.list_id, count:200};
 	if (current_info.max_id !== undefined) {
 		console.log("Fetching tweets more than " + snowflakeToSecondsAgo(current_info.max_id) + " seconds old.")
 		params.max_id = current_info.max_id.toString(); 

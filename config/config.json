@@ -12,5 +12,12 @@
 		"access-key-id": "***REMOVED***",
 		"secret-access-key": "***REMOVED***",
 		"bucket-name": "61fresh.com"
+	},
+	"twitter" : {
+		"screen_name": "***REMOVED***",
+		"consumer_key": "***REMOVED***",
+		"consumer_secret": "***REMOVED***",
+		"access_token": "***REMOVED***",
+		"access_token_secret": "***REMOVED***"
 	}
 }
