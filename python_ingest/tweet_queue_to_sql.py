@@ -2,6 +2,7 @@
 
 from boto.sqs.connection import SQSConnection
 from boto.sqs.message import Message
+import dateutil.parser
 import hashlib
 import json
 from ingest_lib import *
@@ -24,7 +25,7 @@ def insertTweets(tweets):
 def insertURLs(tweets):
 	rows = []
 	for tweet in tweets:
-		rows.extend([(url, hashlib.sha1(url).hexdigest(), tweet['user_id'], tweet['id'], tweet['created_at']) for url in tweets['urls']])
+		rows.extend([(url, hashlib.sha1(url).hexdigest(), tweet['user_id'], tweet['id'], tweet['created_at']) for url in tweet['urls']])
 	if len(rows) > 0:
 		cur.executemany("INSERT IGNORE INTO tweeted_urls (url, url_hash, user_id, tweet_id, created_at) VALUES (%s,%s,%s,%s,%s)",rows)
 		mysql_conn.commit()
@@ -32,7 +33,7 @@ def insertURLs(tweets):
 def insertHashtags(tweets):
 	rows = []
 	for tweet in tweets:
-		rows.extend([(hashtag, tweet['user_id'], tweet['id'], tweet['created_at']) for hashtag in tweets['hashtags']])
+		rows.extend([(hashtag, tweet['user_id'], tweet['id'], tweet['created_at']) for hashtag in tweet['hashtags']])
 	if len(rows) > 0:
 		cur.executemany("INSERT IGNORE INTO tweeted_hashtags (hashtag, user_id, tweet_id, created_at) VALUES (%s,%s,%s,%s)",rows)
 		mysql_conn.commit()
@@ -40,18 +41,21 @@ def insertHashtags(tweets):
 def InsertMentions(tweets):
 	rows = []
 	for tweet in tweets:
-		rows.extend([(mention, tweet['user_id'], tweet['id'], tweet['created_at']) for mention in tweets['mentions']])
+		rows.extend([(mention, tweet['user_id'], tweet['id'], tweet['created_at']) for mention in tweet['user_mentions']])
 	if len(rows) > 0:
 		cur.executemany("INSERT IGNORE INTO tweeted_mentions (mentioned_user_id, user_id, tweet_id, created_at) VALUES (%s,%s,%s,%s)",rows)
 		mysql_conn.commit()
 
 @mainloop
 def go():
-	m = q.read(wait_time_seconds=60)
+	m = q.read(wait_time_seconds=20)
 	if m is not None:
 		tweets = json.loads(m.get_body())
+                for tweet in tweets:
+                    tweet['created_at']=dateutil.parser.parse(tweet['created_at'])		
 		print "inserting %s tweets" % len(tweets)
-		insertTweets(tweets)
+		#print [x['created_at'] for x in tweets]
+                insertTweets(tweets)
 		insertURLs(tweets)
 		insertHashtags(tweets)
 		InsertMentions(tweets)

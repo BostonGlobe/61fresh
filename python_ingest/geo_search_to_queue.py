@@ -16,6 +16,7 @@ search_since_id = '0'
 
 @mainloop
 def do_search():
+        global search_since_id
         response = limited_search(geocode='42.3583,-71.0603,10mi', result_type= 'recent', count=100, since_id=search_since_id)
         tweets = [tweet.get('retweeted_status',tweet) for tweet in response['statuses']]
         tq.enqueueTweets(tweets)

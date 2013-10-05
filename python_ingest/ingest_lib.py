@@ -2,13 +2,14 @@
 
 from boto.sqs.connection import SQSConnection
 from boto.sqs.message import Message
-from dateutil.parser import parse
+import dateutil.parser
 import json
 import MySQLdb
 import MySQLdb.cursors
 import os
 import sys
 import time
+import traceback
 import twitter
 
 def getConfig():
@@ -42,8 +43,9 @@ def getMySQL(config):
         passwd=config['mysql']['password'],
         db=config['mysql']['database'],
         use_unicode=True,
-        charset="utf8",
+        charset="utf8mb4",
         cursorclass = MySQLdb.cursors.DictCursor)
+    conn.autocommit(True)
     return conn
 
 class TweetQueue:
@@ -51,7 +53,7 @@ class TweetQueue:
         self.conn = SQSConnection(config["aws-s3"]["access-key-id"], config["aws-s3"]["secret-access-key"])
         self.q = self.conn.create_queue('condor-tweets')
 
-    def enqueueTweets(tweets):
+    def enqueueTweets(self,tweets):
         if len(tweets) > 0:
             m = Message()
             m.set_body(json.dumps(map(slimTweet,tweets)))
@@ -63,7 +65,7 @@ class UserQueue:
         self.conn = SQSConnection(config["aws-s3"]["access-key-id"], config["aws-s3"]["secret-access-key"])
         self.q = self.conn.create_queue('condor-users')
 
-    def enqueueUsers(users):
+    def enqueueUsers(self,users):
         if len(users) > 0:
             m = Message()
             m.set_body(json.dumps(users))
@@ -73,7 +75,7 @@ class UserQueue:
 def slimTweet(tweet):
     out = {'id': tweet['id'],
            'text': tweet['text'],
-           'created_at': dateutil.parser.parse(tweet['created_at']).isoformat(),
+           'created_at': tweet['created_at'],
            'user_id': tweet['user']['id']}
     if 'retweeted_status' in tweet:
         out['retweeted_tweet_id'] = tweet['retweeted_status']['id_str']
@@ -92,7 +94,7 @@ def mainloop(fn):
             except (KeyboardInterrupt, SystemExit):
                 raise
             except:
-                print sys.exc_info()
+                traceback.print_exc()
                 time.sleep(5)
     return new
 

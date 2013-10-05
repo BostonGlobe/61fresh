@@ -16,11 +16,11 @@ cur.execute("SET time_zone='+0:00'")
 
 @mainloop
 def go():
-    m = q.read(wait_time_seconds=60)
+    m = q.read(wait_time_seconds=20)
     if m is not None:
         users = json.loads(m.get_body())
         print "inserting %s users" % len(users)
-        if len(rows) > 0:
+        if len(users) > 0:
             cur.executemany("INSERT IGNORE INTO users (user_id) VALUES (%s)",[(x,) for x in users])
         mysql_conn.commit()
         q.delete_message(m)
