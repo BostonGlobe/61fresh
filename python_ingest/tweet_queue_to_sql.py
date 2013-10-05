@@ -74,7 +74,11 @@ def go():
         rec_size = len(tweets)
         tweets = tweet_memory.pare(tweets)
         for tweet in tweets:
-            tweet['created_at']=dateutil.parser.parse(tweet['created_at'])      
+            tweet['created_at']=dateutil.parser.parse(tweet['created_at'])
+            if tweet['created_at'].utcoffset().total_seconds()<1.0:
+                tweet['created_at'] = tweet['created_at'].replace(tzinfo=None)  # MySQL doesn't know about timezones, so we're doing this so it doesn't show a warning
+            else:
+                raise ValueError('Tweet created_at is not in UTC.')
         print "inserting %s new tweets out of %s" % (len(tweets), rec_size)
         #print [x['created_at'] for x in tweets]
         insertTweets(tweets)
