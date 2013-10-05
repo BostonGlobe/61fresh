@@ -24,7 +24,7 @@ def go():
         users = json.loads(m.get_body())
         rec_size = len(users)
         users = [x for x in users if x not in existing_users]
-        print "inserting %s new users out of %s" % (rec_size,len(users))
+        print "inserting %s new users out of %s" % (len(users),rec_size)
         if len(users) > 0:
             cur.executemany("INSERT IGNORE INTO users (user_id) VALUES (%s)",[(x,) for x in users])
             mysql_conn.commit()
