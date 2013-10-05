@@ -2,6 +2,7 @@
 
 from boto.sqs.connection import SQSConnection
 from boto.sqs.message import Message
+from collections import deque
 import dateutil.parser
 import hashlib
 import json
@@ -15,6 +16,22 @@ q = sqs_conn.create_queue('condor-tweets')
 mysql_conn = getMySQL(config)
 cur = mysql_conn.cursor()
 cur.execute("SET time_zone='+0:00'")
+
+class TweetMemory:
+    def __init__(self, max_len):
+        self.max_len = max_len
+        self.tset = set()
+        self.tqueue = dequeue()
+
+    def pare(self, tweets):
+        out = [x for x in tweets if x['id'] not in self.tset]
+        new_ids = [x['id'] for x in out]
+        self.tset.update(new_ids)
+        self.tqueue.extend(new_ids)
+        old_ids = []
+        while len(self.tqueue) > self.max_len:
+            self.tset.remove(self.tqueue.popleft())
+        return out
 
 
 def insertTweets(tweets):
@@ -47,14 +64,18 @@ def InsertMentions(tweets):
         cur.executemany("INSERT IGNORE INTO tweeted_mentions (mentioned_user_id, user_id, tweet_id, created_at) VALUES (%s,%s,%s,%s)",rows)
         mysql_conn.commit()
 
+tweet_memory = TweetMemory(100000)
+
 @mainloop
 def go():
     m = q.read(wait_time_seconds=20)
     if m is not None:
         tweets = json.loads(m.get_body())
+        rec_size = len(tweets)
+        tweets = tweet_memory.pare(tweets)
         for tweet in tweets:
             tweet['created_at']=dateutil.parser.parse(tweet['created_at'])      
-        print "inserting %s tweets" % len(tweets)
+        print "inserting %s new tweets out of %s" % (len(tweets), rec_size)
         #print [x['created_at'] for x in tweets]
         insertTweets(tweets)
         insertURLs(tweets)
