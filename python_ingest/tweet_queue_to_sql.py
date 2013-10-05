@@ -16,49 +16,50 @@ mysql_conn = getMySQL(config)
 cur = mysql_conn.cursor()
 cur.execute("SET time_zone='+0:00'")
 
+
 def insertTweets(tweets):
-	rows = [(tweet['id'], tweet['text'], tweet['created_at'], tweet['user_id'], tweet.get('retweeted_tweet_id',None)) for tweet in tweets]
-	if len(rows) > 0:
-		cur.executemany("INSERT IGNORE INTO tweets (tweet_id, text, created_at, user_id, retweeted_tweet_id) VALUES (%s,%s,%s,%s,%s)",rows)
-		mysql_conn.commit()
+    rows = [(tweet['id'], tweet['text'], tweet['created_at'], tweet['user_id'], tweet.get('retweeted_tweet_id',None)) for tweet in tweets]
+    if len(rows) > 0:
+        cur.executemany("INSERT IGNORE INTO tweets (tweet_id, text, created_at, user_id, retweeted_tweet_id) VALUES (%s,%s,%s,%s,%s)",rows)
+        mysql_conn.commit()
 
 def insertURLs(tweets):
-	rows = []
-	for tweet in tweets:
-		rows.extend([(url, hashlib.sha1(url).hexdigest(), tweet['user_id'], tweet['id'], tweet['created_at']) for url in tweet['urls']])
-	if len(rows) > 0:
-		cur.executemany("INSERT IGNORE INTO tweeted_urls (url, url_hash, user_id, tweet_id, created_at) VALUES (%s,%s,%s,%s,%s)",rows)
-		mysql_conn.commit()
+    rows = []
+    for tweet in tweets:
+        rows.extend([(url, hashlib.sha1(url).hexdigest(), tweet['user_id'], tweet['id'], tweet['created_at']) for url in tweet['urls']])
+    if len(rows) > 0:
+        cur.executemany("INSERT IGNORE INTO tweeted_urls (url, url_hash, user_id, tweet_id, created_at) VALUES (%s,%s,%s,%s,%s)",rows)
+        mysql_conn.commit()
 
 def insertHashtags(tweets):
-	rows = []
-	for tweet in tweets:
-		rows.extend([(hashtag, tweet['user_id'], tweet['id'], tweet['created_at']) for hashtag in tweet['hashtags']])
-	if len(rows) > 0:
-		cur.executemany("INSERT IGNORE INTO tweeted_hashtags (hashtag, user_id, tweet_id, created_at) VALUES (%s,%s,%s,%s)",rows)
-		mysql_conn.commit()
+    rows = []
+    for tweet in tweets:
+        rows.extend([(hashtag, tweet['user_id'], tweet['id'], tweet['created_at']) for hashtag in tweet['hashtags']])
+    if len(rows) > 0:
+        cur.executemany("INSERT IGNORE INTO tweeted_hashtags (hashtag, user_id, tweet_id, created_at) VALUES (%s,%s,%s,%s)",rows)
+        mysql_conn.commit()
 
 def InsertMentions(tweets):
-	rows = []
-	for tweet in tweets:
-		rows.extend([(mention, tweet['user_id'], tweet['id'], tweet['created_at']) for mention in tweet['user_mentions']])
-	if len(rows) > 0:
-		cur.executemany("INSERT IGNORE INTO tweeted_mentions (mentioned_user_id, user_id, tweet_id, created_at) VALUES (%s,%s,%s,%s)",rows)
-		mysql_conn.commit()
+    rows = []
+    for tweet in tweets:
+        rows.extend([(mention, tweet['user_id'], tweet['id'], tweet['created_at']) for mention in tweet['user_mentions']])
+    if len(rows) > 0:
+        cur.executemany("INSERT IGNORE INTO tweeted_mentions (mentioned_user_id, user_id, tweet_id, created_at) VALUES (%s,%s,%s,%s)",rows)
+        mysql_conn.commit()
 
 @mainloop
 def go():
-	m = q.read(wait_time_seconds=20)
-	if m is not None:
-		tweets = json.loads(m.get_body())
-                for tweet in tweets:
-                    tweet['created_at']=dateutil.parser.parse(tweet['created_at'])		
-		print "inserting %s tweets" % len(tweets)
-		#print [x['created_at'] for x in tweets]
-                insertTweets(tweets)
-		insertURLs(tweets)
-		insertHashtags(tweets)
-		InsertMentions(tweets)
-		q.delete_message(m)
+    m = q.read(wait_time_seconds=20)
+    if m is not None:
+        tweets = json.loads(m.get_body())
+        for tweet in tweets:
+            tweet['created_at']=dateutil.parser.parse(tweet['created_at'])      
+        print "inserting %s tweets" % len(tweets)
+        #print [x['created_at'] for x in tweets]
+        insertTweets(tweets)
+        insertURLs(tweets)
+        insertHashtags(tweets)
+        InsertMentions(tweets)
+        q.delete_message(m)
 
 go()
