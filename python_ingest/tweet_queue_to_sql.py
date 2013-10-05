@@ -24,11 +24,12 @@ class TweetMemory:
         self.tqueue = deque()
 
     def pare(self, tweets):
-        out = [x for x in tweets if x['id'] not in self.tset]
-        new_ids = [x['id'] for x in out]
-        self.tset.update(new_ids)
-        self.tqueue.extend(new_ids)
-        old_ids = []
+        out = []
+        for tweet in tweets:
+            if tweet['id'] not in self.tset:
+                out.append(tweet)
+                self.tset.add(tweet['id'])
+                self.tqueue.append(tweet['id'])
         while len(self.tqueue) > self.max_len:
             self.tset.remove(self.tqueue.popleft())
         return out
