@@ -21,7 +21,7 @@ class TweetMemory:
     def __init__(self, max_len):
         self.max_len = max_len
         self.tset = set()
-        self.tqueue = dequeue()
+        self.tqueue = deque()
 
     def pare(self, tweets):
         out = [x for x in tweets if x['id'] not in self.tset]
