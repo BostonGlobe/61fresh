@@ -21,7 +21,7 @@ These steps will replicate the condor-2013-09-18 AMI:
     wget https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py -O - | sudo python27
     sudo /usr/bin/python27 /usr/bin/easy_install pip
 
-    sudo pip-2.7 install boto MySQL-python numpy pyyaml nltk simplejson beautifulsoup4
+    sudo pip-2.7 install boto MySQL-python numpy pyyaml nltk simplejson beautifulsoup4 twitter
     sudo pip-2.7 install gensim
     (note: gensim will install scipy, which takes forever to build on an ec2 micro. Said build
     will probably also run out of memory if the box is doing anything else at the time. On the mac,
