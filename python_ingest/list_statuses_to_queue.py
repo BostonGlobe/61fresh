@@ -38,10 +38,9 @@ list_info = ListInfo()
 latest_tweet_by_list = {}
 
 def doList(this_list):
-    print "doing list ", this_list
     response = limited_list_statuses(owner_screen_name=config['twitter']['screen_name'],slug=this_list,count=200,_timeout=15)
     if len(response) > 0:
-        print len(response)
+        print "Got %s tweets from list %s" % (len(response),this_list)
         q.enqueueTweets(response)
         new_latest_tweet = response[0]['id']
         oldest_tweet = response[-1]['id']
