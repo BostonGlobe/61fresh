@@ -10,6 +10,9 @@ config = getConfig()
 sqs_conn = SQSConnection(config["aws-s3"]["access-key-id"], config["aws-s3"]["secret-access-key"])
 q = sqs_conn.create_queue('condor-users')
 
+mysql_conn = getMySQL(config)
+cur = mysql_conn.cursor()
+cur.execute("SET time_zone='+0:00'")
 
 @mainloop
 def go():
