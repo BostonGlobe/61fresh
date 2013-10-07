@@ -25,14 +25,19 @@ class TweetMemory:
 
     def pare(self, tweets):
         out = []
+        these_ids = set()
         for tweet in tweets:
-            if tweet['id'] not in self.tset:
+            if tweet['id'] not in self.tset and tweet['id'] not in these_ids:
                 out.append(tweet)
-                self.tset.add(tweet['id'])
-                self.tqueue.append(tweet['id'])
+                these_ids.add(tweet['id'])
+        return out
+
+    def update(self,tweets):
+        for tweet in tweets:
+            self.tset.add(tweet['id'])
+            self.tqueue.append(tweet['id'])
         while len(self.tqueue) > self.max_len:
             self.tset.remove(self.tqueue.popleft())
-        return out
 
 
 def insertTweets(tweets):
@@ -86,6 +91,7 @@ def go():
         insertURLs(tweets)
         insertHashtags(tweets)
         InsertMentions(tweets)
+        tweet_memory.update(tweets)
         q.delete_message(m)
 
 go()
