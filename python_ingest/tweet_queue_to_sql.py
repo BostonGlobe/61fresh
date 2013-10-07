@@ -74,9 +74,9 @@ tweet_memory = TweetMemory(100000)
 
 @mainloop
 def go():
-    m = q.read(wait_time_seconds=20)
-    if m is not None:
-        tweets = json.loads(m.get_body())
+    messages = q.get_messages(num_messages=10,wait_time_seconds=20)
+    if len(messages)>0:
+        tweets = [tweet for message in messages for tweet in json.loads(message.get_body())]
         rec_size = len(tweets)
         tweets = tweet_memory.pare(tweets)
         for tweet in tweets:
@@ -92,6 +92,6 @@ def go():
         insertHashtags(tweets)
         InsertMentions(tweets)
         tweet_memory.update(tweets)
-        q.delete_message(m)
+        q.delete_message_batch(messages)
 
 go()
