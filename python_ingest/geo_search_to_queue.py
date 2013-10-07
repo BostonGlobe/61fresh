@@ -20,6 +20,7 @@ cur.execute("SET time_zone='+0:00'")
 
 cur.execute("SELECT user_id FROM users")
 existing_users = set([x['user_id'] for x in cur])
+mysql_conn.close()
 
 @mainloop
 def do_search():
