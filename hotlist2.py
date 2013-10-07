@@ -52,10 +52,12 @@ parser.add_option('-o', '--no_s3', help="don't upload to s3",default=False)
 parser.add_option('-c', '--no_classify', help="don't run sports classifier",default=False)
 parser.add_option('-g', '--group_clusters', help="return clusters: groups of atricles about the same topic",default=False)
 parser.add_option('-s', '--domain_group', help="domain set to use, default is boston",default='boston')
+parser.add_option('-x', '--domain', help="filter results by domain")
+parser.add_option('-v', '--subsets', help="domain subsets to use, default is blank",default='')
 	
 (opts, args) = parser.parse_args()
 
-#print "domain set is %s" % opts.domain_group
+#print "domain is %s" % opts.domain
 
 # for multi-day queries, don't consider recency, just a popularity rank
 if not opts.ignore_age:
@@ -63,8 +65,6 @@ if not opts.ignore_age:
 		opts.ignore_age=True 
 	else:
 		opts.ignore_age=False
-
-
 
 conn = MySQLdb.connect(
 	host=config['mysql']['host'],
@@ -77,14 +77,32 @@ conn = MySQLdb.connect(
     cursorclass = MySQLdb.cursors.DictCursor)
 cur = conn.cursor()
 
+# generate subset filter sql if needed
+subsets_sql=''
+_subsets = opts.subsets.split(',')
+for i in range(len(_subsets)):
+	if (i!=0): 
+		subsets_sql+=","
+	subsets_sql+="'%s'" % _subsets[i]
+if (len(opts.subsets))>0:
+	subsets_sql = "and subset in (%s)" % subsets_sql
+
+domain_sql = ''
+if opts.domain:
+	domain_sql =" and domain='%s'" % opts.domain
+	
+
 cur.execute("SET time_zone='+0:00'")
 non_hashtag_query = """select real_url as url,count(distinct user_id) as total_tweets, 
 MIN(created_at) as first_tweeted, TIMESTAMPDIFF(HOUR,MIN(created_at),DATE_SUB(NOW(),INTERVAL %s DAY)) as age, 
 real_url_hash as hash, domain as source, embedly_blob,sports_score from tweeted_urls
 left join url_info using(real_url_hash) 
-where domain in (select domain from domains where domain_set=%s) 
+where domain in (select domain from domains where domain_set=%s SUBSETS_SQL DOMAIN_SQL) 
 and created_at < DATE_SUB(NOW(),INTERVAL %s DAY)
 group by real_url having age < %s;"""
+
+non_hashtag_query = non_hashtag_query.replace("SUBSETS_SQL",subsets_sql)
+non_hashtag_query = non_hashtag_query.replace("DOMAIN_SQL",domain_sql)
 
 hashtag_query = """
 select real_url as url,count(distinct tweeted_urls.user_id) as total_tweets, MIN(tweeted_urls.created_at) as first_tweeted, 

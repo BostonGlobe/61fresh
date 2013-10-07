@@ -22,6 +22,12 @@ body {
 	font-family: 'Open Sans', sans-serif !important;
 }
 
+.sublogo
+{
+	font-size:14px;
+	margin-bottom:10px;
+	font-weight:600;
+}
 
 @media only screen and (max-width: 400px) {
 	body
@@ -40,6 +46,7 @@ a:active { text-decoration: none; }
 {
 	width:70%;
 }
+
 
 #footer
 {
