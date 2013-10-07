@@ -115,7 +115,7 @@ class RateLimitedAPICall:
         seconds_to_sleep = self.window_end-seconds_per_call*self.calls_left-now
         self.calls_left -= 1
         if seconds_to_sleep < 0:
-            print "Didn't have to sleep. Looks like we're falling behind!"
+            print "Didn't have to sleep. Looks like we're falling behind! (%s)" % sys.argv[0]
         else:
             time.sleep(seconds_to_sleep)
         return self.api_method(**kwargs)
