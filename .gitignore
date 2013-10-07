@@ -4,3 +4,6 @@ config-local.json
 www/json
 *.pyc
 data/
+www/static.html
+www/static_archive.html
+data_staging/
