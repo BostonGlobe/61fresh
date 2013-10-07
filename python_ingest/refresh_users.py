@@ -25,9 +25,9 @@ def do_refresh():
     for uid in uids:
         if uid in info_dict:
             ui = info_dict[uid]
-            info_tuple = (ui['screen_name'],ui['friends_count'],ui['followers_count'],ui['profile_image_url'],uid)
-            cur.execute("UPDATE users SET screen_name = %s, friends_count = %s, followers_count = %s, name = %s, profile_image_url = %s, suspended = 0 WHERE user_id = %s",info_tuple)
+            info_tuple = (ui['screen_name'],ui['friends_count'],ui['followers_count'],ui['name'],ui['profile_image_url'],uid)
+            cur.execute("UPDATE users SET screen_name = %s, friends_count = %s, followers_count = %s, name = %s, profile_image_url = %s, suspended = 0, last_updated = NOW() WHERE user_id = %s",info_tuple)
         else:
-            cur.execute("UPDATE users SET suspended = 1 WHERE user_id = %s",(uid,))
+            cur.execute("UPDATE users SET suspended = 1, last_updated = NOW() WHERE user_id = %s",(uid,))
 
 do_refresh()
