@@ -369,4 +369,4 @@ var refreshUsers = function() {
 // var refreshListsTrigger = setInterval(refreshLists,(15*60*1000)/179.5);
 var relationsTrigger = setInterval(startRelationships,61*1000);
 var refreshUsersTrigger = setInterval(refreshUsers,(15*60*1000)/176);
-fillLists();
+// fillLists();
