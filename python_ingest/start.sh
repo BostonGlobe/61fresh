@@ -3,3 +3,6 @@ nohup python27 -u list_statuses_to_queue.py &
 
 nohup python27 -u tweet_queue_to_sql.py &
 nohup python27 -u user_queue_to_sql.py &
+
+nohup python27 -u fill_lists.py &
+nohup python27 -u refresh_users.py &

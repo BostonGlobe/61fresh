@@ -368,5 +368,5 @@ var refreshUsers = function() {
 // var refreshBostonTrigger = setInterval(refreshBoston,(15*60*1000)/175);
 // var refreshListsTrigger = setInterval(refreshLists,(15*60*1000)/179.5);
 var relationsTrigger = setInterval(startRelationships,61*1000);
-var refreshUsersTrigger = setInterval(refreshUsers,(15*60*1000)/176);
+// var refreshUsersTrigger = setInterval(refreshUsers,(15*60*1000)/176);
 // fillLists();
