@@ -44,6 +44,7 @@ def insertTweets(tweets):
     rows = [(tweet['id'], tweet['text'], tweet['created_at'], tweet['user_id'], tweet.get('retweeted_tweet_id',None)) for tweet in tweets]
     if len(rows) > 0:
         cur.executemany("INSERT IGNORE INTO tweets (tweet_id, text, created_at, user_id, retweeted_tweet_id) VALUES (%s,%s,%s,%s,%s)",rows)
+        cur.executemany("INSERT IGNORE INTO tweets_new (tweet_id, text, created_at, user_id, retweeted_tweet_id) VALUES (%s,%s,%s,%s,%s)",rows)
         mysql_conn.commit()
 
 def insertURLs(tweets):
