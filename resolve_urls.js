@@ -177,7 +177,7 @@ var normalizeURL = function(in_url) {
 	delete parsed.path;
 	delete parsed.href;
 	Object.keys(parsed.query).filter(function(d) {return d.slice(0,4)==="utm_"}).forEach(function(d) {delete parsed.query[d]});
-	['camp', 'SREF', 'dlvrit', 's_campaign', 'rssfeed'].forEach(function(d) {delete parsed.query[d]});
+	['camp', 'SREF', 'dlvrit', 's_campaign', 'rssfeed', 'rss_id'].forEach(function(d) {delete parsed.query[d]});
 	return url.format(parsed)
 }
 
