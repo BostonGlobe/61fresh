@@ -331,9 +331,10 @@ if (not opts.min and opts.group_clusters):
 	ids = set(range(len(texts)))
 	clusters = []
 	while len(ids) > 0:
-	    text = texts[ids.pop()]
-	    cluster_ids = [x[0] for x in enumerate(index[lsi[dictionary.doc2bow(text)]]) if x[1]>0.4]
-	    cluster_links = [links[x] for x in cluster_ids]
+	    text_id = min(ids)
+	    text = texts[text_id]
+	    cluster_ids = [x[0] for x in enumerate(index[lsi[dictionary.doc2bow(text)]]) if x[1]>0.4 or x[0]==text_id]
+	    cluster_links = [links[x] for x in cluster_ids if x in ids]
 	    cluster_links.sort(key=lambda x: x['hotness'],reverse=True)
 	    if len(cluster_links)> 0:
 	    	clusters.append(cluster_links)
