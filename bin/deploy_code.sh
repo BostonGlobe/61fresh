@@ -32,7 +32,7 @@ find www_gzip_staging -name "*.gz" -exec bash -c "strip_gz {}" \;
 echo "deploying to production root ..." 
 cd www_gzip_staging > /dev/null
 # deploy to production root
-s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type --add-header "Content-Encoding: gzip" controllers css feed.html about.html homepage.html js piggyback templates images favicon.ico json $bucket_name
+s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type --add-header "Content-Encoding: gzip" controllers css feed.html about.html domain.html homepage.html js piggyback templates images events.html favicon.ico json $bucket_name
 
 #deploy gzipped static index page to production
 s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type --add-header "Content-Encoding: gzip" static.html $bucket_name/index.html
@@ -46,7 +46,7 @@ s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --gu
 # ex: 61fresh.com/20130916/index.html 
 
 echo "deploying to archive ..."
-s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type --add-header "Content-Encoding: gzip" controllers css about.html js piggyback templates images json $bucket_name/$formatted_date/$day_part_name/
+s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type --add-header "Content-Encoding: gzip" events.html domain.html controllers css about.html js piggyback templates images json $bucket_name/$formatted_date/$day_part_name/
 
 s3cmd --add-header "Cache-Control: max-age=60" --recursive put --acl-public --guess-mime-type --add-header "Content-Encoding: gzip" static_archive.html $bucket_name/$formatted_date/$day_part_name/index.html
 

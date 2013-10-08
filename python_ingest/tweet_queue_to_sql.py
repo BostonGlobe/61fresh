@@ -50,7 +50,7 @@ def insertTweets(tweets):
 def insertURLs(tweets):
     rows = []
     for tweet in tweets:
-        rows.extend([(url, hashlib.sha1(url).hexdigest(), tweet['user_id'], tweet['id'], tweet['created_at']) for url in tweet['urls']])
+        rows.extend([(url, hashlib.sha1(url.encode('utf-8')).hexdigest(), tweet['user_id'], tweet['id'], tweet['created_at']) for url in tweet['urls']])
     if len(rows) > 0:
         cur.executemany("INSERT IGNORE INTO tweeted_urls (url, url_hash, user_id, tweet_id, created_at) VALUES (%s,%s,%s,%s,%s)",rows)
         mysql_conn.commit()

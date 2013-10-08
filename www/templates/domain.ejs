@@ -6,118 +6,29 @@
 			</div>
 		<%}%>
 	</div>
-	<div id='twitter_follow_button'>
-		<a  href="https://twitter.com/61fresh" class="outbound_link twitter-follow-button" data-show-count="false" data-size="large">Follow @61fresh</a>
-	</div>
 	
-	<div class='logo'><a href='http://61fresh.com'>61FRESH</a></div>
+	<div class='logo'><a href='http://61fresh.com'>61FRESH</div>
+	<div class='sublogo'>top stories last 24 hours on <%=domain%></a></sublogo>
 	<div class="tagline">
-		Boston news, ranked by local twitter buzz. Updated every 10 minutes. <span class='about_link'><a href='about.html'>learn more &raquo;</a></span>
 	</div>
 	<div class='last_updated'>
 		last updated <%=format_date(json.generated_at)%>
 		<!--<%=moment(Date.parse(json.generated_at)).fromNow()%>-->
 	</div>
-	<div style='clear:right'></div>
-	<div class='mute_sports'>
-		<input id='sports_mute' type="checkbox" value="1"> mute sports 
-	</div>
+	<div style='height:16px;clear:right'></div>
 </div>
 <div>
-	<div id='right_rail'>
-	<%_.each(json.leaders,function(leader){%>
-		<div class='rail_set'>
-			<div class='rail_set_header'>most-tweeted stories last <%=leader.data.age_in_hours/24%> days</div>
-			<div class='rail_set_articles'>
-				<%_.each(leader.data.articles,function(article,i){%>
-					<%if (i>9) return%>
-					<%if (article.url=='http://boston.com/') return%>
-					<div>
-						<div class='rail_set_article'>
-							<%if (article.image_url&&i<0) {%>
-							<div class='rail_set_article_image_container'><img class='rail_set_article_image' src='<%=article.image_url%>'/></div>
-							<%}%>
-							<div class='rail_set_article_header'>
-							<%=format_date(article.first_tweeted)%> on <a class='outbound_link' href='http://<%=article.source%>'><%=article.source%></a>
-							</div>
-							<div class='rail_set_article_link'>
-								<a class='outbound_link' href='<%=article.url%>'><%=article.title%></a> 
-								<div class='rail_set_article_num_tweets count_bubble'>
-									<%=article.total_tweets%>
-								</div>
-							</div>
-						</div>
-					</div>
-				<%})%>
-			</div>
-		</div>
-		<%})%>
-		
-		<%_.each(json.domain_leaders,function(domain_leader){%>
-			<div class='rail_set'>
-				<div class='rail_set_header'>most-tweeted domains last <%=domain_leader.data.age_in_days*24%> hours</div>
-				<div class='rail_set_articles'>
-				<table><tr><td valign=top>
-					<%_.each(domain_leader.data.domains,function(domain,i){%>
-						<%if (i==13) {%>
-							</td><td valign=top>
-						<%}%>
-						<div>
-							<div class='rail_set_domain' >
-								<div class='rail_set_domain_num_users_container'>
-									<div class='rail_set_domain_num_users count_bubble'>
-										<%=domain.num_users%> 
-									</div>
-								</div>
-									<a href='domain.html?domain=<%=domain.domain%>'><%=domain.domain%></a> 
-							</div>
-						</div>
-					<%})%>
-					</td></tr></table>
-				</div>
-			</div>
-			<%})%>
-		<div class='rail_set_ad'>
-		<iframe class='rail_set_ad' src='http://cache.boston.com/images/ads/testpages/tan/newshp_insight_shell_100312.html' frameborder=0 scrolling=no width=320 height=300></iframe>
-		</div>
-	<%_.each(json.hashtags,function(hashtag){%>
-		<div class='rail_set'>
-		<div class='rail_set_header'>#<%=hashtag.name%></div>
-			<div class='rail_set_articles'> 
-			<%_.each(hashtag.data.articles,function(article,i){%>
-					<%if (i>4) return%>
-					<div>
-						<div class='rail_set_article'>
-							<div class='rail_set_article_header'>
-								<%=format_date(article.first_tweeted)%> on <a class='outbound_link' href='http://<%=article.source%>'><%=article.source%></a>
-							</div>
-							<div class='rail_set_article_link'>
-								<a class='outbound_link' href='<%=article.url%>'><%=article.title%></a> 
-								<div class='rail_set_article_num_tweets count_bubble'>
-									<%=article.total_tweets%>
-								</div>
-							</div>
-						</div>
-					</div>
-				<%})%>
-			</div>
-		</div>
-		<%})%>		
-		
-	</div>
-	<div id='main'>
+	<div id='main' class='main_full_width'>
 		<div class='main_header'>
 			<div class='main_header_subhead'>
 				stories ranked by number of recent, local tweets linking:
 				<div class='main_header_hint'><a href='about.html'>learn&nbsp;more&nbsp;&raquo;</a></div>
 			</div>
-			<div >latest boston news</div>
+			<div >latest boston news per domain <%=domain%>.</div>
 		</div>
-		<%_.each(json.articles.clusters,function(cluster){%>
-			<%if (cluster.deleted) return%>
-			<% article= cluster[0]%>
+		<%_.each(json.articles,function(article){%>
 				<%if (article.deleted) return%>
-				<div class='article <%=article.order_within_cluster==0 ? "main_cluster_article": "subsidiary_cluster_article"%><%=article.is_sports ? "sports": ""%>'>
+				<div class='article'>
 					<div>
 					<%if (diag && json.articles.diagnostics) {%>
 						<div class='diagnostics_row'>
@@ -217,20 +128,6 @@
 								&nbsp;and <%=article.total_tweets-40%> others
 							<%}%>
 						</div>
-					<%}%>
-					<%if (_.size(cluster)>1) {%>
-					<div class='article_subsidiary_articles'>
-					<div class='article_subsidary_articles_header'>Other coverage:</div>
-						<%_.each(_.rest(cluster,1),function(article,i){%>
-								<%if (i>0){%>
-									&hellip;
-								<%}%>
-								<div class='article_subsidiary_article'>
-									<span class='article_subsidiary_article_paragraph_symbol'>&para;</span> <a class='outbound_link' href='<%=article.url%>'><%=article.title%></a>
-									(<div class='subsidiary_article_source'><%=article.source%></div>) 
-								</div>
-						<%})%>
-					</div>
 					<%}%>
 					</div>
 				</div> <!-- article -->
