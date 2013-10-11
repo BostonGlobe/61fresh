@@ -19,18 +19,19 @@ FeedController = function()
 			_.each(article.tweeters,function(tweet,i){
 				if (new Date(tweet.created_at).getTime()<new Date(article.first_tweeter.created_at).getTime()) article.first_tweeter = tweet
 			})
-			// find and combine duplicate articles
-			if (titles[article.title]) // found a dupe
-			{
-				if (article.source!=titles[article.title].source) titles[article.title].source +=", "+article.source
-				article_to_use = titles[article.title]
-				_.each(article.tweeters,function(tweeter){
-					article_to_use.tweeters.push(tweeter)
-				})
-				article.deleted=true
-				return; 
-			}
-			titles[article.title]=article;
+			// Don't try to combine dupe articles at this stage since the clustering already takes care of it
+			// // find and combine duplicate articles
+			// if (titles[article.title]) // found a dupe
+			// {
+			// 	if (article.source!=titles[article.title].source) titles[article.title].source +=", "+article.source
+			// 	article_to_use = titles[article.title]
+			// 	_.each(article.tweeters,function(tweeter){
+			// 		article_to_use.tweeters.push(tweeter)
+			// 	})
+			// 	article.deleted=true
+			// 	return; 
+			// }
+			// titles[article.title]=article;
 
 			// replace headline with text of tweet by user with most followers
 			article.tweet_title = article.first_tweeter.text
