@@ -22,8 +22,10 @@ python top_domains.py --age=1 --num_results=25 > data_staging/$timestring/domain
 
 # We do this cd dance because the actual path by which the staging directory is passed in affects the structure of the json.
 cd data_staging
-python ../combine_json.py $timestring ../www/json/data.json
+python ../combine_json.py $timestring $timestring/data.json
 cd ..
+
+mv  data_staging/$timestring/data.json www/json/data.json
 
 rm -r data_staging/$timestring
 
