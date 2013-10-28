@@ -33,6 +33,9 @@ def do_search():
         if len(users) > 0:
             uq.enqueueUsers(users)
             existing_users.update(users)
-        search_since_id = response['search_metadata']['max_id_str']
+        if len(tweets) > 0:
+            search_since_id = response['search_metadata']['max_id_str']
+        else:
+            search_since_id = '0'
 
 do_search()
