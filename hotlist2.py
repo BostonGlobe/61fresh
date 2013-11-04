@@ -313,7 +313,12 @@ for link in links:
 
 	del link['embedly_blob']
 	link['first_tweeted'] = link['first_tweeted'].isoformat() + "Z"
-	link['title'] = embedly['title']
+	if embedly['title'] is not None:
+		link['title'] = embedly['title']
+	elif 'tweeters' in link and len(link['tweeters'] > 0):
+		link['title'] = link['tweeters'][0]['text']
+	else:
+		link['title'] = link['source']
 	if not opts.min: link['description'] = embedly['description']
 	if not opts.min:
 		for img in embedly['images']:
