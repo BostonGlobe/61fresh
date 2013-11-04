@@ -315,8 +315,6 @@ for link in links:
 	link['first_tweeted'] = link['first_tweeted'].isoformat() + "Z"
 	if embedly['title'] is not None:
 		link['title'] = embedly['title']
-	elif 'tweeters' in link and len(link['tweeters'] > 0):
-		link['title'] = link['tweeters'][0]['text']
 	else:
 		link['title'] = link['source']
 	if not opts.min: link['description'] = embedly['description']
