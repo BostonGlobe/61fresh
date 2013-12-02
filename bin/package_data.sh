@@ -10,7 +10,7 @@ python27 hotlist2.py $1 $2 $3 --group_clusters 1 --num_results=40 > data_staging
 mkdir data_staging/$timestring/hashtags
 python27 hotlist2.py $1 --hashtag=bospoli	--min --no_tweeters --num_results=5 > data_staging/$timestring/hashtags/bospoli.json
 python27 hotlist2.py $1 --hashtag=mapoli 		--min --no_tweeters --num_results=5 > data_staging/$timestring/hashtags/mapoli.json
-python27 hotlist2.py $1 --hashtag=bosmayor 	--min --no_tweeters --num_results=5 > data_staging/$timestring/hashtags/bosmayor.json
+# python27 hotlist2.py $1 --hashtag=bosmayor 	--min --no_tweeters --num_results=5 > data_staging/$timestring/hashtags/bosmayor.json
 python27 hotlist2.py $1 --hashtag=redsox 		--min	--no_tweeters --num_results=5 > data_staging/$timestring/hashtags/redsox.json
 python27 hotlist2.py $1 --hashtag=patriots 	--min --no_tweeters --num_results=5 > data_staging/$timestring/hashtags/patriots.json
 
