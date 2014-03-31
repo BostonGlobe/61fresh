@@ -31,9 +31,13 @@ sql_conn.on('error', function(err) {
 var url_queue = [];
 var known_urls = {};
 
+var refreshing_urls = false;
+
 var getMoreUrls = function() {
-	if (url_queue.length == 0) {
-		sql_conn.query("SELECT url, url_hash FROM tweeted_urls WHERE real_url IS NULL", function(e,rows) {
+	if (url_queue.length == 0 && !refreshing_urls) {
+		refreshing_urls = true;
+		sql_conn.query("SELECT id, url, url_hash FROM tweeted_urls WHERE real_url_hash IS NULL AND created_at > '2014-03-22'", function(e,rows) {
+			refreshing_urls = false;
 			if (e) {
 				console.log(["mysql select error",e]);
 			} else {
@@ -109,9 +113,12 @@ var getAndResolve = function() {
 		var normed_url = normalizeURL(current_url);
 		var real_url_hash = crypto.createHash('sha1').update(normed_url).digest("hex");
 		var domain = getDomain(current_url);
+	//	if (domain === "unfollowers.com") return;
+		//console.log("resolved... going to sql");
 		// waiting_count++
-		sql_conn.query("UPDATE tweeted_urls SET real_url = ?, real_url_hash = ?, domain = ? WHERE url_hash = ? AND real_url_hash IS NULL", [normed_url,real_url_hash,domain,target.url_hash],
+		sql_conn.query("UPDATE tweeted_urls SET real_url = ?, real_url_hash = ?, domain = ? WHERE id = ?", [normed_url,real_url_hash,domain,target.id],
 			function(e,res) {
+				//console.log("sql done")
 				// console.log(--waiting_count);
 				if (e) {
 					console.log(["mysql update error",e]);
@@ -122,7 +129,7 @@ var getAndResolve = function() {
 	}
 	var error_out = function(e) {
 		console.log(['http(s) error',e,current_url]);
-		sql_conn.query("UPDATE tweeted_urls SET real_url = ?, real_url_hash = ? WHERE url_hash = ?", ['error','error',target.url_hash],
+		sql_conn.query("UPDATE tweeted_urls SET real_url = ?, real_url_hash = ? WHERE id = ?", ['error','error',target.id],
 			function(e,res) {
 				if (e) {
 					console.log(["mysql update error",e]);
@@ -183,7 +190,7 @@ var normalizeURL = function(in_url) {
 
 // deriveDomains();
 // addRealURLHash();
-setInterval(getAndResolve,100);
+setInterval(getAndResolve,50);
 setInterval(getMoreUrls,1000);
 getMoreUrls();
-setTimeout(process.exit,60*60*1000);
+setTimeout(process.exit,5*60*60*1000);
