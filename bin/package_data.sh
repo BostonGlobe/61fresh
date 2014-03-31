@@ -12,7 +12,9 @@ python27 hotlist2.py $1 --hashtag=bospoli	--min --no_tweeters --num_results=5 > 
 python27 hotlist2.py $1 --hashtag=mapoli 		--min --no_tweeters --num_results=5 > data_staging/$timestring/hashtags/mapoli.json
 # python27 hotlist2.py $1 --hashtag=bosmayor 	--min --no_tweeters --num_results=5 > data_staging/$timestring/hashtags/bosmayor.json
 python27 hotlist2.py $1 --hashtag=redsox 		--min	--no_tweeters --num_results=5 > data_staging/$timestring/hashtags/redsox.json
-python27 hotlist2.py $1 --hashtag=patriots 	--min --no_tweeters --num_results=5 > data_staging/$timestring/hashtags/patriots.json
+#python27 hotlist2.py $1 --hashtag=patriots 	--min --no_tweeters --num_results=5 > data_staging/$timestring/hashtags/patriots.json
+python27 hotlist2.py $1 --hashtag=magov      --min --no_tweeters --num_results=5 > data_staging/$timestring/hashtags/magov.json
+
 
 mkdir data_staging/$timestring/leaders
 python27 hotlist2.py --min --no_tweeters --num_results=10 --age=168 > data_staging/$timestring/leaders/week.json
