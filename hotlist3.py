@@ -94,10 +94,16 @@ if opts.domain:
 
 cur.execute("SET time_zone='+0:00'")
 
+#cur.execute("""select real_url as url, count(distinct user_id) as weighted_tweets, real_url_hash as hash, domain as source, embedly_blob,sports_score
+#	from tweeted_urls join users using(user_id) left join url_info using(real_url_hash)
+#	where domain in (select domain from domains where domain_set = 'boston') and created_at > DATE_SUB(NOW(), INTERVAL 3 HOUR) and (home_domain is null or home_domain<>domain or home_domain_percent < 50)
+#	group by real_url_hash order by weighted_tweets desc""")
+
 cur.execute("""select real_url as url, count(distinct user_id) as weighted_tweets, real_url_hash as hash, domain as source, embedly_blob,sports_score
-	from tweeted_urls join users using(user_id) left join url_info using(real_url_hash)
-	where domain in (select domain from domains where domain_set = 'boston') and created_at > DATE_SUB(NOW(), INTERVAL 3 HOUR) and (home_domain is null or home_domain<>domain or home_domain_percent < 50)
-	group by real_url_hash order by weighted_tweets desc""")
+from (select created_at, real_url, real_url_hash, domain, user_id from tweeted_urls join users using(user_id) where domain in (select domain from domains where domain_set = 'boston') and (domain<>home_domain or home_domain is null) order by created_at desc limit 400) as a
+left join url_info using(real_url_hash)
+group by real_url_hash order by weighted_tweets desc""")
+
 
 links = []
 
@@ -117,16 +123,25 @@ def clusterHotness(cluster):
 links = list(cur.fetchall())[:2*int(opts.num_results)]
 
 links = [x for x in links if "bostinno.streetwise.co/channels/" not in x['url']]
+links = [x for x in links if x['url'] != "http://boston.com/"]
+links = [x for x in links if x['url'] != "http://www.boston.com/"]
+links = [x for x in links if x['url'] != "http://www.boston.com/homepage"]
+links = [x for x in links if x['url'] != "http://www.boston.com/"]
+links = [x for x in links if "7news-live-streaming" not in x['url']]
+
 
 for link in links:
-	link['tweeters'] = []
-	link['first_tweeted'] = datetime.datetime.utcnow()
-	cur.execute("select screen_name, name, followers_count, profile_image_url, text, tweet_id, tweeted_urls.created_at as created_at, retweeted_tweet_id, home_domain, home_domain_percent from users join tweeted_urls using(user_id) join tweets using(tweet_id) where real_url_hash = %s group by tweeted_urls.user_id order by followers_count desc",(link['hash']))
-	for row in cur:
+#	link['tweeters'] = []
+#	link['first_tweeted'] = datetime.datetime.utcnow()
+	cur.execute("select screen_name, name, followers_count, profile_image_url, text, max(tweet_id) as tweet_id, max(tweeted_urls.created_at) as created_at, retweeted_tweet_id, home_domain, home_domain_percent from users join tweeted_urls using(user_id) join tweets using(tweet_id) where real_url_hash = %s group by tweeted_urls.user_id order by followers_count desc",(link['hash']))
+	linktweets = list(cur.fetchall())
+	if min([row['created_at'] for row in linktweets])<(datetime.datetime.utcnow()-datetime.timedelta(days=7)):
+		linktweets = [x for x in linktweets if x['created_at']>(datetime.datetime.utcnow()-datetime.timedelta(days=2))]
+	link['first_tweeted'] = min([row['created_at'] for row in linktweets])
+	for row in linktweets:
 		row['tweet_id'] = str(row['tweet_id'])
-		link['first_tweeted'] = min(link['first_tweeted'],row['created_at'])
 		row['created_at'] = row['created_at'].isoformat() + "Z"
-		link['tweeters'].append(row)
+	link['tweeters']=linktweets
 	link['age'] = (datetime.datetime.utcnow() - link['first_tweeted']).total_seconds()/(60.0*60)
 	link['total_tweets'] = len(link['tweeters'])
 	calculateHotness(link)

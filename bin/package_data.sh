@@ -5,7 +5,7 @@ echo "packaging data into  $CONDOR_HOME/data_staging and $CONDOR_HOME/www/json .
 pushd . > /dev/null
 cd $CONDOR_HOME > /dev/null
 mkdir -p data_staging/$timestring
-python27 hotlist2.py $1 $2 $3 --group_clusters 1 --num_results=40 > data_staging/$timestring/articles.json
+python27 hotlist3.py $1 $2 $3 --group_clusters 1 --num_results=40 > data_staging/$timestring/articles.json
 
 mkdir data_staging/$timestring/hashtags
 python27 hotlist2.py $1 --hashtag=bospoli	--min --no_tweeters --num_results=5 > data_staging/$timestring/hashtags/bospoli.json
